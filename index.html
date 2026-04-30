@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Le Réveil du Hippie — version corrigée</title>
+  <title>Le Réveil du Hippie — V3</title>
   <style>
     :root{
       --bg:#080808;
@@ -17,7 +17,6 @@
       --bad:#f07d7d;
       --pipe:#d6d9dc;
       --pipe-dark:#90979e;
-      --hot:#ff9d6f;
       --water:#6ec5ff;
       --border:rgba(255,255,255,.14);
       --shadow:0 22px 60px rgba(0,0,0,.35);
@@ -334,9 +333,7 @@
       opacity:.28;
       transition:.25s ease;
     }
-    .pot-vis.active{
-      opacity:.95;
-    }
+    .pot-vis.active{opacity:.95}
     .pot-vis::before{
       content:"";
       position:absolute;
@@ -592,7 +589,7 @@
     #modal.show{display:grid}
 
     .modal-box{
-      width:min(760px,100%);
+      width:min(860px,100%);
       background:linear-gradient(180deg,#171717 0%,#101010 100%);
       border:1px solid var(--border);
       border-radius:24px;
@@ -633,16 +630,19 @@
       background:#202020;
     }
 
+    .feedback{
+      margin-top:12px;
+      min-height:24px;
+      color:var(--muted);
+    }
+
     .victory{
       font-size:1.05rem;
       color:var(--text);
       line-height:1.8;
     }
 
-    .timing-wrap{
-      margin-top:18px;
-    }
-
+    .timing-wrap{margin-top:18px}
     .timing-bar{
       position:relative;
       height:24px;
@@ -651,7 +651,6 @@
       border:1px solid var(--border);
       overflow:hidden;
     }
-
     .timing-zone{
       position:absolute;
       top:0; bottom:0;
@@ -661,7 +660,6 @@
       border-left:2px solid rgba(120,255,120,.7);
       border-right:2px solid rgba(120,255,120,.7);
     }
-
     .timing-marker{
       position:absolute;
       top:-3px;
@@ -672,14 +670,12 @@
       box-shadow:0 0 10px rgba(255,145,84,.45);
       left:0%;
     }
-
     .attempt-dots{
       display:flex;
       gap:10px;
       margin-top:14px;
       justify-content:center;
     }
-
     .attempt-dot{
       width:16px;
       height:16px;
@@ -690,35 +686,44 @@
     .attempt-dot.success{background:var(--ok); border-color:transparent}
     .attempt-dot.fail{background:var(--bad); border-color:transparent}
 
-    .pipe-board{
-      width:min(100%,420px);
+    .pipe-game-wrap{
+      width:min(100%,520px);
       margin:16px auto 0;
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:8px;
-      background:linear-gradient(180deg,#2c87a0,#25647d);
-      border:5px solid #63717a;
-      border-radius:18px;
-      padding:12px;
-      box-shadow:inset 0 0 0 3px rgba(255,255,255,.08);
+      position:relative;
     }
 
-    .pipe-tile{
-      aspect-ratio:1/1;
-      border-radius:14px;
+    .pipe-grid{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:8px;
+      background:linear-gradient(180deg,#2f88a1,#245f77);
+      border:5px solid #627079;
+      border-radius:18px;
+      padding:14px;
+      box-shadow:inset 0 0 0 3px rgba(255,255,255,.08);
       position:relative;
+    }
+
+    .pipe-cell{
+      aspect-ratio:1/1;
+      position:relative;
+      border-radius:14px;
       background:rgba(255,255,255,.08);
       border:1px solid rgba(255,255,255,.16);
       cursor:pointer;
-      transition:.15s ease;
+      overflow:hidden;
     }
-    .pipe-tile:hover{transform:scale(1.02)}
+
+    .pipe-cell.locked{
+      cursor:default;
+      background:rgba(255,255,255,.12);
+    }
 
     .pipe-shape{
       position:absolute;
-      inset:8px;
+      inset:6px;
       transform-origin:center;
-      transition:.18s ease;
+      transition:transform .18s ease;
     }
 
     .seg{
@@ -726,47 +731,152 @@
       background:linear-gradient(180deg,var(--pipe),var(--pipe-dark));
       border-radius:999px;
       box-shadow:inset 0 -3px 0 rgba(0,0,0,.14);
+      transition:background .2s ease, box-shadow .2s ease;
     }
 
-    .pipe-straight .seg.main{
+    .flowing .seg{
+      background:linear-gradient(180deg,#bfe8ff,var(--water));
+      box-shadow:0 0 10px rgba(110,197,255,.45), inset 0 -3px 0 rgba(0,0,0,.08);
+    }
+
+    .type-straight .seg.main{
       width:18%;
       height:100%;
       left:41%;
       top:0;
     }
 
-    .pipe-corner .seg.v{
+    .type-corner .seg.v{
       width:18%;
       height:58%;
       left:41%;
       top:42%;
     }
-    .pipe-corner .seg.h{
+    .type-corner .seg.h{
       width:58%;
       height:18%;
       left:41%;
       top:41%;
     }
 
-    .pipe-end{
+    .type-tee .seg.v{
+      width:18%;
+      height:100%;
+      left:41%;
+      top:0;
+    }
+    .type-tee .seg.h{
+      width:58%;
+      height:18%;
+      left:41%;
+      top:41%;
+    }
+
+    .type-cross .seg.v{
+      width:18%;
+      height:100%;
+      left:41%;
+      top:0;
+    }
+    .type-cross .seg.h{
+      width:100%;
+      height:18%;
+      left:0;
+      top:41%;
+    }
+
+    .pipe-label{
       position:absolute;
-      width:22px;height:22px;
+      width:36px;
+      height:36px;
       border-radius:50%;
-      background:linear-gradient(180deg,#cfd6dc,#8b9399);
-      border:3px solid #636a70;
       display:grid;
       place-items:center;
-      color:#1a1a1a;
-      font-size:10px;
+      font-size:11px;
       font-weight:700;
+      color:#0f1316;
+      z-index:3;
+      box-shadow:0 4px 16px rgba(0,0,0,.28);
     }
-    .pipe-end.start{left:-10px;top:calc(50% - 11px)}
-    .pipe-end.end{right:-10px;top:calc(50% - 11px)}
+    .pipe-label.in{
+      background:linear-gradient(180deg,#bff5d0,#5fdc89);
+      left:-18px;
+      top:-18px;
+    }
+    .pipe-label.out{
+      background:linear-gradient(180deg,#ffd3b0,#ff925e);
+      right:-18px;
+      bottom:-18px;
+    }
 
-    .pipe-legend{
+    .flow-status{
       text-align:center;
       color:var(--muted);
+      margin-top:12px;
+      min-height:24px;
+    }
+
+    .mole-stats{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
       margin-top:10px;
+      color:var(--text);
+    }
+
+    .mole-grid{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+    }
+
+    .mole-hole{
+      aspect-ratio:1/1;
+      border-radius:18px;
+      background:linear-gradient(180deg,#1f2d36,#172128);
+      border:1px solid rgba(255,255,255,.12);
+      position:relative;
+      overflow:hidden;
+      cursor:pointer;
+    }
+
+    .mole-hole::before{
+      content:"";
+      position:absolute;
+      left:14%;
+      right:14%;
+      bottom:10%;
+      height:26%;
+      border-radius:999px;
+      background:#0e1418;
+    }
+
+    .mole-item{
+      position:absolute;
+      left:50%;
+      top:54%;
+      transform:translate(-50%, 100%);
+      width:52%;
+      height:52%;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      font-size:2rem;
+      transition:transform .14s ease;
+      pointer-events:none;
+    }
+
+    .mole-hole.show .mole-item{
+      transform:translate(-50%, -12%);
+      pointer-events:auto;
+    }
+
+    .mole-item.good{
+      background:radial-gradient(circle at 35% 35%, #fff0a1 0 12%, #efd74d 13% 74%, #bf9a17 75% 100%);
+    }
+    .mole-item.bad{
+      background:radial-gradient(circle at 35% 35%, #d9eef8 0 12%, #84c3e8 13% 74%, #477a98 75% 100%);
     }
 
     .symbol-grid{
@@ -804,12 +914,6 @@
       font-size:2rem;
     }
 
-    .feedback{
-      margin-top:12px;
-      min-height:24px;
-      color:var(--muted);
-    }
-
     @media (max-width: 980px){
       body{overflow:auto}
       #game{grid-template-columns:1fr;height:auto}
@@ -831,8 +935,7 @@
       </p>
       <p class="small">
         Un seul objectif te semble encore humainement atteignable :
-        préparer une infusion eau chaude + citron + gingembre pour remettre ton âme,
-        ton estomac et tes yeux sur la même fréquence.
+        préparer une infusion eau chaude + citron + gingembre.
       </p>
       <button id="startBtn" class="btn btn-primary">Ouvrir les yeux</button>
     </div>
@@ -904,7 +1007,7 @@
 
       <div class="panel">
         <h3 class="title">Carnet</h3>
-        <div id="message">Tout est flou, mais une chose est sûre : il te faut réparer, fouiller, chauffer, presser, râper, puis boire.</div>
+        <div id="message">Tout est flou, mais une chose est sûre : réparer, fouiller, chauffer, presser, râper, puis boire.</div>
       </div>
 
       <div class="panel">
@@ -941,7 +1044,25 @@
       },
       pipePuzzle: {
         solved: false,
-        rotations: [1, 1, 0, 2, 2, 0, 3, 3]
+        testing: false,
+        rotations: [0,1,0,2,0, 2,0,0,1,2, 0,1,2,3,0, 1,2,0,2,1, 0,1,3,0,0],
+        tiles: [
+          "corner","straight","straight","straight","corner",
+          "straight","tee","corner","straight","straight",
+          "corner","straight","cross","corner","straight",
+          "tee","corner","straight","tee","straight",
+          "straight","straight","corner","straight","straight"
+        ]
+      },
+      mole: {
+        active: false,
+        score: 0,
+        timeLeft: 12,
+        timerId: null,
+        spawnId: null,
+        currentIndex: -1,
+        currentType: null,
+        clickedThisRound: false
       },
       steps: {
         potFound: false,
@@ -986,7 +1107,7 @@
       { key: "sinkSolved", label: "Réparer le circuit d’eau." },
       { key: "potFilled", label: "Remplir la casserole." },
       { key: "waterHeated", label: "Faire chauffer l’eau." },
-      { key: "lemonFound", label: "Trouver le citron." },
+      { key: "lemonFound", label: "Gagner le citron." },
       { key: "pressPlaced", label: "Poser le presse-citron." },
       { key: "lemonPressed", label: "Presser le citron." },
       { key: "gingerFound", label: "Récupérer le gingembre." },
@@ -1047,6 +1168,7 @@
       modal.classList.remove("show");
       modal.innerHTML = "";
       stopTimingGame();
+      stopMoleGame();
     }
 
     function escapeQuotes(str){
@@ -1166,7 +1288,6 @@
         case "chair":
           setMessage("La chaise gémit. La veste accrochée dessus sent la fin de soirée.");
           break;
-
         case "poster":
           if(!state.steps.stoolFound){
             state.steps.stoolFound = true;
@@ -1176,35 +1297,27 @@
             setMessage("L’affiche te fixe avec une intensité franchement hostile.");
           }
           break;
-
         case "crate":
           handleCrate();
           break;
-
         case "sink":
           handleSink();
           break;
-
         case "stove":
           handleStove();
           break;
-
         case "worktop":
           handleWorktop();
           break;
-
         case "cooler":
           handleCooler();
           break;
-
         case "lockbox":
           handleLockbox();
           break;
-
         case "shelf":
           handleShelf();
           break;
-
         case "window":
           setMessage("La lumière du matin t’agresse personnellement.");
           break;
@@ -1233,25 +1346,25 @@
 
       if(state.selectedItem === "pot" && !state.steps.potFilled){
         state.steps.potFilled = true;
-        setMessage("Tu remplis directement la casserole au lavabo. Le bruit de l’eau te traverse l’âme.");
+        setMessage("Tu remplis directement la casserole au lavabo.");
         return;
       }
 
       if(state.steps.potFilled){
-        setMessage("Le lavabo recoule enfin. Le bricolage de la veille est réparé.");
+        setMessage("Le lavabo recoule enfin. Le circuit tient bon.");
       } else {
-        setMessage("L’eau est revenue. Il suffit maintenant d’y mettre la casserole.");
+        setMessage("L’eau est revenue. Mets maintenant la casserole dessous.");
       }
     }
 
     function handleStove(){
       if(!state.steps.potFound){
-        setMessage("Le réchaud est prêt, mais tu n’as même pas encore de casserole.");
+        setMessage("Le réchaud est prêt, mais tu n’as pas encore de casserole.");
         return;
       }
 
       if(!state.steps.potFilled){
-        setMessage("Avant de chauffer quoi que ce soit, il faudrait déjà remplir la casserole.");
+        setMessage("Il faudrait d’abord remplir la casserole.");
         return;
       }
 
@@ -1259,11 +1372,6 @@
         state.steps.stoveOn = true;
         state.steps.waterHeated = true;
         setMessage("Tu allumes le réchaud. L’eau commence à chauffer.");
-        return;
-      }
-
-      if(state.steps.waterHeated && !state.steps.graterPlaced && hasItem("grater")){
-        setMessage("La casserole chauffe. Tu pourrais maintenant placer la râpe au-dessus.");
         return;
       }
 
@@ -1286,9 +1394,9 @@
       }
 
       if(!state.steps.pressPlaced){
-        setMessage("Le plan de travail est enfin visible. Tu pourrais y poser quelque chose.");
+        setMessage("Le plan de travail attend quelque chose.");
       } else if(!state.steps.lemonPressed){
-        setMessage("Le presse-citron est en place. Il ne manque plus que le citron.");
+        setMessage("Le presse-citron est prêt. Il manque le citron.");
       } else {
         setMessage("Le plan de travail a déjà servi pour le citron.");
       }
@@ -1296,12 +1404,10 @@
 
     function handleCooler(){
       if(!state.steps.lemonFound){
-        state.steps.lemonFound = true;
-        addItem("lemon");
-        setMessage("Tu ouvres la glacière. Un citron y survit encore, contre toute logique.");
+        openMoleGame();
         return;
       }
-      setMessage("La glacière est vide maintenant.");
+      setMessage("La glacière est ouverte. Tu as déjà gagné le citron.");
     }
 
     function handleLockbox(){
@@ -1322,7 +1428,7 @@
 
     function handleShelf(){
       if(!state.steps.stoolFound){
-        setMessage("Tu vois un objet sur l’étagère, mais c’est trop haut dans ton état.");
+        setMessage("Tu vois un objet sur l’étagère, mais c’est trop haut.");
         return;
       }
 
@@ -1334,7 +1440,7 @@
         state.steps.graterFound = true;
         addItem("grater");
         removeItem("stool");
-        setMessage("Tu montes sur le tabouret et attrapes la râpe. Le tabouret ne te sert plus à rien.");
+        setMessage("Tu attrapes la râpe. Le tabouret ne te sert plus.");
         return;
       }
 
@@ -1353,7 +1459,7 @@
       }
 
       if(state.steps.graterFound && !state.steps.waterHeated){
-        setMessage("Tu as la râpe, mais il vaut mieux que la casserole chauffe avant de la placer.");
+        setMessage("Tu as la râpe, mais il vaut mieux chauffer la casserole d’abord.");
       } else {
         setMessage("L’étagère ne contient plus rien d’utile.");
       }
@@ -1371,10 +1477,8 @@
           <h2>Caisse verrouillée</h2>
           <p>
             Quelqu’un a remplacé la serrure par un système débile à ressort.
-            Il faut bloquer le loquet au bon moment.
-            <br><br>
-            Appuie sur <strong>Espace</strong> pour arrêter la jauge dans la zone verte.
-            Tu dois réussir <strong>3 fois</strong>.
+            Appuie sur <strong>Espace</strong> pour bloquer le loquet dans la zone verte.
+            Il faut réussir <strong>3 fois</strong>.
           </p>
 
           <div class="timing-wrap">
@@ -1441,7 +1545,6 @@
 
       const pos = state.timing.markerPos;
       const success = pos >= 56 && pos <= 68;
-
       const idx = state.timing.tries.length;
       state.timing.tries.push(success);
 
@@ -1464,11 +1567,9 @@
           addItem("pot");
           addItem("pressTool");
           closeModal();
-          setMessage("La caisse s’ouvre automatiquement. Tu récupères la casserole et le presse-citron.");
+          setMessage("La caisse s’ouvre. Tu récupères la casserole et le presse-citron.");
         } else {
-          setTimeout(() => {
-            openTimingPuzzle();
-          }, 450);
+          setTimeout(() => openTimingPuzzle(), 450);
         }
         return;
       }
@@ -1477,79 +1578,331 @@
       state.timing.speed = speeds[state.timing.tries.length];
     }
 
+    function getDirs(type, rotation){
+      const r = ((rotation % 4) + 4) % 4;
+      if(type === "straight"){
+        return r % 2 === 0 ? ["N","S"] : ["E","W"];
+      }
+      if(type === "corner"){
+        return [["N","E"],["E","S"],["S","W"],["W","N"]][r];
+      }
+      if(type === "tee"){
+        return [["N","E","W"],["N","E","S"],["E","S","W"],["N","S","W"]][r];
+      }
+      if(type === "cross"){
+        return ["N","E","S","W"];
+      }
+      return [];
+    }
+
+    function indexToCoord(i){
+      return { row: Math.floor(i / 5), col: i % 5 };
+    }
+
+    function coordToIndex(row, col){
+      return row * 5 + col;
+    }
+
+    function neighbor(row, col, dir){
+      if(dir === "N") return { row: row - 1, col, opposite:"S" };
+      if(dir === "S") return { row: row + 1, col, opposite:"N" };
+      if(dir === "E") return { row, col: col + 1, opposite:"W" };
+      return { row, col: col - 1, opposite:"E" };
+    }
+
     function openPipePuzzle(){
       showModal(`
         <div class="modal-box">
           <h2>Circuit d’eau bricolé</h2>
           <p>
-            Après la soirée, quelqu’un a démonté les raccords du van pour alimenter un truc manifestement interdit.
-            Résultat : le circuit d’eau est cassé.
+            Après la soirée, quelqu’un a démonté les raccords du van pour alimenter un montage douteux.
+            L’entrée d’eau est en haut à gauche, la sortie en bas à droite.
             <br><br>
-            Clique sur les pièces pour les tourner et reconnecter l’arrivée à la sortie.
+            Clique sur les pièces pour les tourner, puis teste l’écoulement.
           </p>
 
-          <div style="position:relative; width:min(100%,420px); margin:0 auto;">
-            <div class="pipe-end start">IN</div>
-            <div class="pipe-end end">OUT</div>
-            <div class="pipe-board" id="pipeBoard"></div>
+          <div class="pipe-game-wrap">
+            <div class="pipe-grid" id="pipeGrid"></div>
+            <div class="pipe-label in">IN</div>
+            <div class="pipe-label out">OUT</div>
           </div>
-          <div class="pipe-legend">Chemin attendu : ligne du haut, puis descente, puis sortie par la droite.</div>
+
+          <div class="flow-status" id="flowStatus">Relie le circuit puis clique sur “Tester l’eau”.</div>
 
           <div class="modal-actions">
+            <button class="btn btn-primary" onclick="testPipeFlow()">Tester l’eau</button>
             <button class="btn btn-secondary" onclick="closeModal()">Fermer</button>
           </div>
         </div>
       `);
-      renderPipeBoard();
+      renderPipeGrid();
     }
 
-    function pipeTilesData(){
-      return [
-        { type:"straight" }, { type:"corner" },  { type:"straight" }, { type:"corner" },
-        { type:"corner" },   { type:"corner" },  { type:"straight" }, { type:"corner" }
-      ];
-    }
+    function renderPipeGrid(flowPath = []){
+      const grid = document.getElementById("pipeGrid");
+      if(!grid) return;
+      grid.innerHTML = "";
 
-    function renderPipeBoard(){
-      const board = document.getElementById("pipeBoard");
-      if(!board) return;
-      board.innerHTML = "";
-
-      pipeTilesData().forEach((tile, index) => {
+      state.pipePuzzle.tiles.forEach((type, index) => {
         const cell = document.createElement("button");
-        cell.className = "pipe-tile";
-        cell.onclick = () => rotatePipe(index);
+        const locked = index === 0 || index === 24;
+        cell.className = "pipe-cell" + (locked ? " locked" : "");
+        if(!locked){
+          cell.onclick = () => rotatePipe(index);
+        }
 
         const shape = document.createElement("div");
-        shape.className = "pipe-shape pipe-" + tile.type;
+        shape.className = "pipe-shape type-" + type + (flowPath.includes(index) ? " flowing" : "");
         shape.style.transform = `rotate(${state.pipePuzzle.rotations[index] * 90}deg)`;
 
-        if(tile.type === "straight"){
+        if(type === "straight"){
           shape.innerHTML = `<div class="seg main"></div>`;
-        } else {
+        } else if(type === "corner"){
+          shape.innerHTML = `<div class="seg v"></div><div class="seg h"></div>`;
+        } else if(type === "tee"){
+          shape.innerHTML = `<div class="seg v"></div><div class="seg h"></div>`;
+        } else if(type === "cross"){
           shape.innerHTML = `<div class="seg v"></div><div class="seg h"></div>`;
         }
 
         cell.appendChild(shape);
-        board.appendChild(cell);
+        grid.appendChild(cell);
       });
     }
 
     function rotatePipe(index){
+      if(index === 0 || index === 24) return;
       state.pipePuzzle.rotations[index] = (state.pipePuzzle.rotations[index] + 1) % 4;
-      renderPipeBoard();
-      if(checkPipeSolved()){
-        state.steps.sinkSolved = true;
-        state.pipePuzzle.solved = true;
-        closeModal();
-        setMessage("Le circuit d’eau est réparé. Le lavabo remarche enfin.");
+      renderPipeGrid();
+    }
+
+    function evaluatePipeFlow(){
+      let current = { row:0, col:0 };
+      let incoming = "N";
+      const path = [];
+      const visited = new Set();
+
+      while(true){
+        if(current.row < 0 || current.row > 4 || current.col < 0 || current.col > 4){
+          return { success:false, path, message:"L’eau est sortie du circuit." };
+        }
+
+        const idx = coordToIndex(current.row, current.col);
+        const key = idx + "|" + incoming;
+        if(visited.has(key)){
+          return { success:false, path, message:"Le flux tourne en boucle dans le circuit." };
+        }
+        visited.add(key);
+        path.push(idx);
+
+        const type = state.pipePuzzle.tiles[idx];
+        const rotation = state.pipePuzzle.rotations[idx];
+        const dirs = getDirs(type, rotation);
+
+        if(!dirs.includes(incoming)){
+          return { success:false, path, message:"Le raccord casse ici." };
+        }
+
+        const exits = dirs.filter(d => d !== incoming);
+
+        if(idx === 24){
+          if(exits.includes("S")){
+            return { success:true, path, message:"L’eau atteint la sortie." };
+          }
+          return { success:false, path, message:"La sortie finale n’est pas correctement orientée." };
+        }
+
+        if(exits.length === 0){
+          return { success:false, path, message:"L’eau s’arrête dans une impasse." };
+        }
+
+        const exitDir = exits[0];
+        const next = neighbor(current.row, current.col, exitDir);
+
+        if(next.row < 0 || next.row > 4 || next.col < 0 || next.col > 4){
+          return { success:false, path, message:"Le flux part hors de la grille." };
+        }
+
+        const nextIdx = coordToIndex(next.row, next.col);
+        const nextDirs = getDirs(state.pipePuzzle.tiles[nextIdx], state.pipePuzzle.rotations[nextIdx]);
+
+        if(!nextDirs.includes(next.opposite)){
+          path.push(nextIdx);
+          return { success:false, path, message:"Deux tuyaux ne sont pas raccordés." };
+        }
+
+        current = { row: next.row, col: next.col };
+        incoming = next.opposite;
       }
     }
 
-    function checkPipeSolved(){
-      const r = state.pipePuzzle.rotations;
-      const target = [1,2,1,1,0,3,1,3];
-      return r.every((val, i) => val === target[i]);
+    function animatePipeFlow(result){
+      const flowStatus = document.getElementById("flowStatus");
+      if(flowStatus) flowStatus.textContent = "L’eau s’écoule...";
+      let step = 0;
+
+      function reveal(){
+        renderPipeGrid(result.path.slice(0, step + 1));
+        step++;
+        if(step <= result.path.length){
+          setTimeout(reveal, 180);
+        } else {
+          if(flowStatus) flowStatus.textContent = result.message;
+          if(result.success){
+            state.steps.sinkSolved = true;
+            state.pipePuzzle.solved = true;
+            setTimeout(() => {
+              closeModal();
+              setMessage("Le circuit d’eau est réparé. Le lavabo remarche enfin.");
+            }, 700);
+          }
+        }
+      }
+      reveal();
+    }
+
+    function testPipeFlow(){
+      const result = evaluatePipeFlow();
+      animatePipeFlow(result);
+    }
+
+    function openMoleGame(){
+      showModal(`
+        <div class="modal-box">
+          <h2>Glacière récalcitrante</h2>
+          <p>
+            Dans le bazar glacé, il faut attraper les bons citrons avant qu’ils disparaissent.
+            Clique sur les <strong>citrons</strong> et évite les <strong>glaçons</strong>.
+            <br><br>
+            Objectif : <strong>6 points en 12 secondes</strong>.
+          </p>
+
+          <div class="mole-stats">
+            <div>Score : <span id="moleScore">0</span></div>
+            <div>Temps : <span id="moleTime">12</span>s</div>
+            <div>Objectif : 6</div>
+          </div>
+
+          <div class="mole-grid" id="moleGrid"></div>
+
+          <div class="feedback" id="moleFeedback">Clique sur les citrons, pas sur les glaçons.</div>
+
+          <div class="modal-actions">
+            <button class="btn btn-primary" onclick="startMoleGame()">Lancer</button>
+            <button class="btn btn-secondary" onclick="closeModal()">Fermer</button>
+          </div>
+        </div>
+      `);
+      renderMoleGrid();
+    }
+
+    function renderMoleGrid(){
+      const grid = document.getElementById("moleGrid");
+      if(!grid) return;
+      grid.innerHTML = "";
+
+      for(let i = 0; i < 9; i++){
+        const hole = document.createElement("button");
+        hole.className = "mole-hole";
+        hole.onclick = () => hitMole(i);
+
+        const item = document.createElement("div");
+        item.className = "mole-item";
+        item.id = "moleItem" + i;
+        hole.appendChild(item);
+
+        grid.appendChild(hole);
+      }
+    }
+
+    function startMoleGame(){
+      stopMoleGame();
+      state.mole.active = true;
+      state.mole.score = 0;
+      state.mole.timeLeft = 12;
+      state.mole.currentIndex = -1;
+      state.mole.currentType = null;
+      state.mole.clickedThisRound = false;
+      updateMoleHud();
+
+      state.mole.timerId = setInterval(() => {
+        state.mole.timeLeft--;
+        updateMoleHud();
+        if(state.mole.timeLeft <= 0){
+          finishMoleGame();
+        }
+      }, 1000);
+
+      spawnMole();
+      state.mole.spawnId = setInterval(spawnMole, 650);
+    }
+
+    function stopMoleGame(){
+      state.mole.active = false;
+      clearInterval(state.mole.timerId);
+      clearInterval(state.mole.spawnId);
+    }
+
+    function spawnMole(){
+      if(!state.mole.active) return;
+      state.mole.clickedThisRound = false;
+      state.mole.currentIndex = Math.floor(Math.random() * 9);
+      state.mole.currentType = Math.random() < 0.68 ? "good" : "bad";
+
+      document.querySelectorAll(".mole-hole").forEach(h => h.classList.remove("show"));
+      document.querySelectorAll(".mole-item").forEach(i => {
+        i.className = "mole-item";
+        i.textContent = "";
+      });
+
+      const hole = document.querySelectorAll(".mole-hole")[state.mole.currentIndex];
+      const item = document.getElementById("moleItem" + state.mole.currentIndex);
+
+      if(hole && item){
+        hole.classList.add("show");
+        item.classList.add(state.mole.currentType);
+        item.textContent = state.mole.currentType === "good" ? "🍋" : "🧊";
+      }
+    }
+
+    function updateMoleHud(){
+      const scoreEl = document.getElementById("moleScore");
+      const timeEl = document.getElementById("moleTime");
+      if(scoreEl) scoreEl.textContent = state.mole.score;
+      if(timeEl) timeEl.textContent = state.mole.timeLeft;
+    }
+
+    function hitMole(index){
+      if(!state.mole.active) return;
+      if(index !== state.mole.currentIndex) return;
+      if(state.mole.clickedThisRound) return;
+
+      state.mole.clickedThisRound = true;
+      const feedback = document.getElementById("moleFeedback");
+
+      if(state.mole.currentType === "good"){
+        state.mole.score++;
+        if(feedback) feedback.textContent = "Bon citron.";
+      } else {
+        state.mole.score = Math.max(0, state.mole.score - 1);
+        if(feedback) feedback.textContent = "Ça, c’était un glaçon.";
+      }
+
+      updateMoleHud();
+      document.querySelectorAll(".mole-hole")[index].classList.remove("show");
+    }
+
+    function finishMoleGame(){
+      stopMoleGame();
+      if(state.mole.score >= 6){
+        state.steps.lemonFound = true;
+        addItem("lemon");
+        closeModal();
+        setMessage("Tu récupères enfin un citron intact dans la glacière.");
+      } else {
+        const feedback = document.getElementById("moleFeedback");
+        if(feedback) feedback.textContent = "Pas assez de citrons. Recommence.";
+      }
     }
 
     function openGingerQuiz(){
@@ -1600,8 +1953,8 @@
         <div class="modal-box">
           <h2>Cadenas du gingembre</h2>
           <p>
-            Réponds correctement aux 3 questions. Si tu fais 3/3, il faudra ensuite
-            reconstituer la bonne suite d’animaux de mémoire.
+            Réponds correctement aux 3 questions.
+            Si tu fais 3/3, tu devras reconstituer la bonne suite d’animaux de mémoire.
           </p>
           <p><strong>Question ${state.currentQuizIndex + 1} :</strong> ${current.q}</p>
           <div class="quiz-choices">
@@ -1609,7 +1962,6 @@
               <button class="choice" onclick="answerQuiz('${escapeQuotes(choice)}')">${choice}</button>
             `).join("")}
           </div>
-          <div class="feedback" id="quizFeedback"></div>
           <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal()">Fermer</button>
           </div>
@@ -1629,7 +1981,7 @@
           showModal(`
             <div class="modal-box">
               <h2>Bonne réponse</h2>
-              <p>Tu sens que le cadenas a enregistré quelque chose. Continue.</p>
+              <p>Le cadenas a bien enregistré cette réponse. Continue.</p>
               <div class="modal-actions">
                 <button class="btn btn-primary" onclick="continueQuiz()">Question suivante</button>
               </div>
@@ -1668,7 +2020,7 @@
           <h2>Suite finale</h2>
           <p>
             Tu as répondu correctement aux 3 questions.
-            Maintenant, reconstitue de mémoire les <strong>3 animaux dans l’ordre des questions</strong>.
+            Reconstitue maintenant les <strong>3 animaux dans l’ordre des questions</strong>.
           </p>
 
           <div class="code-slots">
@@ -1728,6 +2080,8 @@
     window.pickSymbol = pickSymbol;
     window.resetSymbols = resetSymbols;
     window.validateSymbols = validateSymbols;
+    window.startMoleGame = startMoleGame;
+    window.testPipeFlow = testPipeFlow;
 
     renderAll();
   </script>
