@@ -20,14 +20,11 @@
     }
 
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Georgia, "Times New Roman", serif}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Georgia,"Times New Roman",serif}
     body{min-height:100vh;overflow:hidden}
-
-    .hidden{display:none !important}
     .screen{display:none;min-height:100vh}
     .screen.active{display:grid}
 
-    /* Intro */
     #intro{
       place-items:center;
       background:
@@ -89,7 +86,6 @@
       color:var(--text);
     }
 
-    /* Game layout */
     #game{
       grid-template-columns:minmax(0,1fr) 340px;
       width:100vw;
@@ -129,11 +125,7 @@
       opacity:.7;
     }
 
-    /* Illustrated room */
-    .room{
-      position:absolute;
-      inset:0;
-    }
+    .room{position:absolute; inset:0}
     .wall{
       position:absolute; inset:0 0 22% 0;
       background:
@@ -143,8 +135,7 @@
     }
     .floor{
       position:absolute; left:0; right:0; bottom:0; height:23%;
-      background:
-        repeating-linear-gradient(90deg, #38281c 0 36px, #301f15 36px 72px);
+      background:repeating-linear-gradient(90deg, #38281c 0 36px, #301f15 36px 72px);
       border-top:4px solid rgba(0,0,0,.2);
     }
 
@@ -162,8 +153,7 @@
       position:absolute;
       right:9%; top:10%;
       width:220px; height:180px;
-      background:
-        linear-gradient(180deg,#9fd9ff 0%,#bce8ff 45%,#f7c66d 100%);
+      background:linear-gradient(180deg,#9fd9ff 0%,#bce8ff 45%,#f7c66d 100%);
       border:10px solid #3e2d23;
       box-shadow:0 10px 30px rgba(0,0,0,.3);
     }
@@ -264,8 +254,7 @@
       position:absolute;
       left:42%; bottom:17%;
       width:120px; height:90px;
-      background:
-        repeating-linear-gradient(0deg, #7f5634 0 12px, #6f492c 12px 24px);
+      background:repeating-linear-gradient(0deg, #7f5634 0 12px, #6f492c 12px 24px);
       border:4px solid #52341d;
       border-radius:8px;
     }
@@ -314,9 +303,7 @@
       right:18px; top:-42px; width:34px; height:52px;
       background:#bbb2a4;
       border-radius:8px;
-      box-shadow:
-        inset 0 -12px 0 rgba(0,0,0,.08),
-        inset 0 12px 0 rgba(255,255,255,.16);
+      box-shadow:inset 0 -12px 0 rgba(0,0,0,.08), inset 0 12px 0 rgba(255,255,255,.16);
       transform:rotate(-8deg);
     }
 
@@ -359,7 +346,6 @@
       100%{transform:translateY(-10px);opacity:0}
     }
 
-    /* Hotspots */
     .hotspot{
       position:absolute;
       background:rgba(255,255,255,.02);
@@ -379,7 +365,6 @@
     .hs-poster{left:8%; top:12%; width:160px; height:210px}
     .hs-window{right:9%; top:10%; width:220px; height:180px}
 
-    /* UI */
     #ui{
       background:linear-gradient(180deg, #111 0%, #171717 100%);
       border-left:1px solid var(--border);
@@ -402,15 +387,8 @@
       letter-spacing:.04em;
       text-transform:uppercase;
     }
-    #objective{
-      line-height:1.6;
-      color:var(--text);
-    }
-    #message{
-      min-height:90px;
-      line-height:1.7;
-      color:var(--muted);
-    }
+    #objective{line-height:1.6;color:var(--text)}
+    #message{min-height:90px;line-height:1.7;color:var(--muted)}
     #inventory{
       display:grid;
       grid-template-columns:repeat(2,1fr);
@@ -446,17 +424,9 @@
     }
     .done .dot{background:var(--ok); border-color:transparent}
     .done span{color:var(--text)}
-    #drinkBtn{
-      width:100%;
-      margin-top:2px;
-    }
-    #drinkBtn[disabled]{
-      opacity:.45;
-      cursor:not-allowed;
-      transform:none;
-    }
+    #drinkBtn{width:100%;margin-top:2px}
+    #drinkBtn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
 
-    /* Modal */
     #modal{
       position:fixed; inset:0;
       background:rgba(0,0,0,.68);
@@ -519,7 +489,6 @@
       display:grid; place-items:center;
       font-size:2rem;
     }
-
     .victory{
       font-size:1.06rem;
       color:var(--text);
@@ -528,13 +497,8 @@
 
     @media (max-width: 980px){
       body{overflow:auto}
-      #game{
-        grid-template-columns:1fr;
-        height:auto;
-      }
-      #sceneWrap{
-        min-height:64vh;
-      }
+      #game{grid-template-columns:1fr;height:auto}
+      #sceneWrap{min-height:64vh}
       #ui{
         border-left:none;
         border-top:1px solid var(--border);
@@ -544,7 +508,6 @@
   </style>
 </head>
 <body>
-
   <section id="intro" class="screen active">
     <div class="intro-box">
       <h1>Le Réveil du Hippie</h1>
@@ -644,6 +607,9 @@
     const state = {
       inventory: [],
       selectedItem: null,
+      currentQuizIndex: 0,
+      quizSymbols: [],
+      enteredSymbols: [],
       steps: {
         bottleFound: false,
         bottleFilled: false,
@@ -737,6 +703,20 @@
       messageEl.textContent = text;
     }
 
+    function showModal(html){
+      modal.innerHTML = html;
+      modal.classList.add("show");
+    }
+
+    function closeModal(){
+      modal.classList.remove("show");
+      modal.innerHTML = "";
+    }
+
+    function escapeQuotes(str){
+      return str.replaceAll("'", "\\'");
+    }
+
     function addItem(item){
       if(!state.inventory.includes(item)){
         state.inventory.push(item);
@@ -758,24 +738,6 @@
       return labels[item] || item;
     }
 
-    function renderInventory(){
-      inventoryEl.innerHTML = "";
-      if(state.inventory.length === 0){
-        inventoryEl.innerHTML = '<div style="color:var(--muted);line-height:1.6">Rien pour l’instant. Fouille la pièce.</div>';
-        return;
-      }
-      state.inventory.forEach(item => {
-        const btn = document.createElement("button");
-        btn.className = "item" + (state.selectedItem === item ? " selected" : "");
-        btn.innerHTML = "<strong>" + labelItem(item) + "</strong><br><span style='color:var(--muted);font-size:.9rem'>" + getItemHint(item) + "</span>";
-        btn.addEventListener("click", () => {
-          state.selectedItem = (state.selectedItem === item ? null : item);
-          renderAll();
-        });
-        inventoryEl.appendChild(btn);
-      });
-    }
-
     function getItemHint(item){
       const hints = {
         bottle: state.steps.bottleFilled ? "Remplie d’eau." : "Vide.",
@@ -787,6 +749,25 @@
         grater: "Parfaite pour le gingembre."
       };
       return hints[item] || "";
+    }
+
+    function renderInventory(){
+      inventoryEl.innerHTML = "";
+      if(state.inventory.length === 0){
+        inventoryEl.innerHTML = '<div style="color:var(--muted);line-height:1.6">Rien pour l’instant. Fouille la pièce.</div>';
+        return;
+      }
+
+      state.inventory.forEach(item => {
+        const btn = document.createElement("button");
+        btn.className = "item" + (state.selectedItem === item ? " selected" : "");
+        btn.innerHTML = "<strong>" + labelItem(item) + "</strong><br><span style='color:var(--muted);font-size:.9rem'>" + getItemHint(item) + "</span>";
+        btn.addEventListener("click", () => {
+          state.selectedItem = (state.selectedItem === item ? null : item);
+          renderAll();
+        });
+        inventoryEl.appendChild(btn);
+      });
     }
 
     function renderRecipe(){
@@ -801,12 +782,12 @@
       }).join("");
     }
 
-    function renderDrinkButton(){
-      drinkBtn.disabled = !canDrink();
-    }
-
     function canDrink(){
       return state.steps.waterHeated && state.steps.lemonPressed && state.steps.gingerGrated;
+    }
+
+    function renderDrinkButton(){
+      drinkBtn.disabled = !canDrink();
     }
 
     function renderSteam(){
@@ -1109,24 +1090,40 @@
     function openGingerQuiz(){
       const questions = [
         {
-          q: "Quel animal est célèbre pour sa mémoire ?",
-          choices: ["Éléphant", "Lama", "Mouette"],
-          correct: "Éléphant",
-          symbol: "☀"
+          q: "Quel animal détient le record de la plus grande longévité chez les mammifères sauvages ?",
+          choices: [
+            "La tortue des Galápagos",
+            "La baleine boréale",
+            "Le cacatoès à huppe jaune"
+          ],
+          correct: "La baleine boréale",
+          symbol: "🐋",
+          symbolName: "baleine"
         },
         {
-          q: "Parmi ces animaux, lequel pond des œufs ?",
-          choices: ["Tortue", "Chat", "Cheval"],
-          correct: "Tortue",
-          symbol: "☾"
+          q: "Quel est l’animal terrestre le plus rapide sur de courtes distances ?",
+          choices: [
+            "Le guépard",
+            "L’autruche",
+            "Le lièvre"
+          ],
+          correct: "Le guépard",
+          symbol: "🐆",
+          symbolName: "guépard"
         },
         {
-          q: "Quel animal peut dormir debout ?",
-          choices: ["Cheval", "Renard", "Ours"],
-          correct: "Cheval",
-          symbol: "✿"
+          q: "Quel animal produit la soie la plus utilisée dans l’industrie textile ?",
+          choices: [
+            "Le ver à soie",
+            "L’araignée",
+            "Le papillon monarque"
+          ],
+          correct: "Le ver à soie",
+          symbol: "🪱",
+          symbolName: "ver"
         }
       ];
+
       state.currentQuizIndex = 0;
       state.quizSymbols = [];
       openQuizQuestion(questions);
@@ -1135,12 +1132,14 @@
     function openQuizQuestion(questions){
       const index = state.currentQuizIndex;
       const current = questions[index];
+      window._gingerQuestions = questions;
+
       showModal(`
         <div class="modal-box">
           <h2>Cadenas du gingembre</h2>
           <p>
-            Une voix dans ta tête murmure :
-            <strong>“Trois réponses justes. Trois symboles. Une racine sacrée.”</strong>
+            Réponds correctement aux 3 questions.
+            Chaque bonne réponse révèle <strong>un symbole</strong>.
           </p>
           <p><strong>Question ${index + 1} :</strong> ${current.q}</p>
           <div class="quiz-choices">
@@ -1153,70 +1152,103 @@
           </div>
         </div>
       `);
-      window._gingerQuestions = questions;
-    }
-
-    function escapeQuotes(str){
-      return str.replaceAll("'", "\\'");
     }
 
     function answerQuiz(choice){
       const questions = window._gingerQuestions;
       const current = questions[state.currentQuizIndex];
+
       if(choice === current.correct){
         state.quizSymbols.push(current.symbol);
         state.currentQuizIndex++;
+
         if(state.currentQuizIndex < questions.length){
-          openQuizQuestion(questions);
+          showModal(`
+            <div class="modal-box">
+              <h2>Bonne réponse</h2>
+              <p>
+                Le cadenas révèle le <strong>symbole ${state.currentQuizIndex}</strong> :
+              </p>
+              <div style="font-size:4rem;text-align:center;margin:18px 0;">${current.symbol}</div>
+              <p style="text-align:center;color:var(--muted)">(${current.symbolName})</p>
+              <div class="modal-actions">
+                <button class="btn btn-primary" onclick="continueQuiz()">Question suivante</button>
+              </div>
+            </div>
+          `);
         } else {
-          openSymbolLock();
+          showModal(`
+            <div class="modal-box">
+              <h2>Les 3 symboles sont révélés</h2>
+              <p>
+                Tu as débloqué les trois symboles.
+                Il faut maintenant les entrer dans <strong>l’ordre des questions</strong>.
+              </p>
+              <div class="symbols" style="font-size:3rem;">
+                <div>${state.quizSymbols[0]}</div>
+                <div>${state.quizSymbols[1]}</div>
+                <div>${state.quizSymbols[2]}</div>
+              </div>
+              <p style="text-align:center;color:var(--muted)">
+                1 = question 1, 2 = question 2, 3 = question 3
+              </p>
+              <div class="modal-actions">
+                <button class="btn btn-primary" onclick="openSymbolLock()">Entrer les symboles</button>
+              </div>
+            </div>
+          `);
         }
       } else {
         closeModal();
-        setMessage("Mauvaise réponse. Ton cerveau flotte encore quelque part dans les rideaux du van.");
+        setMessage("Mauvaise réponse. Le cadenas reste fermé.");
       }
     }
 
+    function continueQuiz(){
+      openQuizQuestion(window._gingerQuestions);
+    }
+
     function openSymbolLock(){
+      state.enteredSymbols = [];
       showModal(`
         <div class="modal-box">
           <h2>Entre les 3 symboles</h2>
           <p>
-            Les bonnes réponses ont révélé trois symboles. Entre-les dans l’ordre pour ouvrir le cadenas.
+            Entre les symboles dans <strong>l’ordre des questions</strong>.
           </p>
           <div class="code-slots">
             <div class="slot" id="slot0">?</div>
             <div class="slot" id="slot1">?</div>
             <div class="slot" id="slot2">?</div>
           </div>
+
           <div class="symbols">
-            <button class="symbol-btn" onclick="pickSymbol('☀')">☀</button>
-            <button class="symbol-btn" onclick="pickSymbol('☾')">☾</button>
-            <button class="symbol-btn" onclick="pickSymbol('✿')">✿</button>
-            <button class="symbol-btn" onclick="pickSymbol('♞')">♞</button>
-            <button class="symbol-btn" onclick="pickSymbol('☮')">☮</button>
+            <button class="symbol-btn" onclick="pickSymbol('🐋')">🐋</button>
+            <button class="symbol-btn" onclick="pickSymbol('🐆')">🐆</button>
+            <button class="symbol-btn" onclick="pickSymbol('🪱')">🪱</button>
+            <button class="symbol-btn" onclick="pickSymbol('🦉')">🦉</button>
+            <button class="symbol-btn" onclick="pickSymbol('🐢')">🐢</button>
           </div>
+
           <div class="modal-actions">
             <button class="btn btn-primary" onclick="validateSymbols()">Valider</button>
             <button class="btn btn-secondary" onclick="resetSymbols()">Réinitialiser</button>
           </div>
         </div>
       `);
-      state.enteredSymbols = [];
-    }
-
-    function pickSymbol(symbol){
-      if(!state.enteredSymbols) state.enteredSymbols = [];
-      if(state.enteredSymbols.length >= 3) return;
-      state.enteredSymbols.push(symbol);
-      updateSlots();
     }
 
     function updateSlots(){
-      for(let i=0;i<3;i++){
-        const slot = document.getElementById("slot"+i);
+      for(let i = 0; i < 3; i++){
+        const slot = document.getElementById("slot" + i);
         if(slot) slot.textContent = state.enteredSymbols[i] || "?";
       }
+    }
+
+    function pickSymbol(symbol){
+      if(state.enteredSymbols.length >= 3) return;
+      state.enteredSymbols.push(symbol);
+      updateSlots();
     }
 
     function resetSymbols(){
@@ -1226,25 +1258,16 @@
 
     function validateSymbols(){
       const target = state.quizSymbols.join("");
-      const entered = (state.enteredSymbols || []).join("");
+      const entered = state.enteredSymbols.join("");
+
       if(entered === target){
         state.steps.gingerUnlocked = true;
         state.puzzles.gingerQuizDone = true;
         closeModal();
-        setMessage("Le cadenas s’ouvre enfin. La boîte est déverrouillée.");
+        setMessage("Le cadenas s’ouvre. Le gingembre est enfin accessible.");
       } else {
-        setMessage("Les symboles vibrent un instant, puis le cadenas reste fermé.");
+        setMessage("Ce n’est pas le bon ordre.");
       }
-    }
-
-    function showModal(html){
-      modal.innerHTML = html;
-      modal.classList.add("show");
-    }
-
-    function closeModal(){
-      modal.classList.remove("show");
-      modal.innerHTML = "";
     }
 
     window.closeModal = closeModal;
@@ -1252,6 +1275,8 @@
     window.solveSinkPuzzle = solveSinkPuzzle;
     window.solveCoolerPuzzle = solveCoolerPuzzle;
     window.answerQuiz = answerQuiz;
+    window.continueQuiz = continueQuiz;
+    window.openSymbolLock = openSymbolLock;
     window.pickSymbol = pickSymbol;
     window.resetSymbols = resetSymbols;
     window.validateSymbols = validateSymbols;
