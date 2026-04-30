@@ -3,20 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Le Réveil du Hippie</title>
+  <title>Le Réveil du Hippie — version corrigée</title>
   <style>
     :root{
-      --bg:#0a0a0a;
-      --panel:#151515;
-      --panel-2:#1d1d1d;
-      --text:#f4efe2;
-      --muted:#b7ad95;
-      --accent:#d6b55b;
-      --accent-2:#8bcf9b;
-      --danger:#ff7b7b;
-      --ok:#9fe3a7;
-      --border:rgba(255,255,255,.12);
-      --shadow:0 20px 50px rgba(0,0,0,.35);
+      --bg:#080808;
+      --panel:#121212;
+      --panel-2:#1b1b1b;
+      --text:#f3eedf;
+      --muted:#b9b099;
+      --accent:#d8b861;
+      --accent-dark:#b78f33;
+      --ok:#8de19c;
+      --bad:#f07d7d;
+      --pipe:#d6d9dc;
+      --pipe-dark:#90979e;
+      --hot:#ff9d6f;
+      --water:#6ec5ff;
+      --border:rgba(255,255,255,.14);
+      --shadow:0 22px 60px rgba(0,0,0,.35);
     }
 
     *{box-sizing:border-box}
@@ -28,66 +32,72 @@
     #intro{
       place-items:center;
       background:
-        radial-gradient(circle at top, rgba(214,181,91,.15), transparent 35%),
-        linear-gradient(180deg, #050505 0%, #0b0b0b 100%);
+        radial-gradient(circle at 20% 10%, rgba(216,184,97,.17), transparent 26%),
+        radial-gradient(circle at 80% 0%, rgba(255,140,80,.09), transparent 18%),
+        linear-gradient(180deg,#040404 0%,#0b0b0b 100%);
       padding:24px;
     }
+
     .intro-box{
-      max-width:820px;
-      background:rgba(18,18,18,.86);
+      max-width:860px;
+      background:rgba(20,20,20,.9);
       border:1px solid var(--border);
       box-shadow:var(--shadow);
-      padding:32px;
-      border-radius:20px;
+      border-radius:22px;
+      padding:34px;
       text-align:center;
     }
-    .intro-box h1{
-      margin:0 0 18px;
-      font-size:clamp(2rem,4vw,4rem);
-      letter-spacing:.03em;
+
+    h1{
+      margin:0 0 16px;
       color:var(--accent);
+      font-size:clamp(2rem,4vw,4.1rem);
+      letter-spacing:.03em;
     }
+
     .intro-box p{
-      font-size:clamp(1rem,1.6vw,1.3rem);
+      max-width:68ch;
+      margin:0 auto 18px;
       line-height:1.8;
       color:var(--text);
-      margin:0 auto 22px;
-      max-width:64ch;
+      font-size:clamp(1rem,1.5vw,1.25rem);
     }
+
     .intro-box .small{
       color:var(--muted);
       font-size:.98rem;
-      line-height:1.6;
-      margin-bottom:26px;
     }
 
     button{
-      border:none;
       cursor:pointer;
+      border:none;
       color:var(--text);
-      background:var(--panel-2);
-      transition:.22s ease;
+      transition:.2s ease;
+      font:inherit;
     }
     button:hover{transform:translateY(-1px)}
+
     .btn{
       padding:14px 20px;
       border-radius:999px;
       border:1px solid var(--border);
-      font-weight:700;
-      letter-spacing:.03em;
+      background:#232323;
     }
+
     .btn-primary{
-      background:linear-gradient(180deg, #d6b55b, #b89035);
-      color:#16120a;
+      background:linear-gradient(180deg,var(--accent),var(--accent-dark));
+      color:#171109;
       border:none;
+      font-weight:700;
     }
+
     .btn-secondary{
-      background:#222;
+      background:#212121;
       color:var(--text);
     }
 
     #game{
-      grid-template-columns:minmax(0,1fr) 340px;
+      grid-template-columns:minmax(0,1fr) 360px;
       width:100vw;
       height:100vh;
     }
@@ -96,78 +106,77 @@
       position:relative;
       overflow:hidden;
       background:
-        radial-gradient(circle at 20% 20%, rgba(255,210,100,.14), transparent 22%),
-        radial-gradient(circle at 80% 10%, rgba(255,120,80,.08), transparent 18%),
-        linear-gradient(180deg, #6b4a2b 0%, #473320 14%, #2c221a 14%, #2c221a 100%);
+        radial-gradient(circle at 18% 20%, rgba(255,214,120,.12), transparent 20%),
+        radial-gradient(circle at 82% 8%, rgba(255,110,70,.08), transparent 18%),
+        linear-gradient(180deg,#73502d 0%,#4a3523 14%,#2a2119 14%,#2a2119 100%);
     }
 
     #scene{
       position:relative;
       width:100%;
       height:100%;
-      transition:filter 1.2s ease, transform 1s ease;
-      filter:blur(9px) saturate(.85) brightness(.82);
-      transform:scale(1.03);
+      transition:filter 1.2s ease, transform 1.1s ease;
+      filter:blur(8px) saturate(.88) brightness(.84);
+      transform:scale(1.02);
     }
+
     #scene.clear{
       filter:blur(0) saturate(1) brightness(1);
       transform:scale(1);
-    }
-
-    .noise{
-      position:absolute; inset:0;
-      pointer-events:none;
-      background:
-        radial-gradient(circle at 10% 10%, rgba(255,255,255,.03), transparent 10%),
-        radial-gradient(circle at 50% 40%, rgba(255,255,255,.025), transparent 12%),
-        radial-gradient(circle at 90% 70%, rgba(255,255,255,.02), transparent 14%);
-      mix-blend-mode:screen;
-      opacity:.7;
     }
 
     .room{position:absolute; inset:0}
     .wall{
       position:absolute; inset:0 0 22% 0;
       background:
-        radial-gradient(circle at 25% 22%, rgba(255,210,120,.25), transparent 14%),
-        radial-gradient(circle at 74% 18%, rgba(255,255,255,.06), transparent 13%),
-        linear-gradient(180deg, #865c35 0%, #6d4b2d 45%, #5a3d26 100%);
+        radial-gradient(circle at 24% 18%, rgba(255,220,120,.22), transparent 15%),
+        radial-gradient(circle at 74% 14%, rgba(255,255,255,.05), transparent 12%),
+        linear-gradient(180deg,#8a6038 0%,#714d2f 44%,#5c3f28 100%);
     }
+
     .floor{
       position:absolute; left:0; right:0; bottom:0; height:23%;
-      background:repeating-linear-gradient(90deg, #38281c 0 36px, #301f15 36px 72px);
-      border-top:4px solid rgba(0,0,0,.2);
+      background:repeating-linear-gradient(90deg,#38281c 0 36px,#2f2015 36px 72px);
+      border-top:4px solid rgba(0,0,0,.18);
     }
 
     .poster{
       position:absolute;
-      width:160px; height:210px;
-      left:8%; top:12%;
+      left:8%;
+      top:12%;
+      width:160px;
+      height:210px;
       background:
-        radial-gradient(circle at 50% 40%, #f6c95b 0 14%, #f26b4f 14% 25%, #8140c8 25% 50%, #3457b9 50% 70%, #1e1e1e 71%);
-      border:8px solid #d7c298;
+        radial-gradient(circle at 50% 40%, #f6cb59 0 13%, #f26b4f 13% 25%, #8942c7 25% 51%, #3d5ec0 51% 71%, #1f1f1f 72%);
+      border:8px solid #d6c195;
       box-shadow:0 10px 30px rgba(0,0,0,.25);
       transform:rotate(-4deg);
     }
+
     .window{
       position:absolute;
-      right:9%; top:10%;
-      width:220px; height:180px;
-      background:linear-gradient(180deg,#9fd9ff 0%,#bce8ff 45%,#f7c66d 100%);
-      border:10px solid #3e2d23;
+      right:8%;
+      top:10%;
+      width:220px;
+      height:180px;
+      background:linear-gradient(180deg,#9fd9ff 0%,#bce8ff 45%,#f6c76d 100%);
+      border:10px solid #3f2c22;
       box-shadow:0 10px 30px rgba(0,0,0,.3);
     }
     .window::before,.window::after{
       content:"";
-      position:absolute; background:#3e2d23;
+      position:absolute;
+      background:#3f2c22;
     }
     .window::before{width:10px;height:100%;left:calc(50% - 5px);top:0}
     .window::after{height:10px;width:100%;left:0;top:calc(50% - 5px)}
 
     .bed{
       position:absolute;
-      left:8%; bottom:17%;
-      width:330px; height:170px;
+      left:8%;
+      bottom:17%;
+      width:330px;
+      height:170px;
       background:#6d4938;
       border-radius:18px 18px 0 0;
       box-shadow:0 15px 30px rgba(0,0,0,.22);
@@ -180,7 +189,7 @@
     }
     .bed::after{
       content:"";
-      position:absolute; left:22px; top:26px;
+      position:absolute; left:22px; top:24px;
       width:84px; height:48px;
       background:#efe1c7;
       border-radius:12px;
@@ -188,97 +197,244 @@
 
     .chair{
       position:absolute;
-      left:31%; bottom:18%;
-      width:95px; height:120px;
+      left:30.5%;
+      bottom:18%;
+      width:100px;
+      height:122px;
     }
     .chair .back{
-      position:absolute; left:12px; top:0; width:70px; height:58px; background:#7b5736; border-radius:8px;
+      position:absolute; left:13px; top:0; width:72px; height:58px; background:#7b5736; border-radius:8px;
     }
     .chair .seat{
-      position:absolute; left:6px; top:52px; width:82px; height:18px; background:#91633d; border-radius:6px;
+      position:absolute; left:8px; top:52px; width:84px; height:18px; background:#91633d; border-radius:6px;
     }
     .chair .leg1,.chair .leg2,.chair .leg3,.chair .leg4{
       position:absolute; width:8px; height:55px; background:#4c341f; bottom:0;
     }
-    .chair .leg1{left:10px}.chair .leg2{left:28px}.chair .leg3{right:28px}.chair .leg4{right:10px}
+    .chair .leg1{left:12px}.chair .leg2{left:30px}.chair .leg3{right:30px}.chair .leg4{right:12px}
     .jacket-vis{
-      position:absolute; left:22px; top:28px; width:48px; height:60px;
+      position:absolute; left:24px; top:28px; width:48px; height:60px;
       background:#4a7b88; border-radius:20px 20px 12px 12px;
       transform:rotate(10deg);
     }
 
     .counter{
       position:absolute;
-      right:6%; bottom:18%;
-      width:360px; height:160px;
-      background:#7a5334;
-      border-radius:12px 12px 0 0;
+      right:6%;
+      bottom:18%;
+      width:390px;
+      height:170px;
+      background:#7b5335;
+      border-radius:14px 14px 0 0;
       box-shadow:0 15px 30px rgba(0,0,0,.22);
     }
     .counter::before{
       content:"";
-      position:absolute; inset:18px 18px auto 18px; height:20px;
-      background:#4c3627;
+      position:absolute; left:18px; right:18px; top:18px; height:22px;
+      background:#493426;
       border-radius:8px;
     }
 
     .sink-vis{
       position:absolute;
-      left:22px; top:26px; width:120px; height:65px;
-      background:#92979b;
-      border-radius:0 0 26px 26px;
-      border:4px solid #73777a;
+      left:20px; top:28px;
+      width:138px; height:70px;
+      background:#9aa0a4;
+      border-radius:0 0 28px 28px;
+      border:4px solid #767c81;
+      box-shadow:inset 0 -8px 0 rgba(0,0,0,.08);
     }
     .sink-vis::before{
       content:"";
-      position:absolute; left:42px; top:-22px; width:36px; height:24px;
-      border:6px solid #73777a; border-bottom:none; border-radius:18px 18px 0 0;
+      position:absolute;
+      left:calc(50% - 18px);
+      top:-24px;
+      width:36px;
+      height:24px;
+      border:6px solid #767c81;
+      border-bottom:none;
+      border-radius:18px 18px 0 0;
+      background:transparent;
     }
+
+    .worktop{
+      position:absolute;
+      left:165px;
+      top:44px;
+      width:118px;
+      height:74px;
+      background:#886244;
+      border:4px solid #61442f;
+      border-radius:12px;
+      box-shadow:inset 0 8px 0 rgba(255,255,255,.06);
+    }
+    .worktop::before{
+      content:"PLAN";
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      color:rgba(255,240,220,.42);
+      font-size:12px;
+      letter-spacing:.2em;
+    }
+
+    .press-base{
+      position:absolute;
+      left:198px;
+      top:60px;
+      width:52px;
+      height:34px;
+      border-radius:18px 18px 14px 14px;
+      background:linear-gradient(180deg,#b7bbb8,#8f9491);
+      border:3px solid #676b68;
+      display:none;
+    }
+    .press-base.active{display:block}
+
+    .lemon-on-press{
+      position:absolute;
+      left:212px;
+      top:50px;
+      width:24px;
+      height:24px;
+      border-radius:50%;
+      background:#e8ce46;
+      box-shadow:inset 0 -4px 0 rgba(0,0,0,.12);
+      display:none;
+    }
+    .lemon-on-press.active{display:block}
 
     .stove-vis{
       position:absolute;
-      right:22px; top:26px; width:118px; height:72px;
+      right:22px; top:28px;
+      width:122px; height:74px;
       background:#2a2a2a;
       border-radius:10px;
-      border:4px solid #515151;
+      border:4px solid #555;
     }
     .stove-vis::before,.stove-vis::after{
       content:"";
-      position:absolute; width:34px; height:34px; border-radius:50%;
-      border:4px solid #666; top:14px;
+      position:absolute;
+      width:34px; height:34px; border-radius:50%;
+      border:4px solid #676767; top:15px;
     }
     .stove-vis::before{left:14px}
     .stove-vis::after{right:14px}
 
+    .pot-vis{
+      position:absolute;
+      right:96px;
+      top:63px;
+      width:76px;
+      height:42px;
+      background:#8d8d8d;
+      border-radius:0 0 16px 16px;
+      border:3px solid #666;
+      opacity:.28;
+      transition:.25s ease;
+    }
+    .pot-vis.active{
+      opacity:.95;
+    }
+    .pot-vis::before{
+      content:"";
+      position:absolute;
+      left:-17px; top:10px;
+      width:18px; height:10px;
+      border:3px solid #666;
+      border-right:none;
+      border-radius:12px 0 0 12px;
+    }
+
+    .grater-over-pot{
+      position:absolute;
+      right:106px;
+      top:36px;
+      width:60px;
+      height:16px;
+      border-radius:10px;
+      background:repeating-linear-gradient(90deg,#b7b7b7 0 6px,#8b8b8b 6px 12px);
+      border:3px solid #686868;
+      display:none;
+    }
+    .grater-over-pot.active{display:block}
+
+    .ginger-on-grater{
+      position:absolute;
+      right:122px;
+      top:22px;
+      width:30px;
+      height:18px;
+      border-radius:12px;
+      background:#d2ae63;
+      border:2px solid #9c7844;
+      display:none;
+    }
+    .ginger-on-grater.active{display:block}
+
+    .steam{
+      position:absolute;
+      right:116px;
+      top:23px;
+      width:50px;
+      height:48px;
+      opacity:0;
+      transition:.3s ease;
+    }
+    .steam.active{opacity:1}
+    .steam span{
+      position:absolute;
+      width:10px; height:30px;
+      border-radius:50%;
+      border-left:3px solid rgba(255,255,255,.72);
+      animation:float 1.7s ease-in-out infinite;
+    }
+    .steam span:nth-child(1){left:8px; animation-delay:0s}
+    .steam span:nth-child(2){left:22px; animation-delay:.3s}
+    .steam span:nth-child(3){left:36px; animation-delay:.6s}
+
+    @keyframes float{
+      0%{transform:translateY(10px);opacity:0}
+      40%{opacity:1}
+      100%{transform:translateY(-10px);opacity:0}
+    }
+
     .crate{
       position:absolute;
-      left:42%; bottom:17%;
-      width:120px; height:90px;
-      background:repeating-linear-gradient(0deg, #7f5634 0 12px, #6f492c 12px 24px);
-      border:4px solid #52341d;
+      left:42%;
+      bottom:17%;
+      width:124px; height:92px;
+      background:repeating-linear-gradient(0deg,#7f5634 0 12px,#6e492c 12px 24px);
+      border:4px solid #54351f;
       border-radius:8px;
+      box-shadow:0 10px 24px rgba(0,0,0,.2);
     }
+
     .cooler{
       position:absolute;
-      left:53%; bottom:18%;
-      width:130px; height:94px;
-      background:#d9d8cd;
-      border:4px solid #8a887e;
+      left:53%;
+      bottom:18%;
+      width:132px; height:96px;
+      background:#d9d7cc;
+      border:4px solid #88857d;
       border-radius:12px;
+      box-shadow:0 10px 24px rgba(0,0,0,.18);
     }
     .cooler::before{
       content:"";
       position:absolute; left:18px; right:18px; top:-14px; height:16px;
-      border:4px solid #8a887e;
+      border:4px solid #88857d;
       border-bottom:none;
       border-radius:10px 10px 0 0;
     }
 
     .lockbox{
       position:absolute;
-      right:29%; bottom:19%;
-      width:98px; height:82px;
-      background:#365d35;
+      right:30%;
+      bottom:19%;
+      width:100px; height:84px;
+      background:#355c34;
       border:4px solid #223820;
       border-radius:10px;
       box-shadow:0 10px 24px rgba(0,0,0,.2);
@@ -287,86 +443,67 @@
       content:"☮";
       position:absolute; inset:0;
       display:grid; place-items:center;
-      color:#c4d8b2; font-size:30px;
+      color:#c9d9b7; font-size:30px;
     }
 
     .shelf{
       position:absolute;
-      left:39%; top:15%;
-      width:170px; height:16px;
-      background:#5b3d26;
+      left:39%;
+      top:15%;
+      width:172px; height:16px;
+      background:#5c3d26;
       border-radius:8px;
     }
     .shelf::before{
       content:"";
       position:absolute;
-      right:18px; top:-42px; width:34px; height:52px;
-      background:#bbb2a4;
+      right:18px; top:-42px;
+      width:34px; height:52px;
+      background:#bdb3a5;
       border-radius:8px;
       box-shadow:inset 0 -12px 0 rgba(0,0,0,.08), inset 0 12px 0 rgba(255,255,255,.16);
       transform:rotate(-8deg);
     }
 
-    .pot-vis{
-      position:absolute;
-      right:102px; top:62px;
-      width:72px; height:40px;
-      background:#8c8c8c;
-      border-radius:0 0 16px 16px;
-      border:3px solid #666;
-      opacity:.65;
-    }
-    .pot-vis::before{
-      content:"";
-      position:absolute;
-      left:-16px; top:10px; width:18px; height:10px;
-      border:3px solid #666; border-right:none; border-radius:12px 0 0 12px;
-    }
-
-    .steam{
-      position:absolute;
-      right:118px; top:25px;
-      width:50px; height:50px;
-      opacity:0;
-      transition:.4s ease;
-    }
-    .steam.active{opacity:1}
-    .steam span{
-      position:absolute;
-      width:10px; height:30px; border-radius:50%;
-      border-left:3px solid rgba(255,255,255,.7);
-      animation:float 1.7s ease-in-out infinite;
-    }
-    .steam span:nth-child(1){left:8px; animation-delay:0s}
-    .steam span:nth-child(2){left:22px; animation-delay:.3s}
-    .steam span:nth-child(3){left:36px; animation-delay:.6s}
-    @keyframes float{
-      0%{transform:translateY(10px);opacity:0}
-      40%{opacity:1}
-      100%{transform:translateY(-10px);opacity:0}
-    }
-
     .hotspot{
       position:absolute;
-      background:rgba(255,255,255,.02);
-      border:1px dashed rgba(255,255,255,.12);
-      border-radius:12px;
+      background:rgba(255,255,255,.055);
+      border:1px dashed rgba(255,255,255,.11);
+      border-radius:14px;
+      backdrop-filter:blur(1px);
       cursor:pointer;
+      opacity:.72;
+      transition:.18s ease;
     }
-    .hotspot:hover{background:rgba(255,255,255,.06)}
+    .hotspot:hover{
+      background:rgba(255,255,255,.08);
+      border-color:rgba(255,255,255,.18);
+      opacity:.92;
+    }
 
-    .hs-jacket{left:30.5%; bottom:29%; width:62px; height:74px}
-    .hs-sink{right:19.8%; bottom:37%; width:128px; height:80px}
-    .hs-stove{right:6.9%; bottom:36.5%; width:124px; height:84px}
-    .hs-crate{left:42%; bottom:17%; width:120px; height:90px}
-    .hs-cooler{left:53%; bottom:18%; width:130px; height:94px}
-    .hs-lockbox{right:29%; bottom:19%; width:98px; height:82px}
-    .hs-shelf{left:39%; top:8.5%; width:170px; height:70px}
-    .hs-poster{left:8%; top:12%; width:160px; height:210px}
-    .hs-window{right:9%; top:10%; width:220px; height:180px}
+    .hs-chair{left:30.4%;bottom:28.3%;width:66px;height:78px}
+    .hs-sink{right:24.5%;bottom:36%;width:144px;height:92px}
+    .hs-worktop{right:13.8%;bottom:34.8%;width:126px;height:92px}
+    .hs-stove{right:6.7%;bottom:35.4%;width:132px;height:92px}
+    .hs-crate{left:42%;bottom:17%;width:124px;height:92px}
+    .hs-cooler{left:53%;bottom:18%;width:132px;height:96px}
+    .hs-lockbox{right:30%;bottom:19%;width:100px;height:84px}
+    .hs-shelf{left:39%;top:8.5%;width:172px;height:72px}
+    .hs-poster{left:8%;top:12%;width:160px;height:210px}
+    .hs-window{right:8%;top:10%;width:220px;height:180px}
+
+    .noise{
+      position:absolute; inset:0; pointer-events:none;
+      background:
+        radial-gradient(circle at 12% 14%, rgba(255,255,255,.03), transparent 10%),
+        radial-gradient(circle at 52% 38%, rgba(255,255,255,.02), transparent 12%),
+        radial-gradient(circle at 88% 74%, rgba(255,255,255,.02), transparent 14%);
+      mix-blend-mode:screen;
+      opacity:.75;
+    }
 
     #ui{
-      background:linear-gradient(180deg, #111 0%, #171717 100%);
+      background:linear-gradient(180deg,#111 0%,#171717 100%);
       border-left:1px solid var(--border);
       padding:18px;
       display:flex;
@@ -374,12 +511,14 @@
       gap:14px;
       overflow:auto;
     }
+
     .panel{
       background:rgba(255,255,255,.03);
       border:1px solid var(--border);
       border-radius:16px;
       padding:14px;
     }
+
     .title{
       margin:0 0 8px;
       color:var(--accent);
@@ -387,27 +526,32 @@
       letter-spacing:.04em;
       text-transform:uppercase;
     }
-    #objective{line-height:1.6;color:var(--text)}
-    #message{min-height:90px;line-height:1.7;color:var(--muted)}
+
+    #objective{line-height:1.6}
+    #message{min-height:96px;line-height:1.7;color:var(--muted)}
+
     #inventory{
       display:grid;
       grid-template-columns:repeat(2,1fr);
       gap:10px;
     }
+
     .item{
       text-align:left;
       padding:12px;
       border-radius:14px;
       border:1px solid var(--border);
       background:#232323;
-      min-height:62px;
+      min-height:64px;
       font-size:.96rem;
     }
+
     .item.selected{
       outline:2px solid var(--accent);
       background:#2a271f;
       color:#fff4d0;
     }
+
     .recipe-step{
       display:flex;
       gap:10px;
@@ -416,51 +560,70 @@
       color:var(--muted);
       line-height:1.5;
     }
+
     .dot{
       width:18px;height:18px;border-radius:50%;
-      margin-top:3px; flex:0 0 auto;
+      margin-top:3px;
+      flex:0 0 auto;
       border:1px solid var(--border);
-      background:#2a2a2a;
+      background:#292929;
     }
     .done .dot{background:var(--ok); border-color:transparent}
     .done span{color:var(--text)}
-    #drinkBtn{width:100%;margin-top:2px}
-    #drinkBtn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+
+    #drinkBtn{
+      width:100%;
+      margin-top:2px;
+    }
+    #drinkBtn[disabled]{
+      opacity:.45;
+      cursor:not-allowed;
+      transform:none;
+    }
 
     #modal{
       position:fixed; inset:0;
-      background:rgba(0,0,0,.68);
+      background:rgba(0,0,0,.72);
       display:none;
       place-items:center;
       padding:18px;
       z-index:999;
     }
     #modal.show{display:grid}
+
     .modal-box{
-      width:min(720px,100%);
-      background:linear-gradient(180deg,#171717 0%, #101010 100%);
+      width:min(760px,100%);
+      background:linear-gradient(180deg,#171717 0%,#101010 100%);
       border:1px solid var(--border);
       border-radius:24px;
       box-shadow:var(--shadow);
       padding:22px;
     }
+
     .modal-box h2{
       margin:0 0 10px;
       color:var(--accent);
       font-size:1.4rem;
     }
+
     .modal-box p{
       color:var(--muted);
       line-height:1.7;
     }
+
     .modal-actions{
-      display:flex; gap:10px; flex-wrap:wrap; margin-top:18px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:18px;
     }
+
     .quiz-choices{
       display:grid;
       gap:10px;
       margin-top:14px;
     }
+
     .choice{
       width:100%;
       text-align:left;
@@ -469,41 +632,192 @@
       border:1px solid var(--border);
       background:#202020;
     }
-    .symbols{
-      display:flex; gap:12px; justify-content:center; margin:18px 0;
-      flex-wrap:wrap;
-    }
-    .symbol-btn{
-      width:72px; height:72px; border-radius:18px;
-      font-size:1.9rem;
-      border:1px solid var(--border);
-      background:#1e1e1e;
-    }
-    .code-slots{
-      display:flex; justify-content:center; gap:10px; margin-top:10px;
-    }
-    .slot{
-      width:74px; height:74px; border-radius:16px;
-      background:#0e0e0e;
-      border:1px dashed rgba(255,255,255,.18);
-      display:grid; place-items:center;
-      font-size:2rem;
-    }
+
     .victory{
-      font-size:1.06rem;
+      font-size:1.05rem;
       color:var(--text);
       line-height:1.8;
+    }
+
+    .timing-wrap{
+      margin-top:18px;
+    }
+
+    .timing-bar{
+      position:relative;
+      height:24px;
+      border-radius:999px;
+      background:#232323;
+      border:1px solid var(--border);
+      overflow:hidden;
+    }
+
+    .timing-zone{
+      position:absolute;
+      top:0; bottom:0;
+      left:56%;
+      width:12%;
+      background:rgba(92,203,112,.35);
+      border-left:2px solid rgba(120,255,120,.7);
+      border-right:2px solid rgba(120,255,120,.7);
+    }
+
+    .timing-marker{
+      position:absolute;
+      top:-3px;
+      width:10px;
+      height:30px;
+      border-radius:8px;
+      background:linear-gradient(180deg,#ffd27a,#ff8f54);
+      box-shadow:0 0 10px rgba(255,145,84,.45);
+      left:0%;
+    }
+
+    .attempt-dots{
+      display:flex;
+      gap:10px;
+      margin-top:14px;
+      justify-content:center;
+    }
+
+    .attempt-dot{
+      width:16px;
+      height:16px;
+      border-radius:50%;
+      background:#2b2b2b;
+      border:1px solid var(--border);
+    }
+    .attempt-dot.success{background:var(--ok); border-color:transparent}
+    .attempt-dot.fail{background:var(--bad); border-color:transparent}
+
+    .pipe-board{
+      width:min(100%,420px);
+      margin:16px auto 0;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:8px;
+      background:linear-gradient(180deg,#2c87a0,#25647d);
+      border:5px solid #63717a;
+      border-radius:18px;
+      padding:12px;
+      box-shadow:inset 0 0 0 3px rgba(255,255,255,.08);
+    }
+
+    .pipe-tile{
+      aspect-ratio:1/1;
+      border-radius:14px;
+      position:relative;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.16);
+      cursor:pointer;
+      transition:.15s ease;
+    }
+    .pipe-tile:hover{transform:scale(1.02)}
+
+    .pipe-shape{
+      position:absolute;
+      inset:8px;
+      transform-origin:center;
+      transition:.18s ease;
+    }
+
+    .seg{
+      position:absolute;
+      background:linear-gradient(180deg,var(--pipe),var(--pipe-dark));
+      border-radius:999px;
+      box-shadow:inset 0 -3px 0 rgba(0,0,0,.14);
+    }
+
+    .pipe-straight .seg.main{
+      width:18%;
+      height:100%;
+      left:41%;
+      top:0;
+    }
+
+    .pipe-corner .seg.v{
+      width:18%;
+      height:58%;
+      left:41%;
+      top:42%;
+    }
+    .pipe-corner .seg.h{
+      width:58%;
+      height:18%;
+      left:41%;
+      top:41%;
+    }
+
+    .pipe-end{
+      position:absolute;
+      width:22px;height:22px;
+      border-radius:50%;
+      background:linear-gradient(180deg,#cfd6dc,#8b9399);
+      border:3px solid #636a70;
+      display:grid;
+      place-items:center;
+      color:#1a1a1a;
+      font-size:10px;
+      font-weight:700;
+    }
+    .pipe-end.start{left:-10px;top:calc(50% - 11px)}
+    .pipe-end.end{right:-10px;top:calc(50% - 11px)}
+
+    .pipe-legend{
+      text-align:center;
+      color:var(--muted);
+      margin-top:10px;
+    }
+
+    .symbol-grid{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:10px;
+      margin-top:18px;
+    }
+
+    .symbol-btn{
+      min-height:70px;
+      border-radius:16px;
+      border:1px solid var(--border);
+      background:#1f1f1f;
+      display:grid;
+      place-items:center;
+      font-size:1.8rem;
+    }
+
+    .code-slots{
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      margin-top:14px;
+    }
+
+    .slot{
+      width:74px;
+      height:74px;
+      border-radius:16px;
+      background:#0f0f0f;
+      border:1px dashed rgba(255,255,255,.2);
+      display:grid;
+      place-items:center;
+      font-size:2rem;
+    }
+
+    .feedback{
+      margin-top:12px;
+      min-height:24px;
+      color:var(--muted);
     }
 
     @media (max-width: 980px){
       body{overflow:auto}
       #game{grid-template-columns:1fr;height:auto}
-      #sceneWrap{min-height:64vh}
+      #sceneWrap{min-height:66vh}
       #ui{
         border-left:none;
         border-top:1px solid var(--border);
       }
-      .hotspot{border-color:rgba(255,255,255,.18)}
     }
   </style>
 </head>
@@ -513,14 +827,12 @@
       <h1>Le Réveil du Hippie</h1>
       <p>
         Retour dans les années hippies. Après une nuit beaucoup trop intense,
-        tu te réveilles dans ton van, la bouche sèche, le cerveau dans le coton
-        et la vue complètement floue.
+        tu te réveilles dans ton van, le cerveau dans le coton et la vue encore floue.
       </p>
       <p class="small">
-        Un vieux réflexe te revient : eau chaude, citron, gingembre.
-        Une boisson simple pour remettre ton âme, tes yeux et ton estomac
-        sur la même fréquence. Encore faut-il retrouver les ingrédients
-        et les bons outils au milieu de ce bazar cosmique.
+        Un seul objectif te semble encore humainement atteignable :
+        préparer une infusion eau chaude + citron + gingembre pour remettre ton âme,
+        ton estomac et tes yeux sur la même fréquence.
       </p>
       <button id="startBtn" class="btn btn-primary">Ouvrir les yeux</button>
     </div>
@@ -552,8 +864,15 @@
 
           <div class="counter">
             <div class="sink-vis"></div>
+            <div class="worktop"></div>
+            <div class="press-base" id="pressBase"></div>
+            <div class="lemon-on-press" id="lemonOnPress"></div>
+
             <div class="stove-vis"></div>
-            <div class="pot-vis"></div>
+            <div class="pot-vis" id="potVis"></div>
+            <div class="grater-over-pot" id="graterOverPot"></div>
+            <div class="ginger-on-grater" id="gingerOnGrater"></div>
+
             <div class="steam" id="steam">
               <span></span><span></span><span></span>
             </div>
@@ -562,8 +881,9 @@
           <div class="floor"></div>
         </div>
 
-        <button class="hotspot hs-jacket" data-target="jacket" title="Veste"></button>
-        <button class="hotspot hs-sink" data-target="sink" title="Évier"></button>
+        <button class="hotspot hs-chair" data-target="chair" title="Chaise"></button>
+        <button class="hotspot hs-sink" data-target="sink" title="Lavabo"></button>
+        <button class="hotspot hs-worktop" data-target="worktop" title="Plan de travail"></button>
         <button class="hotspot hs-stove" data-target="stove" title="Réchaud"></button>
         <button class="hotspot hs-crate" data-target="crate" title="Caisse"></button>
         <button class="hotspot hs-cooler" data-target="cooler" title="Glacière"></button>
@@ -584,7 +904,7 @@
 
       <div class="panel">
         <h3 class="title">Carnet</h3>
-        <div id="message">Tu émerges lentement. Tout tangue. Tout est flou. Il faut retrouver de quoi préparer une boisson réparatrice.</div>
+        <div id="message">Tout est flou, mais une chose est sûre : il te faut réparer, fouiller, chauffer, presser, râper, puis boire.</div>
       </div>
 
       <div class="panel">
@@ -610,28 +930,37 @@
       currentQuizIndex: 0,
       quizSymbols: [],
       enteredSymbols: [],
+      timing: {
+        successes: 0,
+        tries: [],
+        markerPos: 0,
+        direction: 1,
+        speed: 1.6,
+        rafId: null,
+        active: false
+      },
+      pipePuzzle: {
+        solved: false,
+        rotations: [1, 1, 0, 2, 2, 0, 3, 3]
+      },
       steps: {
-        bottleFound: false,
-        bottleFilled: false,
         potFound: false,
-        waterInPot: false,
+        pressToolFound: false,
+        sinkSolved: false,
+        potFilled: false,
         stoveOn: false,
         waterHeated: false,
         lemonFound: false,
-        pressToolFound: false,
+        pressPlaced: false,
         lemonPressed: false,
         gingerUnlocked: false,
         gingerFound: false,
         stoolFound: false,
         graterFound: false,
+        graterPlaced: false,
         gingerGrated: false,
         drank: false,
         visionRestored: false
-      },
-      puzzles: {
-        sinkSolved: false,
-        coolerSolved: false,
-        gingerQuizDone: false
       }
     };
 
@@ -645,24 +974,31 @@
     const scene = document.getElementById("scene");
     const recipeList = document.getElementById("recipeList");
     const steam = document.getElementById("steam");
+    const potVis = document.getElementById("potVis");
+    const pressBase = document.getElementById("pressBase");
+    const lemonOnPress = document.getElementById("lemonOnPress");
+    const graterOverPot = document.getElementById("graterOverPot");
+    const gingerOnGrater = document.getElementById("gingerOnGrater");
 
     const recipeData = [
-      { key: "bottleFound", label: "Trouver une gourde." },
-      { key: "bottleFilled", label: "La remplir au robinet." },
-      { key: "potFound", label: "Trouver une casserole." },
+      { key: "potFound", label: "Récupérer la casserole." },
+      { key: "pressToolFound", label: "Récupérer le presse-citron." },
+      { key: "sinkSolved", label: "Réparer le circuit d’eau." },
+      { key: "potFilled", label: "Remplir la casserole." },
       { key: "waterHeated", label: "Faire chauffer l’eau." },
-      { key: "lemonFound", label: "Trouver un citron." },
-      { key: "pressToolFound", label: "Trouver de quoi le presser." },
-      { key: "lemonPressed", label: "Ajouter le citron." },
+      { key: "lemonFound", label: "Trouver le citron." },
+      { key: "pressPlaced", label: "Poser le presse-citron." },
+      { key: "lemonPressed", label: "Presser le citron." },
       { key: "gingerFound", label: "Récupérer le gingembre." },
       { key: "graterFound", label: "Trouver la râpe." },
+      { key: "graterPlaced", label: "Placer la râpe sur la casserole." },
       { key: "gingerGrated", label: "Râper le gingembre." }
     ];
 
     startBtn.addEventListener("click", () => {
       intro.classList.remove("active");
       game.classList.add("active");
-      setMessage("Tu ouvres les yeux avec difficulté. Chaque objet semble respirer tout seul. Il te faut de l’eau, du citron et du gingembre.");
+      setMessage("Tu ouvres les yeux. Le van tangue encore dans ta tête. Tu vas devoir bricoler ton remède pièce par pièce.");
       renderAll();
     });
 
@@ -672,7 +1008,7 @@
 
     drinkBtn.addEventListener("click", () => {
       if (!canDrink()) {
-        setMessage("Il manque encore quelque chose dans l’infusion.");
+        setMessage("Il manque encore quelque chose avant de boire.");
         return;
       }
       state.steps.drank = true;
@@ -683,9 +1019,8 @@
         <div class="modal-box">
           <h2>Tu bois lentement…</h2>
           <p class="victory">
-            La chaleur descend dans ta gorge. Le citron réveille ton visage.
-            Le gingembre remet ton cerveau en route. Le van cesse enfin de tourner.
-            Les contours se stabilisent. Ta vue revient.
+            La chaleur descend dans ta gorge. Le citron te réveille, le gingembre te gifle,
+            et soudain le monde arrête de vibrer. Les contours reviennent.
           </p>
           <p class="victory">
             Chapitre 1 terminé : tu as survécu à ton propre réveil.
@@ -711,23 +1046,33 @@
     function closeModal(){
       modal.classList.remove("show");
       modal.innerHTML = "";
+      stopTimingGame();
     }
 
     function escapeQuotes(str){
       return str.replaceAll("'", "\\'");
     }
 
+    function hasItem(item){
+      return state.inventory.includes(item);
+    }
+
     function addItem(item){
-      if(!state.inventory.includes(item)){
+      if(!hasItem(item)){
         state.inventory.push(item);
         setMessage("Objet obtenu : " + labelItem(item));
       }
       renderAll();
     }
 
+    function removeItem(item){
+      state.inventory = state.inventory.filter(i => i !== item);
+      if(state.selectedItem === item) state.selectedItem = null;
+      renderAll();
+    }
+
     function labelItem(item){
       const labels = {
-        bottle: "Gourde",
         pot: "Casserole",
         lemon: "Citron",
         pressTool: "Presse-citron",
@@ -740,13 +1085,12 @@
 
     function getItemHint(item){
       const hints = {
-        bottle: state.steps.bottleFilled ? "Remplie d’eau." : "Vide.",
-        pot: state.steps.waterInPot ? "Contient de l’eau." : "Vide.",
-        lemon: "À presser dans l’eau chaude.",
-        pressTool: "Permet d’extraire le jus du citron.",
-        ginger: "À râper dans la casserole.",
-        stool: "Utile pour atteindre une étagère.",
-        grater: "Parfaite pour le gingembre."
+        pot: state.steps.potFilled ? "Remplie d’eau." : "Vide.",
+        lemon: "À poser sur le presse-citron.",
+        pressTool: "À poser sur le plan de travail.",
+        ginger: "À râper au-dessus de la casserole.",
+        stool: "Utile pour atteindre l’étagère.",
+        grater: "À placer au-dessus de la casserole chaude."
       };
       return hints[item] || "";
     }
@@ -782,6 +1126,26 @@
       }).join("");
     }
 
+    function renderSceneStates(){
+      if(state.steps.potFound) potVis.classList.add("active");
+      else potVis.classList.remove("active");
+
+      if(state.steps.pressPlaced) pressBase.classList.add("active");
+      else pressBase.classList.remove("active");
+
+      if(state.steps.lemonPressed) lemonOnPress.classList.add("active");
+      else lemonOnPress.classList.remove("active");
+
+      if(state.steps.graterPlaced) graterOverPot.classList.add("active");
+      else graterOverPot.classList.remove("active");
+
+      if(state.steps.gingerGrated) gingerOnGrater.classList.add("active");
+      else gingerOnGrater.classList.remove("active");
+
+      if(state.steps.waterHeated) steam.classList.add("active");
+      else steam.classList.remove("active");
+    }
+
     function canDrink(){
       return state.steps.waterHeated && state.steps.lemonPressed && state.steps.gingerGrated;
     }
@@ -790,49 +1154,31 @@
       drinkBtn.disabled = !canDrink();
     }
 
-    function renderSteam(){
-      if(state.steps.waterHeated) steam.classList.add("active");
-      else steam.classList.remove("active");
-    }
-
     function renderAll(){
       renderInventory();
       renderRecipe();
       renderDrinkButton();
-      renderSteam();
+      renderSceneStates();
     }
 
     function interact(target){
       switch(target){
-        case "jacket":
-          if(!state.steps.bottleFound){
-            state.steps.bottleFound = true;
-            addItem("bottle");
-          } else {
-            setMessage("La veste en jean ne contient plus rien d’utile, à part un très vieux parfum de soirée.");
-          }
+        case "chair":
+          setMessage("La chaise gémit. La veste accrochée dessus sent la fin de soirée.");
           break;
 
         case "poster":
           if(!state.steps.stoolFound){
             state.steps.stoolFound = true;
             addItem("stool");
-            setMessage("Derrière l’affiche psychédélique, tu trouves un petit tabouret pliant caché contre le mur.");
+            setMessage("Derrière l’affiche psychédélique, tu trouves un petit tabouret pliant.");
           } else {
-            setMessage("L’affiche te fixe avec beaucoup trop d’intensité.");
+            setMessage("L’affiche te fixe avec une intensité franchement hostile.");
           }
           break;
 
         case "crate":
-          if(!state.steps.potFound){
-            openPotPuzzle();
-          } else if(!state.steps.pressToolFound){
-            state.steps.pressToolFound = true;
-            addItem("pressTool");
-            setMessage("En refouillant la caisse, tu trouves aussi un vieux presse-citron en métal.");
-          } else {
-            setMessage("La caisse est désormais vide. Tu as tout pris.");
-          }
+          handleCrate();
           break;
 
         case "sink":
@@ -841,6 +1187,10 @@
 
         case "stove":
           handleStove();
+          break;
+
+        case "worktop":
+          handleWorktop();
           break;
 
         case "cooler":
@@ -856,91 +1206,101 @@
           break;
 
         case "window":
-          setMessage("La lumière du matin t’agresse. Mauvaise idée. Très mauvaise idée.");
+          setMessage("La lumière du matin t’agresse personnellement.");
           break;
       }
       renderAll();
     }
 
+    function handleCrate(){
+      if(state.steps.potFound && state.steps.pressToolFound){
+        setMessage("La caisse est ouverte. Tu as déjà récupéré ce qui t’intéressait.");
+        return;
+      }
+      openTimingPuzzle();
+    }
+
     function handleSink(){
-      if(!state.puzzles.sinkSolved){
-        openSinkPuzzle();
+      if(!state.steps.sinkSolved){
+        openPipePuzzle();
         return;
       }
 
-      if(state.selectedItem === "bottle" && !state.steps.bottleFilled){
-        state.steps.bottleFilled = true;
-        setMessage("Tu remplis la gourde au robinet. Le bruit de l’eau te traverse le crâne comme un solo de sitar.");
-        renderAll();
+      if(!state.steps.potFound){
+        setMessage("L’eau revient, mais il te manque encore une casserole.");
         return;
       }
 
-      if(state.selectedItem === "pot" && !state.steps.waterInPot){
-        if(!state.steps.bottleFilled){
-          setMessage("La casserole est vide. Il te faut d’abord récupérer de l’eau.");
-        } else {
-          state.steps.waterInPot = true;
-          setMessage("Tu verses l’eau de la gourde dans la casserole.");
-        }
-        renderAll();
+      if(state.selectedItem === "pot" && !state.steps.potFilled){
+        state.steps.potFilled = true;
+        setMessage("Tu remplis directement la casserole au lavabo. Le bruit de l’eau te traverse l’âme.");
         return;
       }
 
-      setMessage("L’évier goutte lentement. Tu pourrais peut-être y remplir quelque chose.");
+      if(state.steps.potFilled){
+        setMessage("Le lavabo recoule enfin. Le bricolage de la veille est réparé.");
+      } else {
+        setMessage("L’eau est revenue. Il suffit maintenant d’y mettre la casserole.");
+      }
     }
 
     function handleStove(){
       if(!state.steps.potFound){
-        setMessage("Le réchaud est là, mais tu n’as même pas encore de casserole.");
+        setMessage("Le réchaud est prêt, mais tu n’as même pas encore de casserole.");
         return;
       }
 
-      if(!state.steps.waterInPot){
-        if(state.selectedItem === "pot"){
-          setMessage("La casserole est encore vide. Il faudrait déjà y mettre de l’eau.");
-        } else {
-          setMessage("Le réchaud attend quelque chose à chauffer.");
-        }
+      if(!state.steps.potFilled){
+        setMessage("Avant de chauffer quoi que ce soit, il faudrait déjà remplir la casserole.");
         return;
       }
 
       if(!state.steps.stoveOn){
         state.steps.stoveOn = true;
         state.steps.waterHeated = true;
-        setMessage("Tu tournes le bon bouton. Le réchaud s’allume enfin, et l’eau commence à chauffer.");
+        setMessage("Tu allumes le réchaud. L’eau commence à chauffer.");
         return;
       }
 
-      if(state.selectedItem === "lemon" && state.steps.pressToolFound && !state.steps.lemonPressed){
+      if(state.steps.waterHeated && !state.steps.graterPlaced && hasItem("grater")){
+        setMessage("La casserole chauffe. Tu pourrais maintenant placer la râpe au-dessus.");
+        return;
+      }
+
+      setMessage("Le réchaud ronronne. Tout est presque en place.");
+    }
+
+    function handleWorktop(){
+      if(hasItem("pressTool") && !state.steps.pressPlaced && state.selectedItem === "pressTool"){
+        state.steps.pressPlaced = true;
+        removeItem("pressTool");
+        setMessage("Tu poses le presse-citron sur le plan de travail.");
+        return;
+      }
+
+      if(state.steps.pressPlaced && hasItem("lemon") && !state.steps.lemonPressed && state.selectedItem === "lemon"){
         state.steps.lemonPressed = true;
-        setMessage("Tu presses le citron dans l’eau chaude. L’odeur commence à remettre un peu d’ordre dans l’univers.");
+        removeItem("lemon");
+        setMessage("Tu poses le citron sur le presse-citron et tu extrais le jus.");
         return;
       }
 
-      if(state.selectedItem === "ginger" && state.steps.graterFound && !state.steps.gingerGrated){
-        state.steps.gingerGrated = true;
-        setMessage("Tu râpes le gingembre au-dessus de la casserole. Ça pique, ça sent fort, c’est parfait.");
-        return;
-      }
-
-      if(state.steps.waterHeated){
-        setMessage("L’eau chauffe doucement. Il faut encore y ajouter le citron et le gingembre.");
+      if(!state.steps.pressPlaced){
+        setMessage("Le plan de travail est enfin visible. Tu pourrais y poser quelque chose.");
+      } else if(!state.steps.lemonPressed){
+        setMessage("Le presse-citron est en place. Il ne manque plus que le citron.");
+      } else {
+        setMessage("Le plan de travail a déjà servi pour le citron.");
       }
     }
 
     function handleCooler(){
-      if(!state.puzzles.coolerSolved){
-        openCoolerPuzzle();
-        return;
-      }
-
       if(!state.steps.lemonFound){
         state.steps.lemonFound = true;
         addItem("lemon");
-        setMessage("Tu ouvres la glacière. Un citron t’y attend, miraculeusement seul survivant du chaos.");
+        setMessage("Tu ouvres la glacière. Un citron y survit encore, contre toute logique.");
         return;
       }
-
       setMessage("La glacière est vide maintenant.");
     }
 
@@ -948,7 +1308,7 @@
       if(state.steps.gingerUnlocked && !state.steps.gingerFound){
         state.steps.gingerFound = true;
         addItem("ginger");
-        setMessage("Dans la boîte, tu récupères enfin le gingembre.");
+        setMessage("La boîte s’ouvre. Le gingembre est enfin à toi.");
         return;
       }
 
@@ -957,134 +1317,239 @@
         return;
       }
 
-      setMessage("La boîte est ouverte. Le gingembre est déjà à toi.");
+      setMessage("La boîte est ouverte. Plus de mystère ici.");
     }
 
     function handleShelf(){
       if(!state.steps.stoolFound){
-        setMessage("Tu aperçois quelque chose sur l’étagère, mais c’est trop haut dans ton état.");
-        return;
-      }
-
-      if(state.selectedItem !== "stool" && !state.steps.graterFound){
-        setMessage("Avec un appui, tu pourrais atteindre l’étagère.");
+        setMessage("Tu vois un objet sur l’étagère, mais c’est trop haut dans ton état.");
         return;
       }
 
       if(!state.steps.graterFound){
+        if(state.selectedItem !== "stool"){
+          setMessage("Avec le tabouret, tu pourrais atteindre l’étagère.");
+          return;
+        }
         state.steps.graterFound = true;
         addItem("grater");
-        setMessage("En montant sur le tabouret, tu récupères une râpe poussiéreuse. Parfait pour le gingembre.");
+        removeItem("stool");
+        setMessage("Tu montes sur le tabouret et attrapes la râpe. Le tabouret ne te sert plus à rien.");
         return;
       }
 
-      setMessage("L’étagère ne contient plus rien d’utile.");
-    }
+      if(hasItem("grater") && state.steps.waterHeated && !state.steps.graterPlaced && state.selectedItem === "grater"){
+        state.steps.graterPlaced = true;
+        removeItem("grater");
+        setMessage("Tu places la râpe au-dessus de la casserole chaude.");
+        return;
+      }
 
-    function openPotPuzzle(){
-      showModal(`
-        <div class="modal-box">
-          <h2>Caisse fermée</h2>
-          <p>
-            Une caisse en bois est bloquée par un petit mécanisme à 3 chiffres.
-            Sur le couvercle, quelqu’un a gravé :
-            <br><br>
-            <strong>“Paix = 2, soleil = 7, van = 4.”</strong>
-            <br><br>
-            Entre le code dans l’ordre suivant :
-            <strong>soleil, van, paix</strong>.
-          </p>
-          <div class="modal-actions" style="align-items:center">
-            <input id="potCodeInput" type="text" maxlength="3" placeholder="Code"
-              style="padding:14px 16px;border-radius:14px;border:1px solid var(--border);background:#0f0f0f;color:var(--text);font-size:1rem;width:140px">
-            <button class="btn btn-primary" onclick="solvePotPuzzle()">Valider</button>
-            <button class="btn btn-secondary" onclick="closeModal()">Fermer</button>
-          </div>
-        </div>
-      `);
-    }
+      if(state.steps.graterPlaced && hasItem("ginger") && !state.steps.gingerGrated && state.selectedItem === "ginger"){
+        state.steps.gingerGrated = true;
+        removeItem("ginger");
+        setMessage("Tu poses le gingembre contre la râpe. Il tombe en copeaux dans la casserole.");
+        return;
+      }
 
-    function solvePotPuzzle(){
-      const input = document.getElementById("potCodeInput");
-      if(!input) return;
-      const code = input.value.trim();
-      if(code === "742"){
-        state.steps.potFound = true;
-        addItem("pot");
-        setMessage("La caisse s’ouvre avec un petit clic sec. Tu récupères une casserole cabossée.");
-        closeModal();
+      if(state.steps.graterFound && !state.steps.waterHeated){
+        setMessage("Tu as la râpe, mais il vaut mieux que la casserole chauffe avant de la placer.");
       } else {
-        setMessage("Mauvais code. Le couvercle refuse de bouger.");
+        setMessage("L’étagère ne contient plus rien d’utile.");
       }
     }
 
-    function openSinkPuzzle(){
+    function openTimingPuzzle(){
+      state.timing.successes = 0;
+      state.timing.tries = [];
+      state.timing.markerPos = 0;
+      state.timing.direction = 1;
+      state.timing.speed = 1.8;
+
       showModal(`
         <div class="modal-box">
-          <h2>Le robinet résiste</h2>
+          <h2>Caisse verrouillée</h2>
           <p>
-            Le robinet a trois poignées improvisées. Une inscription au marqueur dit :
+            Quelqu’un a remplacé la serrure par un système débile à ressort.
+            Il faut bloquer le loquet au bon moment.
             <br><br>
-            <strong>“La gauche coupe, la droite brûle, le milieu fait circuler.”</strong>
-            <br><br>
-            Quelle poignée faut-il tourner pour faire couler l’eau ?
+            Appuie sur <strong>Espace</strong> pour arrêter la jauge dans la zone verte.
+            Tu dois réussir <strong>3 fois</strong>.
           </p>
-          <div class="quiz-choices">
-            <button class="choice" onclick="solveSinkPuzzle('left')">Tourner la poignée de gauche</button>
-            <button class="choice" onclick="solveSinkPuzzle('middle')">Tourner la poignée du milieu</button>
-            <button class="choice" onclick="solveSinkPuzzle('right')">Tourner la poignée de droite</button>
+
+          <div class="timing-wrap">
+            <div class="timing-bar">
+              <div class="timing-zone"></div>
+              <div class="timing-marker" id="timingMarker"></div>
+            </div>
+            <div class="attempt-dots">
+              <div class="attempt-dot" id="att0"></div>
+              <div class="attempt-dot" id="att1"></div>
+              <div class="attempt-dot" id="att2"></div>
+            </div>
           </div>
+
+          <div class="feedback" id="timingFeedback">Appuie sur Espace pour tenter le premier verrou.</div>
+
           <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal()">Fermer</button>
           </div>
         </div>
       `);
+
+      startTimingGame();
     }
 
-    function solveSinkPuzzle(choice){
-      if(choice === "middle"){
-        state.puzzles.sinkSolved = true;
-        closeModal();
-        setMessage("Tu tournes la poignée du milieu. L’eau se remet enfin à couler.");
-      } else {
-        setMessage("Mauvais choix. Soit rien ne se passe, soit un bruit inquiétant te conseille de réfléchir encore.");
+    function startTimingGame(){
+      state.timing.active = true;
+      const marker = document.getElementById("timingMarker");
+      let last = performance.now();
+
+      function animate(now){
+        if(!state.timing.active || !marker) return;
+        const dt = (now - last) / 16.67;
+        last = now;
+
+        state.timing.markerPos += state.timing.direction * state.timing.speed * dt;
+        if(state.timing.markerPos >= 96){
+          state.timing.markerPos = 96;
+          state.timing.direction = -1;
+        }
+        if(state.timing.markerPos <= 0){
+          state.timing.markerPos = 0;
+          state.timing.direction = 1;
+        }
+
+        marker.style.left = state.timing.markerPos + "%";
+        state.timing.rafId = requestAnimationFrame(animate);
       }
+
+      document.addEventListener("keydown", timingKeyHandler);
+      state.timing.rafId = requestAnimationFrame(animate);
     }
 
-    function openCoolerPuzzle(){
+    function stopTimingGame(){
+      state.timing.active = false;
+      if(state.timing.rafId) cancelAnimationFrame(state.timing.rafId);
+      document.removeEventListener("keydown", timingKeyHandler);
+    }
+
+    function timingKeyHandler(e){
+      if(!state.timing.active) return;
+      if(e.code !== "Space") return;
+      e.preventDefault();
+
+      const pos = state.timing.markerPos;
+      const success = pos >= 56 && pos <= 68;
+
+      const idx = state.timing.tries.length;
+      state.timing.tries.push(success);
+
+      const dot = document.getElementById("att" + idx);
+      const feedback = document.getElementById("timingFeedback");
+      if(dot) dot.className = "attempt-dot " + (success ? "success" : "fail");
+
+      if(success){
+        state.timing.successes++;
+        if(feedback) feedback.textContent = "Bon timing.";
+      } else {
+        if(feedback) feedback.textContent = "Raté. Le mécanisme a glissé.";
+      }
+
+      if(state.timing.tries.length >= 3){
+        stopTimingGame();
+        if(state.timing.successes === 3){
+          state.steps.potFound = true;
+          state.steps.pressToolFound = true;
+          addItem("pot");
+          addItem("pressTool");
+          closeModal();
+          setMessage("La caisse s’ouvre automatiquement. Tu récupères la casserole et le presse-citron.");
+        } else {
+          setTimeout(() => {
+            openTimingPuzzle();
+          }, 450);
+        }
+        return;
+      }
+
+      const speeds = [2.1, 2.9, 3.6];
+      state.timing.speed = speeds[state.timing.tries.length];
+    }
+
+    function openPipePuzzle(){
       showModal(`
         <div class="modal-box">
-          <h2>Glacière codée</h2>
+          <h2>Circuit d’eau bricolé</h2>
           <p>
-            Un autocollant sur la glacière indique :
-            <strong>“Trouve les 4 symboles sur l’affiche intérieure : soleil, lune, fleur, paix.”</strong>
+            Après la soirée, quelqu’un a démonté les raccords du van pour alimenter un truc manifestement interdit.
+            Résultat : le circuit d’eau est cassé.
             <br><br>
-            Sur la grande affiche psychédélique du mur, tu distingues surtout :
-            <br>
-            soleil = jaune, lune = violet, fleur = orange, paix = bleu.
-            <br><br>
-            Sélectionne la bonne suite de couleurs.
+            Clique sur les pièces pour les tourner et reconnecter l’arrivée à la sortie.
           </p>
-          <div class="quiz-choices">
-            <button class="choice" onclick="solveCoolerPuzzle('jaune-violet-orange-bleu')">Jaune - Violet - Orange - Bleu</button>
-            <button class="choice" onclick="solveCoolerPuzzle('orange-jaune-bleu-violet')">Orange - Jaune - Bleu - Violet</button>
-            <button class="choice" onclick="solveCoolerPuzzle('bleu-orange-jaune-violet')">Bleu - Orange - Jaune - Violet</button>
+
+          <div style="position:relative; width:min(100%,420px); margin:0 auto;">
+            <div class="pipe-end start">IN</div>
+            <div class="pipe-end end">OUT</div>
+            <div class="pipe-board" id="pipeBoard"></div>
           </div>
+          <div class="pipe-legend">Chemin attendu : ligne du haut, puis descente, puis sortie par la droite.</div>
+
           <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal()">Fermer</button>
           </div>
         </div>
       `);
+      renderPipeBoard();
     }
 
-    function solveCoolerPuzzle(answer){
-      if(answer === "jaune-violet-orange-bleu"){
-        state.puzzles.coolerSolved = true;
+    function pipeTilesData(){
+      return [
+        { type:"straight" }, { type:"corner" },  { type:"straight" }, { type:"corner" },
+        { type:"corner" },   { type:"corner" },  { type:"straight" }, { type:"corner" }
+      ];
+    }
+
+    function renderPipeBoard(){
+      const board = document.getElementById("pipeBoard");
+      if(!board) return;
+      board.innerHTML = "";
+
+      pipeTilesData().forEach((tile, index) => {
+        const cell = document.createElement("button");
+        cell.className = "pipe-tile";
+        cell.onclick = () => rotatePipe(index);
+
+        const shape = document.createElement("div");
+        shape.className = "pipe-shape pipe-" + tile.type;
+        shape.style.transform = `rotate(${state.pipePuzzle.rotations[index] * 90}deg)`;
+
+        if(tile.type === "straight"){
+          shape.innerHTML = `<div class="seg main"></div>`;
+        } else {
+          shape.innerHTML = `<div class="seg v"></div><div class="seg h"></div>`;
+        }
+
+        cell.appendChild(shape);
+        board.appendChild(cell);
+      });
+    }
+
+    function rotatePipe(index){
+      state.pipePuzzle.rotations[index] = (state.pipePuzzle.rotations[index] + 1) % 4;
+      renderPipeBoard();
+      if(checkPipeSolved()){
+        state.steps.sinkSolved = true;
+        state.pipePuzzle.solved = true;
         closeModal();
-        setMessage("La glacière se déverrouille avec un petit claquement satisfaisant.");
-      } else {
-        setMessage("La combinaison ne correspond pas.");
+        setMessage("Le circuit d’eau est réparé. Le lavabo remarche enfin.");
       }
+    }
+
+    function checkPipeSolved(){
+      const r = state.pipePuzzle.rotations;
+      const target = [1,2,1,1,0,3,1,3];
+      return r.every((val, i) => val === target[i]);
     }
 
     function openGingerQuiz(){
@@ -1097,8 +1562,7 @@
             "Le cacatoès à huppe jaune"
           ],
           correct: "La baleine boréale",
-          symbol: "🐋",
-          symbolName: "baleine"
+          symbol: "🐋"
         },
         {
           q: "Quel est l’animal terrestre le plus rapide sur de courtes distances ?",
@@ -1108,8 +1572,7 @@
             "Le lièvre"
           ],
           correct: "Le guépard",
-          symbol: "🐆",
-          symbolName: "guépard"
+          symbol: "🐆"
         },
         {
           q: "Quel animal produit la soie la plus utilisée dans l’industrie textile ?",
@@ -1119,34 +1582,34 @@
             "Le papillon monarque"
           ],
           correct: "Le ver à soie",
-          symbol: "🪱",
-          symbolName: "ver"
+          symbol: "🪱"
         }
       ];
 
       state.currentQuizIndex = 0;
       state.quizSymbols = [];
-      openQuizQuestion(questions);
+      window._gingerQuestions = questions;
+      openQuizQuestion();
     }
 
-    function openQuizQuestion(questions){
-      const index = state.currentQuizIndex;
-      const current = questions[index];
-      window._gingerQuestions = questions;
+    function openQuizQuestion(){
+      const questions = window._gingerQuestions;
+      const current = questions[state.currentQuizIndex];
 
       showModal(`
         <div class="modal-box">
           <h2>Cadenas du gingembre</h2>
           <p>
-            Réponds correctement aux 3 questions.
-            Chaque bonne réponse révèle <strong>un symbole</strong>.
+            Réponds correctement aux 3 questions. Si tu fais 3/3, il faudra ensuite
+            reconstituer la bonne suite d’animaux de mémoire.
           </p>
-          <p><strong>Question ${index + 1} :</strong> ${current.q}</p>
+          <p><strong>Question ${state.currentQuizIndex + 1} :</strong> ${current.q}</p>
           <div class="quiz-choices">
             ${current.choices.map(choice => `
               <button class="choice" onclick="answerQuiz('${escapeQuotes(choice)}')">${choice}</button>
             `).join("")}
           </div>
+          <div class="feedback" id="quizFeedback"></div>
           <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeModal()">Fermer</button>
           </div>
@@ -1166,68 +1629,58 @@
           showModal(`
             <div class="modal-box">
               <h2>Bonne réponse</h2>
-              <p>
-                Le cadenas révèle le <strong>symbole ${state.currentQuizIndex}</strong> :
-              </p>
-              <div style="font-size:4rem;text-align:center;margin:18px 0;">${current.symbol}</div>
-              <p style="text-align:center;color:var(--muted)">(${current.symbolName})</p>
+              <p>Tu sens que le cadenas a enregistré quelque chose. Continue.</p>
               <div class="modal-actions">
                 <button class="btn btn-primary" onclick="continueQuiz()">Question suivante</button>
               </div>
             </div>
           `);
         } else {
-          showModal(`
-            <div class="modal-box">
-              <h2>Les 3 symboles sont révélés</h2>
-              <p>
-                Tu as débloqué les trois symboles.
-                Il faut maintenant les entrer dans <strong>l’ordre des questions</strong>.
-              </p>
-              <div class="symbols" style="font-size:3rem;">
-                <div>${state.quizSymbols[0]}</div>
-                <div>${state.quizSymbols[1]}</div>
-                <div>${state.quizSymbols[2]}</div>
-              </div>
-              <p style="text-align:center;color:var(--muted)">
-                1 = question 1, 2 = question 2, 3 = question 3
-              </p>
-              <div class="modal-actions">
-                <button class="btn btn-primary" onclick="openSymbolLock()">Entrer les symboles</button>
-              </div>
-            </div>
-          `);
+          openMemoryAnimalLock();
         }
       } else {
         closeModal();
-        setMessage("Mauvaise réponse. Le cadenas reste fermé.");
+        setMessage("Mauvaise réponse. Le cadenas refuse de céder.");
       }
     }
 
     function continueQuiz(){
-      openQuizQuestion(window._gingerQuestions);
+      openQuizQuestion();
     }
 
-    function openSymbolLock(){
+    function openMemoryAnimalLock(){
       state.enteredSymbols = [];
+      const options = [
+        ["🐢","Tortue"],
+        ["🦉","Hibou"],
+        ["🐋","Baleine"],
+        ["🐆","Guépard"],
+        ["🦊","Renard"],
+        ["🪱","Ver"],
+        ["🐘","Éléphant"],
+        ["🦭","Phoque"],
+        ["🦜","Perroquet"],
+        ["🐙","Poulpe"]
+      ];
+
       showModal(`
         <div class="modal-box">
-          <h2>Entre les 3 symboles</h2>
+          <h2>Suite finale</h2>
           <p>
-            Entre les symboles dans <strong>l’ordre des questions</strong>.
+            Tu as répondu correctement aux 3 questions.
+            Maintenant, reconstitue de mémoire les <strong>3 animaux dans l’ordre des questions</strong>.
           </p>
+
           <div class="code-slots">
             <div class="slot" id="slot0">?</div>
             <div class="slot" id="slot1">?</div>
             <div class="slot" id="slot2">?</div>
           </div>
 
-          <div class="symbols">
-            <button class="symbol-btn" onclick="pickSymbol('🐋')">🐋</button>
-            <button class="symbol-btn" onclick="pickSymbol('🐆')">🐆</button>
-            <button class="symbol-btn" onclick="pickSymbol('🪱')">🪱</button>
-            <button class="symbol-btn" onclick="pickSymbol('🦉')">🦉</button>
-            <button class="symbol-btn" onclick="pickSymbol('🐢')">🐢</button>
+          <div class="symbol-grid">
+            ${options.map(([emoji,name]) => `
+              <button class="symbol-btn" onclick="pickSymbol('${emoji}')" title="${name}">${emoji}</button>
+            `).join("")}
           </div>
 
           <div class="modal-actions">
@@ -1262,21 +1715,16 @@
 
       if(entered === target){
         state.steps.gingerUnlocked = true;
-        state.puzzles.gingerQuizDone = true;
         closeModal();
-        setMessage("Le cadenas s’ouvre. Le gingembre est enfin accessible.");
+        setMessage("Le cadenas cède. Tu peux récupérer le gingembre.");
       } else {
-        setMessage("Ce n’est pas le bon ordre.");
+        setMessage("Ce n’est pas la bonne suite.");
       }
     }
 
     window.closeModal = closeModal;
-    window.solvePotPuzzle = solvePotPuzzle;
-    window.solveSinkPuzzle = solveSinkPuzzle;
-    window.solveCoolerPuzzle = solveCoolerPuzzle;
     window.answerQuiz = answerQuiz;
     window.continueQuiz = continueQuiz;
-    window.openSymbolLock = openSymbolLock;
     window.pickSymbol = pickSymbol;
     window.resetSymbols = resetSymbols;
     window.validateSymbols = validateSymbols;
