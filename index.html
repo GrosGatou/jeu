@@ -1676,66 +1676,76 @@
       renderPipeGrid();
     }
 
-    function evaluatePipeFlow(){
-      let current = { row:0, col:0 };
-      let incoming = "N";
-      const path = [];
-      const visited = new Set();
+ function evaluatePipeFlow(){
+  const startIdx = 0;
+  const endIdx = 24;
+  const stack = [{
+    idx: startIdx,
+    incoming: "N",
+    path: [startIdx]
+  }];
+  const visited = new Set();
 
-      while(true){
-        if(current.row < 0 || current.row > 4 || current.col < 0 || current.col > 4){
-          return { success:false, path, message:"L’eau est sortie du circuit." };
-        }
+  while(stack.length){
+    const current = stack.pop();
+    const key = current.idx + "|" + current.incoming;
+    if(visited.has(key)) continue;
+    visited.add(key);
 
-        const idx = coordToIndex(current.row, current.col);
-        const key = idx + "|" + incoming;
-        if(visited.has(key)){
-          return { success:false, path, message:"Le flux tourne en boucle dans le circuit." };
-        }
-        visited.add(key);
-        path.push(idx);
+    const row = Math.floor(current.idx / 5);
+    const col = current.idx % 5;
+    const type = state.pipePuzzle.tiles[current.idx];
+    const rotation = state.pipePuzzle.rotations[current.idx];
+    const dirs = getDirs(type, rotation);
 
-        const type = state.pipePuzzle.tiles[idx];
-        const rotation = state.pipePuzzle.rotations[idx];
-        const dirs = getDirs(type, rotation);
-
-        if(!dirs.includes(incoming)){
-          return { success:false, path, message:"Le raccord casse ici." };
-        }
-
-        const exits = dirs.filter(d => d !== incoming);
-
-        if(idx === 24){
-          if(exits.includes("S")){
-            return { success:true, path, message:"L’eau atteint la sortie." };
-          }
-          return { success:false, path, message:"La sortie finale n’est pas correctement orientée." };
-        }
-
-        if(exits.length === 0){
-          return { success:false, path, message:"L’eau s’arrête dans une impasse." };
-        }
-
-        const exitDir = exits[0];
-        const next = neighbor(current.row, current.col, exitDir);
-
-        if(next.row < 0 || next.row > 4 || next.col < 0 || next.col > 4){
-          return { success:false, path, message:"Le flux part hors de la grille." };
-        }
-
-        const nextIdx = coordToIndex(next.row, next.col);
-        const nextDirs = getDirs(state.pipePuzzle.tiles[nextIdx], state.pipePuzzle.rotations[nextIdx]);
-
-        if(!nextDirs.includes(next.opposite)){
-          path.push(nextIdx);
-          return { success:false, path, message:"Deux tuyaux ne sont pas raccordés." };
-        }
-
-        current = { row: next.row, col: next.col };
-        incoming = next.opposite;
-      }
+    if(!dirs.includes(current.incoming)){
+      continue;
     }
 
+    const exits = dirs.filter(d => d !== current.incoming);
+
+    if(current.idx === endIdx){
+      if(exits.includes("S")){
+        return {
+          success: true,
+          path: current.path,
+          message: "L’eau atteint la sortie."
+        };
+      }
+      continue;
+    }
+
+    for(const exitDir of exits){
+      const next = neighbor(row, col, exitDir);
+
+      if(next.row < 0 || next.row > 4 || next.col < 0 || next.col > 4){
+        continue;
+      }
+
+      const nextIdx = coordToIndex(next.row, next.col);
+      const nextDirs = getDirs(
+        state.pipePuzzle.tiles[nextIdx],
+        state.pipePuzzle.rotations[nextIdx]
+      );
+
+      if(!nextDirs.includes(next.opposite)){
+        continue;
+      }
+
+      stack.push({
+        idx: nextIdx,
+        incoming: next.opposite,
+        path: [...current.path, nextIdx]
+      });
+    }
+  }
+
+  return {
+    success: false,
+    path: [],
+    message: "Le circuit n’est pas correctement relié."
+  };
+}
     function animatePipeFlow(result){
       const flowStatus = document.getElementById("flowStatus");
       if(flowStatus) flowStatus.textContent = "L’eau s’écoule...";
