@@ -1129,6 +1129,7 @@
         lemonFound: false,
         pressPlaced: false,
         lemonPressed: false,
+        lemonAdded: false,
         gingerUnlocked: false,
         gingerFound: false,
         stoolFound: false,
@@ -1159,7 +1160,7 @@
     const recipeData = [
   { key: "waterHeated", label: "Eau chaude" },
   { key: "gingerGrated", label: "Gingembre râpé" },
-  { key: "lemonPressed", label: "Citron pressé" }
+  { key: "lemonAdded", label: "Citron pressé" }
 ];
 
     startBtn.addEventListener("click", () => {
@@ -1317,10 +1318,9 @@
       else steam.classList.remove("active");
     }
 
-    function canDrink(){
-      return state.steps.waterHeated && state.steps.lemonPressed && state.steps.gingerGrated;
-    }
-
+ function canDrink(){
+  return state.steps.waterHeated && state.steps.lemonAdded && state.steps.gingerGrated;
+}
     function renderDrinkButton(){
       drinkBtn.disabled = !canDrink();
     }
@@ -1410,7 +1410,7 @@ function handleSink(){
   }
 }
 
-    function handleStove(){
+  function handleStove(){
   if(!hasItem("pot") && !hasItem("potFull") && !state.steps.stoveOn){
     setMessage("Le réchaud est prêt, mais tu n’as pas encore de casserole.");
     return;
@@ -1425,13 +1425,41 @@ function handleSink(){
     removeItem("potFull");
     state.steps.stoveOn = true;
     state.steps.waterHeated = true;
+    state.selectedItem = null;
     setMessage("Tu poses la casserole pleine sur le réchaud. L’eau chauffe.");
     renderAll();
     return;
   }
 
+  if(state.steps.stoveOn && hasItem("lemonPressedItem") && state.selectedItem === "lemonPressedItem" && !state.steps.lemonAdded){
+    removeItem("lemonPressedItem");
+    state.steps.lemonAdded = true;
+    state.selectedItem = null;
+    setMessage("Tu verses le citron pressé dans la casserole chaude.");
+    renderAll();
+    return;
+  }
+
+  if(state.steps.stoveOn && hasItem("grater") && state.selectedItem === "grater" && !state.steps.graterPlaced){
+    removeItem("grater");
+    state.steps.graterPlaced = true;
+    state.selectedItem = null;
+    setMessage("Tu places la râpe au-dessus de la casserole chaude.");
+    renderAll();
+    return;
+  }
+
+  if(state.steps.stoveOn && state.steps.graterPlaced && hasItem("ginger") && state.selectedItem === "ginger" && !state.steps.gingerGrated){
+    removeItem("ginger");
+    state.steps.gingerGrated = true;
+    state.selectedItem = null;
+    setMessage("Tu râpes le gingembre dans la casserole.");
+    renderAll();
+    return;
+  }
+
   if(state.steps.stoveOn){
-    setMessage("Le réchaud ronronne. L’eau est chaude.");
+    setMessage("La casserole chaude est en place. Tu peux encore y ajouter le citron pressé ou râper le gingembre.");
     return;
   }
 
@@ -1488,44 +1516,25 @@ function handleSink(){
     }
 
     function handleShelf(){
-      if(!state.steps.stoolFound){
-        setMessage("Tu vois un objet sur l’étagère, mais c’est trop haut.");
-        return;
-      }
+  if(!state.steps.stoolFound){
+    setMessage("Tu vois un objet sur l’étagère, mais c’est trop haut.");
+    return;
+  }
 
-      if(!state.steps.graterFound){
-        if(state.selectedItem !== "stool"){
-          setMessage("Avec le tabouret, tu pourrais atteindre l’étagère.");
-          return;
-        }
-        state.steps.graterFound = true;
-        addItem("grater");
-        removeItem("stool");
-        setMessage("Tu attrapes la râpe. Le tabouret ne te sert plus.");
-        return;
-      }
-
-      if(hasItem("grater") && state.steps.waterHeated && !state.steps.graterPlaced && state.selectedItem === "grater"){
-        state.steps.graterPlaced = true;
-        removeItem("grater");
-        setMessage("Tu places la râpe au-dessus de la casserole chaude.");
-        return;
-      }
-
-      if(state.steps.graterPlaced && hasItem("ginger") && !state.steps.gingerGrated && state.selectedItem === "ginger"){
-        state.steps.gingerGrated = true;
-        removeItem("ginger");
-        setMessage("Tu poses le gingembre contre la râpe. Il tombe en copeaux dans la casserole.");
-        return;
-      }
-
-      if(state.steps.graterFound && !state.steps.waterHeated){
-        setMessage("Tu as la râpe, mais il vaut mieux chauffer la casserole d’abord.");
-      } else {
-        setMessage("L’étagère ne contient plus rien d’utile.");
-      }
+  if(!state.steps.graterFound){
+    if(state.selectedItem !== "stool"){
+      setMessage("Avec le tabouret, tu pourrais atteindre l’étagère.");
+      return;
     }
+    state.steps.graterFound = true;
+    addItem("grater");
+    removeItem("stool");
+    setMessage("Tu attrapes la râpe. Le tabouret ne te sert plus.");
+    return;
+  }
 
+  setMessage("L’étagère ne contient plus rien d’utile.");
+}
     function openTimingPuzzle(){
       state.timing.successes = 0;
       state.timing.tries = [];
