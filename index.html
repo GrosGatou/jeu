@@ -23,7 +23,14 @@
     }
 
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Georgia,"Times New Roman",serif}
+    html,body{
+      margin:0;
+      padding:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Georgia,"Times New Roman",serif
+    }
+    html{font-size:16px}
     body{min-height:100vh;overflow:hidden}
     .screen{display:none;min-height:100vh}
     .screen.active{display:grid}
@@ -77,10 +84,11 @@
     button:hover{transform:translateY(-1px)}
 
     .btn{
-      padding:14px 20px;
+      padding:12px 16px;
       border-radius:999px;
       border:1px solid var(--border);
       background:#232323;
+      font-size:.95rem;
     }
 
     .btn-primary{
@@ -579,40 +587,45 @@
     }
 
     #modal{
-      position:fixed; inset:0;
+      position:fixed;
+      inset:0;
       background:rgba(0,0,0,.72);
       display:none;
       place-items:center;
-      padding:18px;
+      padding:12px;
       z-index:999;
+      overflow:auto;
     }
     #modal.show{display:grid}
 
     .modal-box{
-      width:min(860px,100%);
+      width:min(720px,100%);
+      max-height:88vh;
+      overflow:auto;
       background:linear-gradient(180deg,#171717 0%,#101010 100%);
       border:1px solid var(--border);
-      border-radius:24px;
+      border-radius:20px;
       box-shadow:var(--shadow);
-      padding:22px;
+      padding:18px;
     }
 
     .modal-box h2{
-      margin:0 0 10px;
+      margin:0 0 8px;
       color:var(--accent);
-      font-size:1.4rem;
+      font-size:1.22rem;
     }
 
     .modal-box p{
       color:var(--muted);
-      line-height:1.7;
+      line-height:1.55;
+      font-size:.96rem;
     }
 
     .modal-actions{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
-      margin-top:18px;
+      margin-top:16px;
     }
 
     .quiz-choices{
@@ -687,19 +700,19 @@
     .attempt-dot.fail{background:var(--bad); border-color:transparent}
 
     .pipe-game-wrap{
-      width:min(100%,520px);
-      margin:16px auto 0;
+      width:min(100%,400px);
+      margin:14px auto 0;
       position:relative;
     }
 
     .pipe-grid{
       display:grid;
       grid-template-columns:repeat(5,1fr);
-      gap:8px;
+      gap:6px;
       background:linear-gradient(180deg,#2f88a1,#245f77);
       border:5px solid #627079;
-      border-radius:18px;
-      padding:14px;
+      border-radius:16px;
+      padding:10px;
       box-shadow:inset 0 0 0 3px rgba(255,255,255,.08);
       position:relative;
     }
@@ -707,7 +720,7 @@
     .pipe-cell{
       aspect-ratio:1/1;
       position:relative;
-      border-radius:14px;
+      border-radius:10px;
       background:rgba(255,255,255,.08);
       border:1px solid rgba(255,255,255,.16);
       cursor:pointer;
@@ -787,12 +800,12 @@
 
     .pipe-label{
       position:absolute;
-      width:36px;
-      height:36px;
+      width:30px;
+      height:30px;
       border-radius:50%;
       display:grid;
       place-items:center;
-      font-size:11px;
+      font-size:10px;
       font-weight:700;
       color:#0f1316;
       z-index:3;
@@ -800,13 +813,13 @@
     }
     .pipe-label.in{
       background:linear-gradient(180deg,#bff5d0,#5fdc89);
-      left:-18px;
-      top:-18px;
+      left:-15px;
+      top:-15px;
     }
     .pipe-label.out{
       background:linear-gradient(180deg,#ffd3b0,#ff925e);
-      right:-18px;
-      bottom:-18px;
+      right:-15px;
+      bottom:-15px;
     }
 
     .flow-status{
@@ -820,20 +833,21 @@
       display:flex;
       justify-content:space-between;
       gap:12px;
-      margin-top:10px;
+      margin-top:8px;
       color:var(--text);
+      font-size:.95rem;
     }
 
     .mole-grid{
-      margin-top:16px;
+      margin-top:12px;
       display:grid;
       grid-template-columns:repeat(3,1fr);
-      gap:12px;
+      gap:9px;
     }
 
     .mole-hole{
       aspect-ratio:1/1;
-      border-radius:18px;
+      border-radius:14px;
       background:linear-gradient(180deg,#1f2d36,#172128);
       border:1px solid rgba(255,255,255,.12);
       position:relative;
@@ -862,7 +876,7 @@
       border-radius:50%;
       display:grid;
       place-items:center;
-      font-size:2rem;
+      font-size:1.6rem;
       transition:transform .14s ease;
       pointer-events:none;
     }
@@ -882,18 +896,18 @@
     .symbol-grid{
       display:grid;
       grid-template-columns:repeat(5,1fr);
-      gap:10px;
-      margin-top:18px;
+      gap:8px;
+      margin-top:14px;
     }
 
     .symbol-btn{
-      min-height:70px;
-      border-radius:16px;
+      min-height:58px;
+      border-radius:12px;
       border:1px solid var(--border);
       background:#1f1f1f;
       display:grid;
       place-items:center;
-      font-size:1.8rem;
+      font-size:1.45rem;
     }
 
     .code-slots{
@@ -904,23 +918,68 @@
     }
 
     .slot{
-      width:74px;
-      height:74px;
-      border-radius:16px;
+      width:62px;
+      height:62px;
+      border-radius:12px;
       background:#0f0f0f;
       border:1px dashed rgba(255,255,255,.2);
       display:grid;
       place-items:center;
-      font-size:2rem;
+      font-size:1.7rem;
     }
 
     @media (max-width: 980px){
       body{overflow:auto}
-      #game{grid-template-columns:1fr;height:auto}
-      #sceneWrap{min-height:66vh}
+      #game{
+        grid-template-columns:1fr;
+        height:auto;
+        min-height:100vh
+      }
+      #sceneWrap{min-height:60vh}
       #ui{
         border-left:none;
         border-top:1px solid var(--border);
+        padding:14px;
+      }
+      .modal-box{
+        width:100%;
+        max-height:90vh;
+        padding:16px;
+      }
+      .pipe-game-wrap{
+        width:min(100%,340px);
+      }
+      .mole-grid{
+        gap:8px;
+      }
+      .symbol-grid{
+        grid-template-columns:repeat(4,1fr);
+      }
+    }
+
+    @media (max-width: 640px){
+      .pipe-game-wrap{
+        width:min(100%,300px);
+      }
+
+      .pipe-grid{
+        gap:5px;
+        padding:8px;
+      }
+
+      .mole-item{
+        font-size:1.35rem;
+      }
+
+      .symbol-btn{
+        min-height:50px;
+        font-size:1.2rem;
+      }
+
+      .slot{
+        width:54px;
+        height:54px;
+        font-size:1.45rem;
       }
     }
   </style>
@@ -1045,13 +1104,19 @@
       pipePuzzle: {
         solved: false,
         testing: false,
-        rotations: [0,1,0,2,0, 2,0,0,1,2, 0,1,2,3,0, 1,2,0,2,1, 0,1,3,0,0],
+        rotations: [
+          1,0,1,2,2,
+          0,1,3,1,2,
+          0,0,0,2,0,
+          1,2,1,3,0,
+          0,1,2,1,3
+        ],
         tiles: [
-          "corner","straight","straight","straight","corner",
-          "straight","tee","corner","straight","straight",
-          "corner","straight","cross","corner","straight",
+          "corner","tee","straight","corner","corner",
+          "tee","cross","corner","tee","straight",
+          "straight","tee","cross","corner","straight",
           "tee","corner","straight","tee","straight",
-          "straight","straight","corner","straight","straight"
+          "corner","straight","corner","tee","corner"
         ]
       },
       mole: {
@@ -1167,6 +1232,7 @@
     function closeModal(){
       modal.classList.remove("show");
       modal.innerHTML = "";
+      state.pipePuzzle.testing = false;
       stopTimingGame();
       stopMoleGame();
     }
@@ -1671,81 +1737,84 @@
     }
 
     function rotatePipe(index){
+      if(state.pipePuzzle.testing) return;
       if(index === 0 || index === 24) return;
       state.pipePuzzle.rotations[index] = (state.pipePuzzle.rotations[index] + 1) % 4;
       renderPipeGrid();
     }
 
- function evaluatePipeFlow(){
-  const startIdx = 0;
-  const endIdx = 24;
-  const stack = [{
-    idx: startIdx,
-    incoming: "N",
-    path: [startIdx]
-  }];
-  const visited = new Set();
+    function evaluatePipeFlow(){
+      const startIdx = 0;
+      const endIdx = 24;
+      const stack = [{
+        idx: startIdx,
+        incoming: "N",
+        path: [startIdx]
+      }];
+      const visited = new Set();
 
-  while(stack.length){
-    const current = stack.pop();
-    const key = current.idx + "|" + current.incoming;
-    if(visited.has(key)) continue;
-    visited.add(key);
+      while(stack.length){
+        const current = stack.pop();
+        const visitKey = current.idx + "|" + current.incoming;
 
-    const row = Math.floor(current.idx / 5);
-    const col = current.idx % 5;
-    const type = state.pipePuzzle.tiles[current.idx];
-    const rotation = state.pipePuzzle.rotations[current.idx];
-    const dirs = getDirs(type, rotation);
+        if(visited.has(visitKey)) continue;
+        visited.add(visitKey);
 
-    if(!dirs.includes(current.incoming)){
-      continue;
+        const row = Math.floor(current.idx / 5);
+        const col = current.idx % 5;
+        const type = state.pipePuzzle.tiles[current.idx];
+        const rotation = state.pipePuzzle.rotations[current.idx];
+        const dirs = getDirs(type, rotation);
+
+        if(!dirs.includes(current.incoming)){
+          continue;
+        }
+
+        const exits = dirs.filter(d => d !== current.incoming);
+
+        if(current.idx === endIdx){
+          if(exits.includes("S")){
+            return {
+              success: true,
+              path: current.path,
+              message: "L’eau atteint la sortie."
+            };
+          }
+          continue;
+        }
+
+        for(const exitDir of exits){
+          const next = neighbor(row, col, exitDir);
+
+          if(next.row < 0 || next.row > 4 || next.col < 0 || next.col > 4){
+            continue;
+          }
+
+          const nextIdx = coordToIndex(next.row, next.col);
+          const nextDirs = getDirs(
+            state.pipePuzzle.tiles[nextIdx],
+            state.pipePuzzle.rotations[nextIdx]
+          );
+
+          if(!nextDirs.includes(next.opposite)){
+            continue;
+          }
+
+          stack.push({
+            idx: nextIdx,
+            incoming: next.opposite,
+            path: [...current.path, nextIdx]
+          });
+        }
+      }
+
+      return {
+        success: false,
+        path: [],
+        message: "Le circuit n’est pas correctement relié."
+      };
     }
 
-    const exits = dirs.filter(d => d !== current.incoming);
-
-    if(current.idx === endIdx){
-      if(exits.includes("S")){
-        return {
-          success: true,
-          path: current.path,
-          message: "L’eau atteint la sortie."
-        };
-      }
-      continue;
-    }
-
-    for(const exitDir of exits){
-      const next = neighbor(row, col, exitDir);
-
-      if(next.row < 0 || next.row > 4 || next.col < 0 || next.col > 4){
-        continue;
-      }
-
-      const nextIdx = coordToIndex(next.row, next.col);
-      const nextDirs = getDirs(
-        state.pipePuzzle.tiles[nextIdx],
-        state.pipePuzzle.rotations[nextIdx]
-      );
-
-      if(!nextDirs.includes(next.opposite)){
-        continue;
-      }
-
-      stack.push({
-        idx: nextIdx,
-        incoming: next.opposite,
-        path: [...current.path, nextIdx]
-      });
-    }
-  }
-
-  return {
-    success: false,
-    path: [],
-    message: "Le circuit n’est pas correctement relié."
-  };
-}
     function animatePipeFlow(result){
       const flowStatus = document.getElementById("flowStatus");
       if(flowStatus) flowStatus.textContent = "L’eau s’écoule...";
@@ -1754,10 +1823,13 @@
       function reveal(){
         renderPipeGrid(result.path.slice(0, step + 1));
         step++;
+
         if(step <= result.path.length){
           setTimeout(reveal, 180);
         } else {
+          state.pipePuzzle.testing = false;
           if(flowStatus) flowStatus.textContent = result.message;
+
           if(result.success){
             state.steps.sinkSolved = true;
             state.pipePuzzle.solved = true;
@@ -1768,10 +1840,13 @@
           }
         }
       }
+
       reveal();
     }
 
     function testPipeFlow(){
+      if(state.pipePuzzle.testing) return;
+      state.pipePuzzle.testing = true;
       const result = evaluatePipeFlow();
       animatePipeFlow(result);
     }
