@@ -1099,7 +1099,7 @@
     0,2,0,1,0,
     1,0,1,2,0,
     0,1,2,1,0,
-    0,1,1,2,1
+    0,1,1,2,0
   ],
   tiles: [
     "straight","straight","corner","straight","corner",
@@ -1643,10 +1643,10 @@
 
   if(type === "corner"){
     return [
-      ["N","E"],
-      ["E","S"],
-      ["S","W"],
-      ["W","N"]
+      ["S","E"], // forme CSS de base : bas + droite
+      ["S","W"], // rotation 90°
+      ["N","W"], // rotation 180°
+      ["N","E"]  // rotation 270°
     ][r];
   }
 
@@ -1690,7 +1690,6 @@ function openPipePuzzle(){
 
       <div class="modal-actions">
         <button class="btn btn-primary" onclick="testPipeFlow()">Tester l’eau</button>
-        <button class="btn btn-secondary" onclick="shufflePipePuzzle()">Mélanger</button>
         <button class="btn btn-secondary" onclick="closeModal()">Fermer</button>
       </div>
     </div>
