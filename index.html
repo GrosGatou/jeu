@@ -1051,7 +1051,7 @@
     <aside id="ui">
       <div class="panel">
         <h3 class="title">Objectif</h3>
-        <div id="objective">Préparer l’infusion réparatrice : eau chaude + citron + gingembre.</div>
+        <div id="objective">Retrouve des PVs de vie chef, où au moins la vision en ingérant une bonne tisane remède de mamie</div>
       </div>
 
       <div class="panel">
@@ -1157,19 +1157,10 @@
     const gingerOnGrater = document.getElementById("gingerOnGrater");
 
     const recipeData = [
-      { key: "potFound", label: "Récupérer la casserole." },
-      { key: "pressToolFound", label: "Récupérer le presse-citron." },
-      { key: "sinkSolved", label: "Réparer le circuit d’eau." },
-      { key: "potFilled", label: "Remplir la casserole." },
-      { key: "waterHeated", label: "Faire chauffer l’eau." },
-      { key: "lemonFound", label: "Gagner le citron." },
-      { key: "pressPlaced", label: "Poser le presse-citron." },
-      { key: "lemonPressed", label: "Presser le citron." },
-      { key: "gingerFound", label: "Récupérer le gingembre." },
-      { key: "graterFound", label: "Trouver la râpe." },
-      { key: "graterPlaced", label: "Placer la râpe sur la casserole." },
-      { key: "gingerGrated", label: "Râper le gingembre." }
-    ];
+  { key: "waterHeated", label: "Eau chaude" },
+  { key: "gingerGrated", label: "Gingembre râpé" },
+  { key: "lemonPressed", label: "Citron pressé" }
+];
 
     startBtn.addEventListener("click", () => {
       intro.classList.remove("active");
@@ -1274,23 +1265,23 @@
     }
 
     function renderInventory(){
-      inventoryEl.innerHTML = "";
-      if(state.inventory.length === 0){
-        inventoryEl.innerHTML = '<div style="color:var(--muted);line-height:1.6">Rien pour l’instant. Fouille la pièce.</div>';
-        return;
-      }
+  inventoryEl.innerHTML = "";
+  if(state.inventory.length === 0){
+    inventoryEl.innerHTML = '<div style="color:var(--muted);line-height:1.6">Rien pour l’instant. Fouille la pièce.</div>';
+    return;
+  }
 
-      state.inventory.forEach(item => {
-        const btn = document.createElement("button");
-        btn.className = "item" + (state.selectedItem === item ? " selected" : "");
-        btn.innerHTML = "<strong>" + labelItem(item) + "</strong><br><span style='color:var(--muted);font-size:.9rem'>" + getItemHint(item) + "</span>";
-        btn.addEventListener("click", () => {
-          state.selectedItem = (state.selectedItem === item ? null : item);
-          renderAll();
-        });
-        inventoryEl.appendChild(btn);
-      });
-    }
+  state.inventory.forEach(item => {
+    const btn = document.createElement("button");
+    btn.className = "item" + (state.selectedItem === item ? " selected" : "");
+    btn.textContent = labelItem(item);
+    btn.addEventListener("click", () => {
+      state.selectedItem = (state.selectedItem === item ? null : item);
+      renderAll();
+    });
+    inventoryEl.appendChild(btn);
+  });
+}
 
     function renderRecipe(){
       recipeList.innerHTML = recipeData.map(step => {
@@ -2025,174 +2016,247 @@ function testPipeFlow(){
       }
     }
 
-    function openGingerQuiz(){
-      const questions = [
-        {
-          q: "Quel animal détient le record de la plus grande longévité chez les mammifères sauvages ?",
-          choices: [
-            "La tortue des Galápagos",
-            "La baleine boréale",
-            "Le cacatoès à huppe jaune"
-          ],
-          correct: "La baleine boréale",
-          symbol: "🐋"
-        },
-        {
-          q: "Quel est l’animal terrestre le plus rapide sur de courtes distances ?",
-          choices: [
-            "Le guépard",
-            "L’autruche",
-            "Le lièvre"
-          ],
-          correct: "Le guépard",
-          symbol: "🐆"
-        },
-        {
-          q: "Quel animal produit la soie la plus utilisée dans l’industrie textile ?",
-          choices: [
-            "Le ver à soie",
-            "L’araignée",
-            "Le papillon monarque"
-          ],
-          correct: "Le ver à soie",
-          symbol: "🪱"
-        }
-      ];
+   function openGingerQuiz(){
+  state.quizIndex = 0;
+  state.quizSymbols = [];
+  renderQuizQuestion();
+}
 
-      state.currentQuizIndex = 0;
-      state.quizSymbols = [];
-      window._gingerQuestions = questions;
-      openQuizQuestion();
+function renderQuizQuestion(){
+  const questions = [
+    {
+      q: "Quel animal détient le record de la plus grande longévité chez les mammifères sauvages ?",
+      choices: [
+        "La tortue des Galápagos",
+        "La baleine boréale",
+        "Le cacatoès à huppe jaune"
+      ],
+      correct: "La baleine boréale",
+      symbol: "🐋"
+    },
+    {
+      q: "Quel est l’animal terrestre le plus rapide sur de courtes distances ?",
+      choices: [
+        "Le guépard",
+        "L’autruche",
+        "Le lièvre"
+      ],
+      correct: "Le guépard",
+      symbol: "🐆"
+    },
+    {
+      q: "Quel animal produit la soie la plus utilisée dans l’industrie textile ?",
+      choices: [
+        "Le ver à soie",
+        "L’araignée",
+        "Le papillon monarque"
+      ],
+      correct: "Le ver à soie",
+      symbol: "🪱"
+    },
+    {
+      q: "Quel mammifère marin est connu pour avoir le plus grand cerveau proportionnellement à sa taille ?",
+      choices: [
+        "L’orque",
+        "Le dauphin",
+        "Le poulpe"
+      ],
+      correct: "Le dauphin",
+      symbol: "🐬"
+    },
+    {
+      q: "Quel animal a inspiré des recherches qui ont conduit à la découverte ou à la compréhension des rayons X ?",
+      choices: [
+        "La crevette mantis",
+        "La méduse fluorescente",
+        "Le poisson-chat électrique"
+      ],
+      correct: "La crevette mantis",
+      symbol: "🦐"
     }
+  ];
 
-    function openQuizQuestion(){
-      const questions = window._gingerQuestions;
-      const current = questions[state.currentQuizIndex];
+  const current = questions[state.quizIndex];
 
-      showModal(`
-        <div class="modal-box">
-          <h2>Cadenas du gingembre</h2>
-          <p>
-            Réponds correctement aux 3 questions.
-            Si tu fais 3/3, tu devras reconstituer la bonne suite d’animaux de mémoire.
-          </p>
-          <p><strong>Question ${state.currentQuizIndex + 1} :</strong> ${current.q}</p>
-          <div class="quiz-choices">
-            ${current.choices.map(choice => `
-              <button class="choice" onclick="answerQuiz('${escapeQuotes(choice)}')">${choice}</button>
-            `).join("")}
-          </div>
-          <div class="modal-actions">
-            <button class="btn btn-secondary" onclick="closeModal()">Fermer</button>
-          </div>
+  showModal(`
+    <div class="modal-box">
+      <h2>Cadenas du gingembre</h2>
+      <p>
+        Réponds correctement aux 5 questions.
+        Si tu fais 5/5, tu devras reconstituer la bonne suite d’animaux de mémoire.
+      </p>
+      <p><strong>Question ${state.quizIndex + 1} / 5 :</strong> ${current.q}</p>
+      <div class="quiz-choices">
+        ${current.choices.map(choice => `
+          <button class="choice" onclick="answerQuiz('${escapeQuotes(choice)}')">${choice}</button>
+        `).join("")}
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeModal()">Fermer</button>
+      </div>
+    </div>
+  `);
+}
+
+function answerQuiz(choice){
+  const questions = [
+    {
+      q: "Quel animal détient le record de la plus grande longévité chez les mammifères sauvages ?",
+      choices: [
+        "La tortue des Galápagos",
+        "La baleine boréale",
+        "Le cacatoès à huppe jaune"
+      ],
+      correct: "La baleine boréale",
+      symbol: "🐋"
+    },
+    {
+      q: "Quel est l’animal terrestre le plus rapide sur de courtes distances ?",
+      choices: [
+        "Le guépard",
+        "L’autruche",
+        "Le lièvre"
+      ],
+      correct: "Le guépard",
+      symbol: "🐆"
+    },
+    {
+      q: "Quel animal produit la soie la plus utilisée dans l’industrie textile ?",
+      choices: [
+        "Le ver à soie",
+        "L’araignée",
+        "Le papillon monarque"
+      ],
+      correct: "Le ver à soie",
+      symbol: "🪱"
+    },
+    {
+      q: "Quel mammifère marin est connu pour avoir le plus grand cerveau proportionnellement à sa taille ?",
+      choices: [
+        "L’orque",
+        "Le dauphin",
+        "Le poulpe"
+      ],
+      correct: "Le dauphin",
+      symbol: "🐬"
+    },
+    {
+      q: "Quel animal a inspiré des recherches qui ont conduit à la découverte ou à la compréhension des rayons X ?",
+      choices: [
+        "La crevette mantis",
+        "La méduse fluorescente",
+        "Le poisson-chat électrique"
+      ],
+      correct: "La crevette mantis",
+      symbol: "🦐"
+    }
+  ];
+
+  const current = questions[state.quizIndex];
+
+  if(choice === current.correct){
+    state.quizSymbols.push(current.symbol);
+    state.quizIndex++;
+
+    if(state.quizIndex < questions.length){
+      renderQuizQuestion();
+    } else {
+      openMemoryAnimalLock();
+    }
+  } else {
+    showModal(`
+      <div class="modal-box">
+        <h2>Raté</h2>
+        <p>Tu as beaucoup trop bédavé hier, il faut recommencer à 0 ce quizz.</p>
+        <div class="modal-actions">
+          <button class="btn btn-primary" onclick="restartQuiz()">Recommencer</button>
         </div>
-      `);
-    }
+      </div>
+    `);
+  }
+}
 
-    function answerQuiz(choice){
-      const questions = window._gingerQuestions;
-      const current = questions[state.currentQuizIndex];
+function restartQuiz(){
+  state.quizIndex = 0;
+  state.quizSymbols = [];
+  renderQuizQuestion();
+}
 
-      if(choice === current.correct){
-        state.quizSymbols.push(current.symbol);
-        state.currentQuizIndex++;
+function openMemoryAnimalLock(){
+  state.enteredSymbols = [];
+  const options = [
+    ["🐢","Tortue"],
+    ["🦉","Hibou"],
+    ["🐋","Baleine"],
+    ["🐆","Guépard"],
+    ["🦊","Renard"],
+    ["🪱","Ver"],
+    ["🐘","Éléphant"],
+    ["🦭","Phoque"],
+    ["🐬","Dauphin"],
+    ["🦐","Crevette mantis"]
+  ];
 
-        if(state.currentQuizIndex < questions.length){
-          showModal(`
-            <div class="modal-box">
-              <h2>Bonne réponse</h2>
-              <p>Le cadenas a bien enregistré cette réponse. Continue.</p>
-              <div class="modal-actions">
-                <button class="btn btn-primary" onclick="continueQuiz()">Question suivante</button>
-              </div>
-            </div>
-          `);
-        } else {
-          openMemoryAnimalLock();
-        }
-      } else {
-        closeModal();
-        setMessage("Mauvaise réponse. Le cadenas refuse de céder.");
-      }
-    }
+  showModal(`
+    <div class="modal-box">
+      <h2>Suite finale</h2>
+      <p>
+        Tu as répondu correctement aux 5 questions.
+        Reconstitue maintenant les <strong>5 animaux dans l’ordre des questions</strong>.
+      </p>
 
-    function continueQuiz(){
-      openQuizQuestion();
-    }
+      <div class="code-slots">
+        <div class="slot" id="slot0">?</div>
+        <div class="slot" id="slot1">?</div>
+        <div class="slot" id="slot2">?</div>
+        <div class="slot" id="slot3">?</div>
+        <div class="slot" id="slot4">?</div>
+      </div>
 
-    function openMemoryAnimalLock(){
-      state.enteredSymbols = [];
-      const options = [
-        ["🐢","Tortue"],
-        ["🦉","Hibou"],
-        ["🐋","Baleine"],
-        ["🐆","Guépard"],
-        ["🦊","Renard"],
-        ["🪱","Ver"],
-        ["🐘","Éléphant"],
-        ["🦭","Phoque"],
-        ["🦜","Perroquet"],
-        ["🐙","Poulpe"]
-      ];
+      <div class="symbol-grid">
+        ${options.map(([emoji,name]) => `
+          <button class="symbol-btn" onclick="pickSymbol('${emoji}')" title="${name}">${emoji}</button>
+        `).join("")}
+      </div>
 
-      showModal(`
-        <div class="modal-box">
-          <h2>Suite finale</h2>
-          <p>
-            Tu as répondu correctement aux 3 questions.
-            Reconstitue maintenant les <strong>3 animaux dans l’ordre des questions</strong>.
-          </p>
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="validateSymbols()">Valider</button>
+        <button class="btn btn-secondary" onclick="resetSymbols()">Réinitialiser</button>
+      </div>
+    </div>
+  `);
+}
 
-          <div class="code-slots">
-            <div class="slot" id="slot0">?</div>
-            <div class="slot" id="slot1">?</div>
-            <div class="slot" id="slot2">?</div>
-          </div>
+function updateSlots(){
+  for(let i = 0; i < 5; i++){
+    const slot = document.getElementById("slot" + i);
+    if(slot) slot.textContent = state.enteredSymbols[i] || "?";
+  }
+}
 
-          <div class="symbol-grid">
-            ${options.map(([emoji,name]) => `
-              <button class="symbol-btn" onclick="pickSymbol('${emoji}')" title="${name}">${emoji}</button>
-            `).join("")}
-          </div>
+function pickSymbol(symbol){
+  if(state.enteredSymbols.length >= 5) return;
+  state.enteredSymbols.push(symbol);
+  updateSlots();
+}
 
-          <div class="modal-actions">
-            <button class="btn btn-primary" onclick="validateSymbols()">Valider</button>
-            <button class="btn btn-secondary" onclick="resetSymbols()">Réinitialiser</button>
-          </div>
-        </div>
-      `);
-    }
+function resetSymbols(){
+  state.enteredSymbols = [];
+  updateSlots();
+}
 
-    function updateSlots(){
-      for(let i = 0; i < 3; i++){
-        const slot = document.getElementById("slot" + i);
-        if(slot) slot.textContent = state.enteredSymbols[i] || "?";
-      }
-    }
+function validateSymbols(){
+  const target = state.quizSymbols.join("");
+  const entered = state.enteredSymbols.join("");
 
-    function pickSymbol(symbol){
-      if(state.enteredSymbols.length >= 3) return;
-      state.enteredSymbols.push(symbol);
-      updateSlots();
-    }
-
-    function resetSymbols(){
-      state.enteredSymbols = [];
-      updateSlots();
-    }
-
-    function validateSymbols(){
-      const target = state.quizSymbols.join("");
-      const entered = state.enteredSymbols.join("");
-
-      if(entered === target){
-        state.steps.gingerUnlocked = true;
-        closeModal();
-        setMessage("Le cadenas cède. Tu peux récupérer le gingembre.");
-      } else {
-        setMessage("Ce n’est pas la bonne suite.");
-      }
-    }
+  if(entered === target){
+    state.steps.gingerUnlocked = true;
+    closeModal();
+    setMessage("Le cadenas cède. Tu peux récupérer le gingembre.");
+  } else {
+    setMessage("Ce n’est pas la bonne suite.");
+  }
+}
 
     window.closeModal = closeModal;
     window.answerQuiz = answerQuiz;
