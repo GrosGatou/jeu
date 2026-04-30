@@ -1241,16 +1241,18 @@
     }
 
     function labelItem(item){
-      const labels = {
-        pot: "Casserole",
-        lemon: "Citron",
-        pressTool: "Presse-citron",
-        ginger: "Morceau de gingembre",
-        stool: "Petit tabouret",
-        grater: "Râpe"
-      };
-      return labels[item] || item;
-    }
+  const labels = {
+    pot: "Casserole vide",
+    potFull: "Casserole pleine",
+    lemon: "Citron",
+    lemonPressedItem: "Citron pressé",
+    pressTool: "Presse-citron",
+    ginger: "Morceau de gingembre",
+    stool: "Petit tabouret",
+    grater: "Râpe"
+  };
+  return labels[item] || item;
+}
 
     function getItemHint(item){
       const hints = {
@@ -1380,75 +1382,87 @@
       openTimingPuzzle();
     }
 
-    function handleSink(){
-      if(!state.steps.sinkSolved){
-        openPipePuzzle();
-        return;
-      }
+function handleSink(){
+  if(!state.steps.sinkSolved){
+    openPipePuzzle();
+    return;
+  }
 
-      if(!state.steps.potFound){
-        setMessage("L’eau revient, mais il te manque encore une casserole.");
-        return;
-      }
+  if(!hasItem("pot") && !hasItem("potFull")){
+    setMessage("L’eau revient, mais il te manque encore une casserole.");
+    return;
+  }
 
-      if(state.selectedItem === "pot" && !state.steps.potFilled){
-        state.steps.potFilled = true;
-        setMessage("Tu remplis directement la casserole au lavabo.");
-        return;
-      }
+  if(state.selectedItem === "pot" && hasItem("pot") && !state.steps.potFilled){
+    removeItem("pot");
+    addItem("potFull");
+    state.selectedItem = "potFull";
+    state.steps.potFilled = true;
+    setMessage("Tu remplis la casserole au lavabo. Elle est maintenant pleine.");
+    renderAll();
+    return;
+  }
 
-      if(state.steps.potFilled){
-        setMessage("Le lavabo recoule enfin. Le circuit tient bon.");
-      } else {
-        setMessage("L’eau est revenue. Mets maintenant la casserole dessous.");
-      }
-    }
+  if(hasItem("potFull") || state.steps.potFilled){
+    setMessage("La casserole est déjà remplie.");
+  } else {
+    setMessage("L’eau est revenue. Sélectionne la casserole vide pour la remplir.");
+  }
+}
 
     function handleStove(){
-      if(!state.steps.potFound){
-        setMessage("Le réchaud est prêt, mais tu n’as pas encore de casserole.");
-        return;
-      }
+  if(!hasItem("pot") && !hasItem("potFull") && !state.steps.stoveOn){
+    setMessage("Le réchaud est prêt, mais tu n’as pas encore de casserole.");
+    return;
+  }
 
-      if(!state.steps.potFilled){
-        setMessage("Il faudrait d’abord remplir la casserole.");
-        return;
-      }
+  if(!hasItem("potFull") && !state.steps.stoveOn){
+    setMessage("Il faudrait d’abord remplir la casserole.");
+    return;
+  }
 
-      if(!state.steps.stoveOn){
-        state.steps.stoveOn = true;
-        state.steps.waterHeated = true;
-        setMessage("Tu allumes le réchaud. L’eau commence à chauffer.");
-        return;
-      }
+  if(state.selectedItem === "potFull" && hasItem("potFull") && !state.steps.stoveOn){
+    removeItem("potFull");
+    state.steps.stoveOn = true;
+    state.steps.waterHeated = true;
+    setMessage("Tu poses la casserole pleine sur le réchaud. L’eau chauffe.");
+    renderAll();
+    return;
+  }
 
-      setMessage("Le réchaud ronronne. Tout est presque en place.");
-    }
+  if(state.steps.stoveOn){
+    setMessage("Le réchaud ronronne. L’eau est chaude.");
+    return;
+  }
 
-    function handleWorktop(){
-      if(hasItem("pressTool") && !state.steps.pressPlaced && state.selectedItem === "pressTool"){
-        state.steps.pressPlaced = true;
-        removeItem("pressTool");
-        setMessage("Tu poses le presse-citron sur le plan de travail.");
-        return;
-      }
+  setMessage("Sélectionne la casserole pleine puis pose-la sur le réchaud.");
+}
+   function handleWorktop(){
+  if(hasItem("pressTool") && !state.steps.pressPlaced && state.selectedItem === "pressTool"){
+    state.steps.pressPlaced = true;
+    removeItem("pressTool");
+    setMessage("Tu poses le presse-citron sur le plan de travail.");
+    return;
+  }
 
-      if(state.steps.pressPlaced && hasItem("lemon") && !state.steps.lemonPressed && state.selectedItem === "lemon"){
-        state.steps.lemonPressed = true;
-        removeItem("lemon");
-        setMessage("Tu poses le citron sur le presse-citron et tu extrais le jus.");
-        return;
-      }
+  if(state.steps.pressPlaced && hasItem("lemon") && !state.steps.lemonPressed && state.selectedItem === "lemon"){
+    removeItem("lemon");
+    addItem("lemonPressedItem");
+    state.selectedItem = "lemonPressedItem";
+    state.steps.lemonPressed = true;
+    setMessage("Tu presses le citron. Tu récupères maintenant du citron pressé.");
+    renderAll();
+    return;
+  }
 
-      if(!state.steps.pressPlaced){
-        setMessage("Le plan de travail attend quelque chose.");
-      } else if(!state.steps.lemonPressed){
-        setMessage("Le presse-citron est prêt. Il manque le citron.");
-      } else {
-        setMessage("Le plan de travail a déjà servi pour le citron.");
-      }
-    }
-
+  if(!state.steps.pressPlaced){
+    setMessage("Le plan de travail attend quelque chose.");
+  } else if(!state.steps.lemonPressed){
+    setMessage("Le presse-citron est prêt. Il manque le citron.");
+  } else {
+    setMessage("Le citron est déjà pressé.");
+  }
+}
     function handleCooler(){
       if(!state.steps.lemonFound){
         openMoleGame();
