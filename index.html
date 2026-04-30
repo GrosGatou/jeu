@@ -933,7 +933,7 @@
       #game{
         grid-template-columns:1fr;
         height:auto;
-        min-height:100vh
+        min-height:100vh;
       }
       #sceneWrap{min-height:60vh}
       #ui{
@@ -1105,18 +1105,18 @@
         solved: false,
         testing: false,
         rotations: [
-          1,0,1,2,2,
-          0,1,3,1,2,
-          0,0,0,2,0,
-          1,2,1,3,0,
-          0,1,2,1,3
+          0,0,1,1,2,
+          0,1,2,0,0,
+          0,2,0,3,0,
+          0,1,1,0,0,
+          0,1,0,3,0
         ],
         tiles: [
-          "corner","tee","straight","corner","corner",
-          "tee","cross","corner","tee","straight",
+          "straight","tee","straight","corner","corner",
+          "straight","cross","corner","tee","straight",
           "straight","tee","cross","corner","straight",
           "tee","corner","straight","tee","straight",
-          "corner","straight","corner","tee","corner"
+          "corner","straight","corner","tee","straight"
         ]
       },
       mole: {
@@ -1646,23 +1646,34 @@
 
     function getDirs(type, rotation){
       const r = ((rotation % 4) + 4) % 4;
+
       if(type === "straight"){
         return r % 2 === 0 ? ["N","S"] : ["E","W"];
       }
+
       if(type === "corner"){
-        return [["N","E"],["E","S"],["S","W"],["W","N"]][r];
+        return [
+          ["N","E"],
+          ["E","S"],
+          ["S","W"],
+          ["W","N"]
+        ][r];
       }
+
       if(type === "tee"){
-        return [["N","E","W"],["N","E","S"],["E","S","W"],["N","S","W"]][r];
+        return [
+          ["N","E","W"],
+          ["N","E","S"],
+          ["E","S","W"],
+          ["N","S","W"]
+        ][r];
       }
+
       if(type === "cross"){
         return ["N","E","S","W"];
       }
-      return [];
-    }
 
-    function indexToCoord(i){
-      return { row: Math.floor(i / 5), col: i % 5 };
+      return [];
     }
 
     function coordToIndex(row, col){
