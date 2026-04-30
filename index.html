@@ -700,134 +700,124 @@
     .attempt-dot.fail{background:var(--bad); border-color:transparent}
 
     .pipe-game-wrap{
-      width:min(100%,400px);
-      margin:14px auto 0;
-      position:relative;
-    }
+  width:min(100%,420px);
+  margin:14px auto 0;
+  position:relative;
+}
 
-    .pipe-grid{
-      display:grid;
-      grid-template-columns:repeat(5,1fr);
-      gap:6px;
-      background:linear-gradient(180deg,#2f88a1,#245f77);
-      border:5px solid #627079;
-      border-radius:16px;
-      padding:10px;
-      box-shadow:inset 0 0 0 3px rgba(255,255,255,.08);
-      position:relative;
-    }
+.pipe-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:6px;
+  background:linear-gradient(180deg,#2f88a1,#245f77);
+  border:5px solid #627079;
+  border-radius:16px;
+  padding:10px;
+  box-shadow:inset 0 0 0 3px rgba(255,255,255,.08);
+  position:relative;
+}
 
-    .pipe-cell{
-      aspect-ratio:1/1;
-      position:relative;
-      border-radius:10px;
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.16);
-      cursor:pointer;
-      overflow:hidden;
-    }
+.pipe-cell{
+  aspect-ratio:1/1;
+  position:relative;
+  border-radius:10px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.16);
+  cursor:pointer;
+  overflow:hidden;
+}
 
-    .pipe-cell.locked{
-      cursor:default;
-      background:rgba(255,255,255,.12);
-    }
+.pipe-cell.locked{
+  cursor:default;
+  background:rgba(255,255,255,.12);
+}
 
-    .pipe-shape{
-      position:absolute;
-      inset:6px;
-      transform-origin:center;
-      transition:transform .18s ease;
-    }
+.pipe-cell.flowing-cell{
+  box-shadow:inset 0 0 0 2px rgba(110,197,255,.55);
+}
 
-    .seg{
-      position:absolute;
-      background:linear-gradient(180deg,var(--pipe),var(--pipe-dark));
-      border-radius:999px;
-      box-shadow:inset 0 -3px 0 rgba(0,0,0,.14);
-      transition:background .2s ease, box-shadow .2s ease;
-    }
+.pipe-cell.blocked-cell{
+  box-shadow:inset 0 0 0 2px rgba(240,125,125,.8);
+}
 
-    .flowing .seg{
-      background:linear-gradient(180deg,#bfe8ff,var(--water));
-      box-shadow:0 0 10px rgba(110,197,255,.45), inset 0 -3px 0 rgba(0,0,0,.08);
-    }
+.pipe-shape{
+  position:absolute;
+  inset:6px;
+  transform-origin:center;
+  transition:transform .18s ease;
+}
 
-    .type-straight .seg.main{
-      width:18%;
-      height:100%;
-      left:41%;
-      top:0;
-    }
+.seg{
+  position:absolute;
+  background:linear-gradient(180deg,var(--pipe),var(--pipe-dark));
+  border-radius:999px;
+  box-shadow:inset 0 -3px 0 rgba(0,0,0,.14);
+  transition:background .2s ease, box-shadow .2s ease;
+}
 
-    .type-corner .seg.v{
-      width:18%;
-      height:58%;
-      left:41%;
-      top:42%;
-    }
-    .type-corner .seg.h{
-      width:58%;
-      height:18%;
-      left:41%;
-      top:41%;
-    }
+.flowing .seg{
+  background:linear-gradient(180deg,#bfe8ff,var(--water));
+  box-shadow:0 0 10px rgba(110,197,255,.45), inset 0 -3px 0 rgba(0,0,0,.08);
+}
 
-    .type-tee .seg.v{
-      width:18%;
-      height:100%;
-      left:41%;
-      top:0;
-    }
-    .type-tee .seg.h{
-      width:58%;
-      height:18%;
-      left:41%;
-      top:41%;
-    }
+.blocked-cell .seg{
+  background:linear-gradient(180deg,#ffb0b0,#f07d7d);
+  box-shadow:0 0 10px rgba(240,125,125,.35), inset 0 -3px 0 rgba(0,0,0,.08);
+}
 
-    .type-cross .seg.v{
-      width:18%;
-      height:100%;
-      left:41%;
-      top:0;
-    }
-    .type-cross .seg.h{
-      width:100%;
-      height:18%;
-      left:0;
-      top:41%;
-    }
+.type-straight .seg.main{
+  width:18%;
+  height:100%;
+  left:41%;
+  top:0;
+}
 
-    .pipe-label{
-      position:absolute;
-      width:30px;
-      height:30px;
-      border-radius:50%;
-      display:grid;
-      place-items:center;
-      font-size:10px;
-      font-weight:700;
-      color:#0f1316;
-      z-index:3;
-      box-shadow:0 4px 16px rgba(0,0,0,.28);
-    }
-    .pipe-label.in{
-      background:linear-gradient(180deg,#bff5d0,#5fdc89);
-      left:-15px;
-      top:-15px;
-    }
-    .pipe-label.out{
-      background:linear-gradient(180deg,#ffd3b0,#ff925e);
-      right:-15px;
-      bottom:-15px;
-    }
+.type-corner .seg.v{
+  width:18%;
+  height:58%;
+  left:41%;
+  top:42%;
+}
 
-    .flow-status{
-      text-align:center;
-      color:var(--muted);
-      margin-top:12px;
-      min-height:24px;
-    }
+.type-corner .seg.h{
+  width:58%;
+  height:18%;
+  left:41%;
+  top:41%;
+}
+
+.pipe-label{
+  position:absolute;
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-size:10px;
+  font-weight:700;
+  color:#0f1316;
+  z-index:3;
+  box-shadow:0 4px 16px rgba(0,0,0,.28);
+}
+
+.pipe-label.in{
+  background:linear-gradient(180deg,#bff5d0,#5fdc89);
+  left:-14px;
+  top:-14px;
+}
+
+.pipe-label.out{
+  background:linear-gradient(180deg,#ffd3b0,#ff925e);
+  right:-14px;
+  bottom:-14px;
+}
+
+.flow-status{
+  text-align:center;
+  color:var(--muted);
+  margin-top:12px;
+  min-height:24px;
+}
 
     .mole-stats{
       display:flex;
@@ -1101,24 +1091,24 @@
         rafId: null,
         active: false
       },
-      pipePuzzle: {
-        solved: false,
-        testing: false,
-        rotations: [
-          0,0,1,1,2,
-          0,1,2,0,0,
-          0,2,0,3,0,
-          0,1,1,0,0,
-          0,1,0,3,0
-        ],
-        tiles: [
-          "straight","tee","straight","corner","corner",
-          "straight","cross","corner","tee","straight",
-          "straight","tee","cross","corner","straight",
-          "tee","corner","straight","tee","straight",
-          "corner","straight","corner","tee","straight"
-        ]
-      },
+     pipePuzzle: {
+  solved: false,
+  testing: false,
+  rotations: [
+    1,1,2,1,2,
+    0,2,0,1,0,
+    1,0,1,2,0,
+    0,1,2,1,0,
+    0,1,1,2,1
+  ],
+  tiles: [
+    "straight","straight","corner","straight","corner",
+    "corner","corner","straight","straight","corner",
+    "straight","corner","straight","corner","straight",
+    "corner","straight","corner","straight","corner",
+    "corner","straight","straight","corner","straight"
+  ]
+},
       mole: {
         active: false,
         score: 0,
@@ -1229,13 +1219,13 @@
       modal.classList.add("show");
     }
 
-    function closeModal(){
-      modal.classList.remove("show");
-      modal.innerHTML = "";
-      state.pipePuzzle.testing = false;
-      stopTimingGame();
-      stopMoleGame();
-    }
+   function closeModal(){
+  modal.classList.remove("show");
+  modal.innerHTML = "";
+  state.pipePuzzle.testing = false;
+  stopTimingGame();
+  stopMoleGame();
+}
 
     function escapeQuotes(str){
       return str.replaceAll("'", "\\'");
@@ -1645,221 +1635,258 @@
     }
 
     function getDirs(type, rotation){
-      const r = ((rotation % 4) + 4) % 4;
+  const r = ((rotation % 4) + 4) % 4;
 
-      if(type === "straight"){
-        return r % 2 === 0 ? ["N","S"] : ["E","W"];
-      }
+  if(type === "straight"){
+    return r % 2 === 0 ? ["N","S"] : ["E","W"];
+  }
 
-      if(type === "corner"){
-        return [
-          ["N","E"],
-          ["E","S"],
-          ["S","W"],
-          ["W","N"]
-        ][r];
-      }
+  if(type === "corner"){
+    return [
+      ["N","E"],
+      ["E","S"],
+      ["S","W"],
+      ["W","N"]
+    ][r];
+  }
 
-      if(type === "tee"){
-        return [
-          ["N","E","W"],
-          ["N","E","S"],
-          ["E","S","W"],
-          ["N","S","W"]
-        ][r];
-      }
+  return [];
+}
 
-      if(type === "cross"){
-        return ["N","E","S","W"];
-      }
+function indexToCoord(i){
+  return { row: Math.floor(i / 5), col: i % 5 };
+}
 
-      return [];
+function coordToIndex(row, col){
+  return row * 5 + col;
+}
+
+function neighbor(row, col, dir){
+  if(dir === "N") return { row: row - 1, col, opposite: "S" };
+  if(dir === "S") return { row: row + 1, col, opposite: "N" };
+  if(dir === "E") return { row, col: col + 1, opposite: "W" };
+  return { row, col: col - 1, opposite: "E" };
+}
+
+function openPipePuzzle(){
+  showModal(`
+    <div class="modal-box">
+      <h2>Circuit d’eau bricolé</h2>
+      <p>
+        Relie l’entrée <strong>IN</strong> à la sortie <strong>OUT</strong>.
+        Il n’existe que deux types de tuyaux : un trait droit et un coude.
+        Clique sur les cases pour les tourner, puis teste l’eau.
+      </p>
+
+      <div class="pipe-game-wrap">
+        <div class="pipe-grid" id="pipeGrid"></div>
+        <div class="pipe-label in">IN</div>
+        <div class="pipe-label out">OUT</div>
+      </div>
+
+      <div class="flow-status" id="flowStatus">
+        Fais un chemin continu entre l’entrée et la sortie.
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="testPipeFlow()">Tester l’eau</button>
+        <button class="btn btn-secondary" onclick="shufflePipePuzzle()">Mélanger</button>
+        <button class="btn btn-secondary" onclick="closeModal()">Fermer</button>
+      </div>
+    </div>
+  `);
+
+  renderPipeGrid();
+}
+
+function shufflePipePuzzle(){
+  if(state.pipePuzzle.testing) return;
+
+  state.pipePuzzle.rotations = state.pipePuzzle.rotations.map((rot, index) => {
+    if(index === 0 || index === 24) return rot;
+    return Math.floor(Math.random() * 4);
+  });
+
+  const status = document.getElementById("flowStatus");
+  if(status) status.textContent = "Le circuit a été mélangé.";
+  renderPipeGrid();
+}
+
+function renderPipeGrid(flowPath = [], blockedIndex = null){
+  const grid = document.getElementById("pipeGrid");
+  if(!grid) return;
+
+  grid.innerHTML = "";
+
+  state.pipePuzzle.tiles.forEach((type, index) => {
+    const cell = document.createElement("button");
+    const locked = index === 0 || index === 24;
+    const isFlowing = flowPath.includes(index);
+    const isBlocked = blockedIndex === index;
+
+    cell.className =
+      "pipe-cell" +
+      (locked ? " locked" : "") +
+      (isFlowing ? " flowing-cell" : "") +
+      (isBlocked ? " blocked-cell" : "");
+
+    if(!locked){
+      cell.onclick = () => rotatePipe(index);
     }
 
-    function coordToIndex(row, col){
-      return row * 5 + col;
+    const shape = document.createElement("div");
+    shape.className = "pipe-shape type-" + type + (isFlowing ? " flowing" : "");
+    shape.style.transform = `rotate(${state.pipePuzzle.rotations[index] * 90}deg)`;
+
+    if(type === "straight"){
+      shape.innerHTML = `<div class="seg main"></div>`;
+    } else if(type === "corner"){
+      shape.innerHTML = `<div class="seg v"></div><div class="seg h"></div>`;
     }
 
-    function neighbor(row, col, dir){
-      if(dir === "N") return { row: row - 1, col, opposite:"S" };
-      if(dir === "S") return { row: row + 1, col, opposite:"N" };
-      if(dir === "E") return { row, col: col + 1, opposite:"W" };
-      return { row, col: col - 1, opposite:"E" };
-    }
+    cell.appendChild(shape);
+    grid.appendChild(cell);
+  });
+}
 
-    function openPipePuzzle(){
-      showModal(`
-        <div class="modal-box">
-          <h2>Circuit d’eau bricolé</h2>
-          <p>
-            Après la soirée, quelqu’un a démonté les raccords du van pour alimenter un montage douteux.
-            L’entrée d’eau est en haut à gauche, la sortie en bas à droite.
-            <br><br>
-            Clique sur les pièces pour les tourner, puis teste l’écoulement.
-          </p>
+function rotatePipe(index){
+  if(state.pipePuzzle.testing) return;
+  if(index === 0 || index === 24) return;
 
-          <div class="pipe-game-wrap">
-            <div class="pipe-grid" id="pipeGrid"></div>
-            <div class="pipe-label in">IN</div>
-            <div class="pipe-label out">OUT</div>
-          </div>
+  state.pipePuzzle.rotations[index] = (state.pipePuzzle.rotations[index] + 1) % 4;
+  renderPipeGrid();
+}
 
-          <div class="flow-status" id="flowStatus">Relie le circuit puis clique sur “Tester l’eau”.</div>
-
-          <div class="modal-actions">
-            <button class="btn btn-primary" onclick="testPipeFlow()">Tester l’eau</button>
-            <button class="btn btn-secondary" onclick="closeModal()">Fermer</button>
-          </div>
-        </div>
-      `);
-      renderPipeGrid();
-    }
-
-    function renderPipeGrid(flowPath = []){
-      const grid = document.getElementById("pipeGrid");
-      if(!grid) return;
-      grid.innerHTML = "";
-
-      state.pipePuzzle.tiles.forEach((type, index) => {
-        const cell = document.createElement("button");
-        const locked = index === 0 || index === 24;
-        cell.className = "pipe-cell" + (locked ? " locked" : "");
-        if(!locked){
-          cell.onclick = () => rotatePipe(index);
-        }
-
-        const shape = document.createElement("div");
-        shape.className = "pipe-shape type-" + type + (flowPath.includes(index) ? " flowing" : "");
-        shape.style.transform = `rotate(${state.pipePuzzle.rotations[index] * 90}deg)`;
-
-        if(type === "straight"){
-          shape.innerHTML = `<div class="seg main"></div>`;
-        } else if(type === "corner"){
-          shape.innerHTML = `<div class="seg v"></div><div class="seg h"></div>`;
-        } else if(type === "tee"){
-          shape.innerHTML = `<div class="seg v"></div><div class="seg h"></div>`;
-        } else if(type === "cross"){
-          shape.innerHTML = `<div class="seg v"></div><div class="seg h"></div>`;
-        }
-
-        cell.appendChild(shape);
-        grid.appendChild(cell);
-      });
-    }
-
-    function rotatePipe(index){
-      if(state.pipePuzzle.testing) return;
-      if(index === 0 || index === 24) return;
-      state.pipePuzzle.rotations[index] = (state.pipePuzzle.rotations[index] + 1) % 4;
-      renderPipeGrid();
-    }
-
-   function evaluatePipeFlow(){
-  const startIdx = 0;
-  const endIdx = 24;
-
-  const stack = [{
-    idx: startIdx,
-    incoming: "N",
-    path: [startIdx]
-  }];
-
+function evaluatePipeFlow(){
+  let currentIdx = 0;
+  let incoming = "W";
+  const path = [];
   const visited = new Set();
 
-  while(stack.length){
-    const current = stack.pop();
-    const visitKey = current.idx + "|" + current.incoming;
+  while(true){
+    const key = currentIdx + "|" + incoming;
+    if(visited.has(key)){
+      return {
+        success: false,
+        path,
+        blockedIndex: currentIdx,
+        message: "L’eau tourne en boucle dans le circuit."
+      };
+    }
+    visited.add(key);
+    path.push(currentIdx);
 
-    if(visited.has(visitKey)) continue;
-    visited.add(visitKey);
-
-    const row = Math.floor(current.idx / 5);
-    const col = current.idx % 5;
-    const type = state.pipePuzzle.tiles[current.idx];
-    const rotation = state.pipePuzzle.rotations[current.idx];
+    const { row, col } = indexToCoord(currentIdx);
+    const type = state.pipePuzzle.tiles[currentIdx];
+    const rotation = state.pipePuzzle.rotations[currentIdx];
     const dirs = getDirs(type, rotation);
 
-    if(!dirs.includes(current.incoming)){
-      continue;
+    if(!dirs.includes(incoming)){
+      return {
+        success: false,
+        path,
+        blockedIndex: currentIdx,
+        message: "L’eau se bloque : ce tuyau n’est pas orienté correctement."
+      };
     }
 
-    if(current.idx === endIdx){
+    if(currentIdx === 24){
       return {
         success: true,
-        path: current.path,
+        path,
+        blockedIndex: null,
         message: "L’eau atteint la sortie."
       };
     }
 
-    const exits = dirs.filter(d => d !== current.incoming);
+    const exits = dirs.filter(dir => dir !== incoming);
 
-    for(const exitDir of exits){
-      const next = neighbor(row, col, exitDir);
+    if(exits.length !== 1){
+      return {
+        success: false,
+        path,
+        blockedIndex: currentIdx,
+        message: "L’eau ne sait plus où aller."
+      };
+    }
 
-      if(next.row < 0 || next.row > 4 || next.col < 0 || next.col > 4){
-        continue;
-      }
+    const exitDir = exits[0];
+    const next = neighbor(row, col, exitDir);
 
-      const nextIdx = coordToIndex(next.row, next.col);
-      const nextDirs = getDirs(
-        state.pipePuzzle.tiles[nextIdx],
-        state.pipePuzzle.rotations[nextIdx]
-      );
+    if(next.row < 0 || next.row > 4 || next.col < 0 || next.col > 4){
+      return {
+        success: false,
+        path,
+        blockedIndex: currentIdx,
+        message: "L’eau part hors du circuit."
+      };
+    }
 
-      if(!nextDirs.includes(next.opposite)){
-        continue;
-      }
+    const nextIdx = coordToIndex(next.row, next.col);
+    const nextType = state.pipePuzzle.tiles[nextIdx];
+    const nextRotation = state.pipePuzzle.rotations[nextIdx];
+    const nextDirs = getDirs(nextType, nextRotation);
 
-      stack.push({
-        idx: nextIdx,
-        incoming: next.opposite,
-        path: [...current.path, nextIdx]
-      });
+    if(!nextDirs.includes(next.opposite)){
+      path.push(nextIdx);
+      return {
+        success: false,
+        path,
+        blockedIndex: nextIdx,
+        message: "L’eau se bloque au premier mauvais raccord."
+      };
+    }
+
+    currentIdx = nextIdx;
+    incoming = next.opposite;
+  }
+}
+
+function animatePipeFlow(result){
+  const flowStatus = document.getElementById("flowStatus");
+  if(flowStatus) flowStatus.textContent = "Injection de l’eau...";
+
+  state.pipePuzzle.testing = true;
+
+  let step = 0;
+
+  function reveal(){
+    const visiblePath = result.path.slice(0, step + 1);
+    const currentBlocked =
+      !result.success && step >= result.path.length - 1
+        ? result.blockedIndex
+        : null;
+
+    renderPipeGrid(visiblePath, currentBlocked);
+    step++;
+
+    if(step < result.path.length){
+      setTimeout(reveal, 180);
+      return;
+    }
+
+    state.pipePuzzle.testing = false;
+
+    if(flowStatus) flowStatus.textContent = result.message;
+
+    if(result.success){
+      state.steps.sinkSolved = true;
+      state.pipePuzzle.solved = true;
+      setTimeout(() => {
+        closeModal();
+        setMessage("Le circuit d’eau est réparé. Le lavabo remarche enfin.");
+      }, 700);
     }
   }
 
-  return {
-    success: false,
-    path: [],
-    message: "Le circuit n’est pas correctement relié."
-  };
+  reveal();
 }
-    function animatePipeFlow(result){
-      const flowStatus = document.getElementById("flowStatus");
-      if(flowStatus) flowStatus.textContent = "L’eau s’écoule...";
-      let step = 0;
 
-      function reveal(){
-        renderPipeGrid(result.path.slice(0, step + 1));
-        step++;
-
-        if(step <= result.path.length){
-          setTimeout(reveal, 180);
-        } else {
-          state.pipePuzzle.testing = false;
-          if(flowStatus) flowStatus.textContent = result.message;
-
-          if(result.success){
-            state.steps.sinkSolved = true;
-            state.pipePuzzle.solved = true;
-            setTimeout(() => {
-              closeModal();
-              setMessage("Le circuit d’eau est réparé. Le lavabo remarche enfin.");
-            }, 700);
-          }
-        }
-      }
-
-      reveal();
-    }
-
-    function testPipeFlow(){
-      if(state.pipePuzzle.testing) return;
-      state.pipePuzzle.testing = true;
-      const result = evaluatePipeFlow();
-      animatePipeFlow(result);
-    }
-
+function testPipeFlow(){
+  if(state.pipePuzzle.testing) return;
+  const result = evaluatePipeFlow();
+  animatePipeFlow(result);
+}
     function openMoleGame(){
       showModal(`
         <div class="modal-box">
