@@ -128,10 +128,10 @@
     }
 
     #scene.clear{
-  filter:none;
-  transform:scale(1);
-  background:#050505;
-}
+      filter:none;
+      transform:scale(1);
+      background:#050505;
+    }
 
     .room{position:absolute; inset:0}
     .wall{
@@ -148,7 +148,6 @@
       border-top:4px solid rgba(0,0,0,.18);
     }
 
-    
     .poster{
       position:absolute;
       left:8%;
@@ -482,7 +481,7 @@
       padding:10px;
       background:linear-gradient(180deg,#c6a45f,#7d5825);
       box-shadow:0 14px 30px rgba(0,0,0,.28);
-      z-index:2;
+      z-index:5;
     }
 
     .mirror-glass{
@@ -1061,6 +1060,110 @@
       font-size:1.7rem;
     }
 
+    .mirror-only .room,
+    .mirror-only .hotspot,
+    .mirror-only .noise{
+      display:none !important;
+    }
+
+    .mirror-only{
+      display:grid;
+      place-items:center;
+    }
+
+    .mirror{
+      display:none;
+    }
+
+    .mirror-only .mirror{
+      display:block;
+      position:relative;
+      width:min(42vw, 320px);
+      height:min(70vh, 460px);
+      left:auto;
+      top:auto;
+      border-radius:26px;
+      padding:14px;
+      background:linear-gradient(180deg,#c6a45f,#7d5825);
+      box-shadow:
+        0 18px 40px rgba(0,0,0,.45),
+        inset 0 2px 0 rgba(255,255,255,.12);
+    }
+
+    .mirror-only .mirror-glass{
+      border-radius:18px;
+    }
+
+    .mirror-only .mirror-drunk{
+      bottom:18px;
+      width:120px;
+      height:220px;
+      transform:translateX(-50%) scaleX(-1);
+      opacity:0;
+      transition:opacity .8s ease;
+    }
+
+    .mirror-only .drunk-head{
+      top:24px;
+      width:58px;
+      height:64px;
+    }
+
+    .mirror-only .drunk-hair{
+      top:10px;
+      width:76px;
+      height:76px;
+      border-radius:50px 50px 30px 30px;
+    }
+
+    .mirror-only .drunk-eye-left,
+    .mirror-only .drunk-eye-right{
+      top:54px;
+      width:10px;
+      height:10px;
+    }
+
+    .mirror-only .drunk-eye-left{left:38px}
+    .mirror-only .drunk-eye-right{right:38px}
+
+    .mirror-only .drunk-mouth{
+      top:76px;
+      width:24px;
+      height:10px;
+      border-bottom:4px solid #7a3d3d;
+    }
+
+    .mirror-only .drunk-body{
+      width:98px;
+      height:116px;
+      border-radius:24px 24px 14px 14px;
+    }
+
+    .mirror-only .drunk-arm-left,
+    .mirror-only .drunk-arm-right{
+      top:112px;
+      width:18px;
+      height:72px;
+    }
+
+    .mirror-only .drunk-arm-left{
+      left:14px;
+      transform:rotate(18deg);
+    }
+
+    .mirror-only .drunk-arm-right{
+      right:10px;
+      transform:rotate(-28deg);
+    }
+
+    .mirror-only .drunk-bottle{
+      right:-2px;
+      top:146px;
+      width:18px;
+      height:42px;
+      border-radius:8px 8px 4px 4px;
+    }
+
     @media (max-width: 980px){
       body{overflow:auto}
       #game{
@@ -1128,173 +1231,16 @@
         height:162px;
       }
 
-      .mirror-only .room,
-.mirror-only .hotspot,
-.mirror-only .noise{
-  display:none !important;
-}
+      .mirror-only .mirror{
+        width:min(62vw, 260px);
+        height:min(62vh, 360px);
+      }
 
-.mirror-only{
-  display:grid;
-  place-items:center;
-}
-
-.mirror{
-  display:none;
-}
-
-.mirror-only .mirror{
-  display:block;
-  position:relative;
-  width:min(42vw, 320px);
-  height:min(70vh, 460px);
-  border-radius:26px;
-  padding:14px;
-  background:linear-gradient(180deg,#c6a45f,#7d5825);
-  box-shadow:
-    0 18px 40px rgba(0,0,0,.45),
-    inset 0 2px 0 rgba(255,255,255,.12);
-}
-
-.mirror-glass{
-  position:relative;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  border-radius:18px;
-  background:
-    linear-gradient(180deg, rgba(185,220,232,.96) 0%, rgba(116,138,150,.96) 100%);
-  border:2px solid rgba(255,255,255,.14);
-}
-
-.mirror-glass::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(125deg, rgba(255,255,255,.22) 0 18%, transparent 18% 42%, rgba(255,255,255,.08) 42% 48%, transparent 48% 100%);
-  pointer-events:none;
-}
-
-.mirror-drunk{
-  position:absolute;
-  left:50%;
-  bottom:18px;
-  width:120px;
-  height:220px;
-  transform:translateX(-50%) scaleX(-1);
-  opacity:0;
-  transition:opacity .8s ease;
-}
-
-.mirror.show-reflection .mirror-drunk{
-  opacity:1;
-}
-
-.drunk-head{
-  position:absolute;
-  left:50%;
-  top:24px;
-  width:58px;
-  height:64px;
-  transform:translateX(-50%);
-  background:#dfb08d;
-  border-radius:48% 48% 44% 44%;
-  z-index:3;
-}
-
-.drunk-hair{
-  position:absolute;
-  left:50%;
-  top:10px;
-  width:76px;
-  height:76px;
-  transform:translateX(-50%);
-  background:#5a3a22;
-  border-radius:50px 50px 30px 30px;
-  z-index:2;
-}
-
-.drunk-eye-left,
-.drunk-eye-right{
-  position:absolute;
-  top:54px;
-  width:10px;
-  height:10px;
-  background:#2a1a12;
-  border-radius:50%;
-  z-index:4;
-}
-
-.drunk-eye-left{left:38px}
-.drunk-eye-right{right:38px}
-
-.drunk-mouth{
-  position:absolute;
-  left:50%;
-  top:76px;
-  width:24px;
-  height:10px;
-  transform:translateX(-50%) rotate(10deg);
-  border-bottom:4px solid #7a3d3d;
-  border-radius:0 0 12px 12px;
-  z-index:4;
-}
-
-.drunk-body{
-  position:absolute;
-  left:50%;
-  bottom:0;
-  width:98px;
-  height:116px;
-  transform:translateX(-50%);
-  background:linear-gradient(180deg,#c57d5d,#7a4d37);
-  border-radius:24px 24px 14px 14px;
-}
-
-.drunk-arm-left,
-.drunk-arm-right{
-  position:absolute;
-  top:112px;
-  width:18px;
-  height:72px;
-  background:#c57d5d;
-  border-radius:12px;
-}
-
-.drunk-arm-left{
-  left:14px;
-  transform:rotate(18deg);
-}
-
-.drunk-arm-right{
-  right:10px;
-  transform:rotate(-28deg);
-}
-
-.drunk-bottle{
-  position:absolute;
-  right:-2px;
-  top:146px;
-  width:18px;
-  height:42px;
-  border-radius:8px 8px 4px 4px;
-  background:linear-gradient(180deg,#7ed1a6,#34785b);
-  transform:rotate(-16deg);
-  box-shadow:0 0 8px rgba(126,209,166,.16);
-}
-
-@media (max-width: 640px){
-  .mirror-only .mirror{
-    width:min(62vw, 260px);
-    height:min(62vh, 360px);
-  }
-
-  .mirror-drunk{
-    width:92px;
-    height:180px;
-  }
-}
+      .mirror-only .mirror-drunk{
+        width:92px;
+        height:180px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1316,27 +1262,28 @@
   <section id="game" class="screen">
     <div id="sceneWrap">
       <div id="scene">
+
+        <div class="mirror" id="mirror">
+          <div class="mirror-glass">
+            <div class="mirror-drunk">
+              <div class="drunk-hair"></div>
+              <div class="drunk-head"></div>
+              <div class="drunk-eye-left"></div>
+              <div class="drunk-eye-right"></div>
+              <div class="drunk-mouth"></div>
+              <div class="drunk-body"></div>
+              <div class="drunk-arm-left"></div>
+              <div class="drunk-arm-right"></div>
+              <div class="drunk-bottle"></div>
+            </div>
+          </div>
+        </div>
+
         <div class="room">
           <div class="wall"></div>
           <div class="poster"></div>
           <div class="window"></div>
           <div class="bed"></div>
-
-          <div class="mirror" id="mirror">
-            <div class="mirror-glass">
-              <div class="mirror-drunk">
-                <div class="drunk-hair"></div>
-                <div class="drunk-head"></div>
-                <div class="drunk-eye-left"></div>
-                <div class="drunk-eye-right"></div>
-                <div class="drunk-mouth"></div>
-                <div class="drunk-body"></div>
-                <div class="drunk-arm-left"></div>
-                <div class="drunk-arm-right"></div>
-                <div class="drunk-bottle"></div>
-              </div>
-            </div>
-          </div>
 
           <div class="chair">
             <div class="back"></div>
@@ -1515,42 +1462,42 @@
       btn.addEventListener("click", () => interact(btn.dataset.target));
     });
 
-   drinkBtn.addEventListener("click", () => {
-  if (!canDrink()) {
-    setMessage("Il manque encore quelque chose avant de boire.");
-    return;
-  }
+    drinkBtn.addEventListener("click", () => {
+      if (!canDrink()) {
+        setMessage("Il manque encore quelque chose avant de boire.");
+        return;
+      }
 
-  state.steps.drank = true;
-  state.steps.visionRestored = true;
+      state.steps.drank = true;
+      state.steps.visionRestored = true;
 
-  scene.classList.add("clear");
-  scene.classList.add("mirror-only");
+      scene.classList.add("clear");
+      scene.classList.add("mirror-only");
 
-  closeModal();
+      closeModal();
 
-  showModal(`
-    <div class="modal-box">
-      <h2>Tu bois lentement…</h2>
-      <p class="victory">
-        La chaleur descend dans ta gorge. Cette fois, ta vue revient pour de bon.
-      </p>
-      <p class="victory">
-        Mais tu ne distingues plus la pièce : devant toi, il n’y a plus qu’un miroir,
-        et dedans le reflet d’un mec complètement bourré.
-      </p>
-      <p class="victory">
-        Chapitre 1 terminé.
-      </p>
-      <div class="modal-actions">
-        <button class="btn btn-primary" onclick="closeModal()">Continuer</button>
-      </div>
-    </div>
-  `);
+      showModal(`
+        <div class="modal-box">
+          <h2>Tu bois lentement…</h2>
+          <p class="victory">
+            La chaleur descend dans ta gorge. Cette fois, ta vue revient pour de bon.
+          </p>
+          <p class="victory">
+            Mais tu ne distingues plus la pièce : devant toi, il n’y a plus qu’un miroir,
+            et dedans le reflet d’un mec complètement bourré.
+          </p>
+          <p class="victory">
+            Chapitre 1 terminé.
+          </p>
+          <div class="modal-actions">
+            <button class="btn btn-primary" onclick="closeModal()">Continuer</button>
+          </div>
+        </div>
+      `);
 
-  setMessage("La vue revient, mais la salle disparaît. Il ne reste que le miroir et le reflet d’un mec bourré.");
-  renderAll();
-});
+      setMessage("La vue revient, mais la salle disparaît. Il ne reste que le miroir et le reflet d’un mec bourré.");
+      renderAll();
+    });
 
     function setMessage(text){
       messageEl.textContent = text;
@@ -1605,18 +1552,6 @@
       return labels[item] || item;
     }
 
-    function getItemHint(item){
-      const hints = {
-        pot: state.steps.potFilled ? "Remplie d’eau." : "Vide.",
-        lemon: "À poser sur le presse-citron.",
-        pressTool: "À poser sur le plan de travail.",
-        ginger: "À râper au-dessus de la casserole.",
-        stool: "Utile pour atteindre l’étagère.",
-        grater: "À placer au-dessus de la casserole chaude."
-      };
-      return hints[item] || "";
-    }
-
     function renderInventory(){
       inventoryEl.innerHTML = "";
       if(state.inventory.length === 0){
@@ -1648,34 +1583,34 @@
       }).join("");
     }
 
-  function renderSceneStates(){
-  if(state.steps.potFound) potVis.classList.add("active");
-  else potVis.classList.remove("active");
+    function renderSceneStates(){
+      if(state.steps.potFound) potVis.classList.add("active");
+      else potVis.classList.remove("active");
 
-  if(state.steps.pressPlaced) pressBase.classList.add("active");
-  else pressBase.classList.remove("active");
+      if(state.steps.pressPlaced) pressBase.classList.add("active");
+      else pressBase.classList.remove("active");
 
-  if(state.steps.lemonPressed) lemonOnPress.classList.add("active");
-  else lemonOnPress.classList.remove("active");
+      if(state.steps.lemonPressed) lemonOnPress.classList.add("active");
+      else lemonOnPress.classList.remove("active");
 
-  if(state.steps.graterPlaced) graterOverPot.classList.add("active");
-  else graterOverPot.classList.remove("active");
+      if(state.steps.graterPlaced) graterOverPot.classList.add("active");
+      else graterOverPot.classList.remove("active");
 
-  if(state.steps.gingerGrated) gingerOnGrater.classList.add("active");
-  else gingerOnGrater.classList.remove("active");
+      if(state.steps.gingerGrated) gingerOnGrater.classList.add("active");
+      else gingerOnGrater.classList.remove("active");
 
-  if(state.steps.waterHeated) steam.classList.add("active");
-  else steam.classList.remove("active");
+      if(state.steps.waterHeated) steam.classList.add("active");
+      else steam.classList.remove("active");
 
-  if(state.steps.visionRestored){
-    mirror.classList.add("show-reflection");
-    scene.classList.add("mirror-only");
-    scene.classList.add("clear");
-  } else {
-    mirror.classList.remove("show-reflection");
-    scene.classList.remove("mirror-only");
-  }
-}
+      if(state.steps.visionRestored){
+        mirror.classList.add("show-reflection");
+        scene.classList.add("mirror-only");
+        scene.classList.add("clear");
+      } else {
+        mirror.classList.remove("show-reflection");
+        scene.classList.remove("mirror-only");
+      }
+    }
 
     function canDrink(){
       return state.steps.waterHeated && state.steps.lemonAdded && state.steps.gingerGrated;
