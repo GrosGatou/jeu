@@ -470,6 +470,147 @@
       transform:rotate(-8deg);
     }
 
+    .mirror{
+      position:absolute;
+      left:22%;
+      top:16%;
+      width:150px;
+      height:210px;
+      border-radius:18px;
+      padding:10px;
+      background:linear-gradient(180deg,#c6a45f,#7d5825);
+      box-shadow:0 14px 30px rgba(0,0,0,.28);
+      z-index:2;
+    }
+
+    .mirror-glass{
+      position:relative;
+      width:100%;
+      height:100%;
+      overflow:hidden;
+      border-radius:12px;
+      background:
+        linear-gradient(180deg, rgba(185,220,232,.95) 0%, rgba(116,138,150,.95) 100%);
+      border:2px solid rgba(255,255,255,.15);
+    }
+
+    .mirror-glass::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(125deg, rgba(255,255,255,.22) 0 18%, transparent 18% 42%, rgba(255,255,255,.08) 42% 48%, transparent 48% 100%);
+      pointer-events:none;
+    }
+
+    .mirror-drunk{
+      position:absolute;
+      left:50%;
+      bottom:8px;
+      width:84px;
+      height:150px;
+      transform:translateX(-50%) scaleX(-1);
+      opacity:0;
+      transition:opacity .7s ease;
+    }
+
+    .mirror.show-reflection .mirror-drunk{
+      opacity:1;
+    }
+
+    .drunk-head{
+      position:absolute;
+      left:50%;
+      top:16px;
+      width:42px;
+      height:48px;
+      transform:translateX(-50%);
+      background:#dfb08d;
+      border-radius:48% 48% 44% 44%;
+      z-index:3;
+    }
+
+    .drunk-hair{
+      position:absolute;
+      left:50%;
+      top:8px;
+      width:58px;
+      height:58px;
+      transform:translateX(-50%);
+      background:#5a3a22;
+      border-radius:45px 45px 26px 26px;
+      z-index:2;
+    }
+
+    .drunk-eye-left,
+    .drunk-eye-right{
+      position:absolute;
+      top:40px;
+      width:8px;
+      height:8px;
+      background:#2a1a12;
+      border-radius:50%;
+      z-index:4;
+    }
+
+    .drunk-eye-left{left:27px}
+    .drunk-eye-right{right:27px}
+
+    .drunk-mouth{
+      position:absolute;
+      left:50%;
+      top:57px;
+      width:18px;
+      height:8px;
+      transform:translateX(-50%) rotate(10deg);
+      border-bottom:3px solid #7a3d3d;
+      border-radius:0 0 12px 12px;
+      z-index:4;
+    }
+
+    .drunk-body{
+      position:absolute;
+      left:50%;
+      bottom:0;
+      width:74px;
+      height:82px;
+      transform:translateX(-50%);
+      background:linear-gradient(180deg,#c57d5d,#7a4d37);
+      border-radius:18px 18px 12px 12px;
+    }
+
+    .drunk-arm-left,
+    .drunk-arm-right{
+      position:absolute;
+      top:78px;
+      width:14px;
+      height:52px;
+      background:#c57d5d;
+      border-radius:12px;
+    }
+
+    .drunk-arm-left{
+      left:10px;
+      transform:rotate(18deg);
+    }
+
+    .drunk-arm-right{
+      right:8px;
+      transform:rotate(-28deg);
+    }
+
+    .drunk-bottle{
+      position:absolute;
+      right:-2px;
+      top:104px;
+      width:14px;
+      height:32px;
+      border-radius:6px 6px 4px 4px;
+      background:linear-gradient(180deg,#7ed1a6,#34785b);
+      transform:rotate(-16deg);
+      box-shadow:0 0 8px rgba(126,209,166,.16);
+    }
+
     .hotspot{
       position:absolute;
       background:rgba(255,255,255,.055);
@@ -700,124 +841,124 @@
     .attempt-dot.fail{background:var(--bad); border-color:transparent}
 
     .pipe-game-wrap{
-  width:min(100%,420px);
-  margin:14px auto 0;
-  position:relative;
-}
+      width:min(100%,420px);
+      margin:14px auto 0;
+      position:relative;
+    }
 
-.pipe-grid{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:6px;
-  background:linear-gradient(180deg,#2f88a1,#245f77);
-  border:5px solid #627079;
-  border-radius:16px;
-  padding:10px;
-  box-shadow:inset 0 0 0 3px rgba(255,255,255,.08);
-  position:relative;
-}
+    .pipe-grid{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:6px;
+      background:linear-gradient(180deg,#2f88a1,#245f77);
+      border:5px solid #627079;
+      border-radius:16px;
+      padding:10px;
+      box-shadow:inset 0 0 0 3px rgba(255,255,255,.08);
+      position:relative;
+    }
 
-.pipe-cell{
-  aspect-ratio:1/1;
-  position:relative;
-  border-radius:10px;
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.16);
-  cursor:pointer;
-  overflow:hidden;
-}
+    .pipe-cell{
+      aspect-ratio:1/1;
+      position:relative;
+      border-radius:10px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.16);
+      cursor:pointer;
+      overflow:hidden;
+    }
 
-.pipe-cell.locked{
-  cursor:default;
-  background:rgba(255,255,255,.12);
-}
+    .pipe-cell.locked{
+      cursor:default;
+      background:rgba(255,255,255,.12);
+    }
 
-.pipe-cell.flowing-cell{
-  box-shadow:inset 0 0 0 2px rgba(110,197,255,.55);
-}
+    .pipe-cell.flowing-cell{
+      box-shadow:inset 0 0 0 2px rgba(110,197,255,.55);
+    }
 
-.pipe-cell.blocked-cell{
-  box-shadow:inset 0 0 0 2px rgba(240,125,125,.8);
-}
+    .pipe-cell.blocked-cell{
+      box-shadow:inset 0 0 0 2px rgba(240,125,125,.8);
+    }
 
-.pipe-shape{
-  position:absolute;
-  inset:6px;
-  transform-origin:center;
-  transition:transform .18s ease;
-}
+    .pipe-shape{
+      position:absolute;
+      inset:6px;
+      transform-origin:center;
+      transition:transform .18s ease;
+    }
 
-.seg{
-  position:absolute;
-  background:linear-gradient(180deg,var(--pipe),var(--pipe-dark));
-  border-radius:999px;
-  box-shadow:inset 0 -3px 0 rgba(0,0,0,.14);
-  transition:background .2s ease, box-shadow .2s ease;
-}
+    .seg{
+      position:absolute;
+      background:linear-gradient(180deg,var(--pipe),var(--pipe-dark));
+      border-radius:999px;
+      box-shadow:inset 0 -3px 0 rgba(0,0,0,.14);
+      transition:background .2s ease, box-shadow .2s ease;
+    }
 
-.flowing .seg{
-  background:linear-gradient(180deg,#bfe8ff,var(--water));
-  box-shadow:0 0 10px rgba(110,197,255,.45), inset 0 -3px 0 rgba(0,0,0,.08);
-}
+    .flowing .seg{
+      background:linear-gradient(180deg,#bfe8ff,var(--water));
+      box-shadow:0 0 10px rgba(110,197,255,.45), inset 0 -3px 0 rgba(0,0,0,.08);
+    }
 
-.blocked-cell .seg{
-  background:linear-gradient(180deg,#ffb0b0,#f07d7d);
-  box-shadow:0 0 10px rgba(240,125,125,.35), inset 0 -3px 0 rgba(0,0,0,.08);
-}
+    .blocked-cell .seg{
+      background:linear-gradient(180deg,#ffb0b0,#f07d7d);
+      box-shadow:0 0 10px rgba(240,125,125,.35), inset 0 -3px 0 rgba(0,0,0,.08);
+    }
 
-.type-straight .seg.main{
-  width:18%;
-  height:100%;
-  left:41%;
-  top:0;
-}
+    .type-straight .seg.main{
+      width:18%;
+      height:100%;
+      left:41%;
+      top:0;
+    }
 
-.type-corner .seg.v{
-  width:18%;
-  height:58%;
-  left:41%;
-  top:42%;
-}
+    .type-corner .seg.v{
+      width:18%;
+      height:58%;
+      left:41%;
+      top:42%;
+    }
 
-.type-corner .seg.h{
-  width:58%;
-  height:18%;
-  left:41%;
-  top:41%;
-}
+    .type-corner .seg.h{
+      width:58%;
+      height:18%;
+      left:41%;
+      top:41%;
+    }
 
-.pipe-label{
-  position:absolute;
-  width:30px;
-  height:30px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  font-size:10px;
-  font-weight:700;
-  color:#0f1316;
-  z-index:3;
-  box-shadow:0 4px 16px rgba(0,0,0,.28);
-}
+    .pipe-label{
+      position:absolute;
+      width:30px;
+      height:30px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      font-size:10px;
+      font-weight:700;
+      color:#0f1316;
+      z-index:3;
+      box-shadow:0 4px 16px rgba(0,0,0,.28);
+    }
 
-.pipe-label.in{
-  background:linear-gradient(180deg,#bff5d0,#5fdc89);
-  left:-14px;
-  top:-14px;
-}
+    .pipe-label.in{
+      background:linear-gradient(180deg,#bff5d0,#5fdc89);
+      left:-14px;
+      top:-14px;
+    }
 
-.pipe-label.out{
-  background:linear-gradient(180deg,#ffd3b0,#ff925e);
-  right:-14px;
-  bottom:-14px;
-}
+    .pipe-label.out{
+      background:linear-gradient(180deg,#ffd3b0,#ff925e);
+      right:-14px;
+      bottom:-14px;
+    }
 
-.flow-status{
-  text-align:center;
-  color:var(--muted);
-  margin-top:12px;
-  min-height:24px;
-}
+    .flow-status{
+      text-align:center;
+      color:var(--muted);
+      margin-top:12px;
+      min-height:24px;
+    }
 
     .mole-stats{
       display:flex;
@@ -945,6 +1086,12 @@
       .symbol-grid{
         grid-template-columns:repeat(4,1fr);
       }
+      .mirror{
+        left:16%;
+        top:14%;
+        width:128px;
+        height:182px;
+      }
     }
 
     @media (max-width: 640px){
@@ -970,6 +1117,13 @@
         width:54px;
         height:54px;
         font-size:1.45rem;
+      }
+
+      .mirror{
+        left:12%;
+        top:14%;
+        width:112px;
+        height:162px;
       }
     }
   </style>
@@ -998,6 +1152,22 @@
           <div class="poster"></div>
           <div class="window"></div>
           <div class="bed"></div>
+
+          <div class="mirror" id="mirror">
+            <div class="mirror-glass">
+              <div class="mirror-drunk">
+                <div class="drunk-hair"></div>
+                <div class="drunk-head"></div>
+                <div class="drunk-eye-left"></div>
+                <div class="drunk-eye-right"></div>
+                <div class="drunk-mouth"></div>
+                <div class="drunk-body"></div>
+                <div class="drunk-arm-left"></div>
+                <div class="drunk-arm-right"></div>
+                <div class="drunk-bottle"></div>
+              </div>
+            </div>
+          </div>
 
           <div class="chair">
             <div class="back"></div>
@@ -1082,6 +1252,7 @@
       currentQuizIndex: 0,
       quizSymbols: [],
       enteredSymbols: [],
+      quizIndex: 0,
       timing: {
         successes: 0,
         tries: [],
@@ -1091,24 +1262,24 @@
         rafId: null,
         active: false
       },
-     pipePuzzle: {
-  solved: false,
-  testing: false,
-  rotations: [
-    1,1,2,1,2,
-    0,2,0,1,0,
-    1,0,1,2,0,
-    0,1,2,1,0,
-    0,1,1,2,0
-  ],
-  tiles: [
-    "straight","straight","corner","straight","corner",
-    "corner","corner","straight","straight","corner",
-    "straight","corner","straight","corner","straight",
-    "corner","straight","corner","straight","corner",
-    "corner","straight","straight","corner","straight"
-  ]
-},
+      pipePuzzle: {
+        solved: false,
+        testing: false,
+        rotations: [
+          1,1,2,1,2,
+          0,2,0,1,0,
+          1,0,1,2,0,
+          0,1,2,1,0,
+          0,1,1,2,0
+        ],
+        tiles: [
+          "straight","straight","corner","straight","corner",
+          "corner","corner","straight","straight","corner",
+          "straight","corner","straight","corner","straight",
+          "corner","straight","corner","straight","corner",
+          "corner","straight","straight","corner","straight"
+        ]
+      },
       mole: {
         active: false,
         score: 0,
@@ -1156,12 +1327,13 @@
     const lemonOnPress = document.getElementById("lemonOnPress");
     const graterOverPot = document.getElementById("graterOverPot");
     const gingerOnGrater = document.getElementById("gingerOnGrater");
+    const mirror = document.getElementById("mirror");
 
     const recipeData = [
-  { key: "waterHeated", label: "Eau chaude" },
-  { key: "gingerGrated", label: "Gingembre râpé" },
-  { key: "lemonAdded", label: "Citron pressé" }
-];
+      { key: "waterHeated", label: "Eau chaude" },
+      { key: "gingerGrated", label: "Gingembre râpé" },
+      { key: "lemonAdded", label: "Citron pressé" }
+    ];
 
     startBtn.addEventListener("click", () => {
       intro.classList.remove("active");
@@ -1179,16 +1351,22 @@
         setMessage("Il manque encore quelque chose avant de boire.");
         return;
       }
+
       state.steps.drank = true;
       state.steps.visionRestored = true;
       scene.classList.add("clear");
+
       closeModal();
+
       showModal(`
         <div class="modal-box">
           <h2>Tu bois lentement…</h2>
           <p class="victory">
             La chaleur descend dans ta gorge. Le citron te réveille, le gingembre te gifle,
-            et soudain le monde arrête de vibrer. Les contours reviennent.
+            et soudain la vue revient franchement.
+          </p>
+          <p class="victory">
+            Dans le miroir, un détail te frappe : le reflet d’un mec complètement bourré te regarde.
           </p>
           <p class="victory">
             Chapitre 1 terminé : tu as survécu à ton propre réveil.
@@ -1198,7 +1376,8 @@
           </div>
         </div>
       `);
-      setMessage("Tu bois l’infusion. Le brouillard se dissipe enfin.");
+
+      setMessage("Tu retrouves la vue. Le van redevient net, et dans le miroir apparaît le reflet d’un mec bourré.");
       renderAll();
     });
 
@@ -1211,13 +1390,13 @@
       modal.classList.add("show");
     }
 
-   function closeModal(){
-  modal.classList.remove("show");
-  modal.innerHTML = "";
-  state.pipePuzzle.testing = false;
-  stopTimingGame();
-  stopMoleGame();
-}
+    function closeModal(){
+      modal.classList.remove("show");
+      modal.innerHTML = "";
+      state.pipePuzzle.testing = false;
+      stopTimingGame();
+      stopMoleGame();
+    }
 
     function escapeQuotes(str){
       return str.replaceAll("'", "\\'");
@@ -1242,18 +1421,18 @@
     }
 
     function labelItem(item){
-  const labels = {
-    pot: "Casserole vide",
-    potFull: "Casserole pleine",
-    lemon: "Citron",
-    lemonPressedItem: "Citron pressé",
-    pressTool: "Presse-citron",
-    ginger: "Morceau de gingembre",
-    stool: "Petit tabouret",
-    grater: "Râpe"
-  };
-  return labels[item] || item;
-}
+      const labels = {
+        pot: "Casserole vide",
+        potFull: "Casserole pleine",
+        lemon: "Citron",
+        lemonPressedItem: "Citron pressé",
+        pressTool: "Presse-citron",
+        ginger: "Morceau de gingembre",
+        stool: "Petit tabouret",
+        grater: "Râpe"
+      };
+      return labels[item] || item;
+    }
 
     function getItemHint(item){
       const hints = {
@@ -1268,23 +1447,23 @@
     }
 
     function renderInventory(){
-  inventoryEl.innerHTML = "";
-  if(state.inventory.length === 0){
-    inventoryEl.innerHTML = '<div style="color:var(--muted);line-height:1.6">Rien pour l’instant. Fouille la pièce.</div>';
-    return;
-  }
+      inventoryEl.innerHTML = "";
+      if(state.inventory.length === 0){
+        inventoryEl.innerHTML = '<div style="color:var(--muted);line-height:1.6">Rien pour l’instant. Fouille la pièce.</div>';
+        return;
+      }
 
-  state.inventory.forEach(item => {
-    const btn = document.createElement("button");
-    btn.className = "item" + (state.selectedItem === item ? " selected" : "");
-    btn.textContent = labelItem(item);
-    btn.addEventListener("click", () => {
-      state.selectedItem = (state.selectedItem === item ? null : item);
-      renderAll();
-    });
-    inventoryEl.appendChild(btn);
-  });
-}
+      state.inventory.forEach(item => {
+        const btn = document.createElement("button");
+        btn.className = "item" + (state.selectedItem === item ? " selected" : "");
+        btn.textContent = labelItem(item);
+        btn.addEventListener("click", () => {
+          state.selectedItem = (state.selectedItem === item ? null : item);
+          renderAll();
+        });
+        inventoryEl.appendChild(btn);
+      });
+    }
 
     function renderRecipe(){
       recipeList.innerHTML = recipeData.map(step => {
@@ -1316,11 +1495,15 @@
 
       if(state.steps.waterHeated) steam.classList.add("active");
       else steam.classList.remove("active");
+
+      if(state.steps.visionRestored) mirror.classList.add("show-reflection");
+      else mirror.classList.remove("show-reflection");
     }
 
- function canDrink(){
-  return state.steps.waterHeated && state.steps.lemonAdded && state.steps.gingerGrated;
-}
+    function canDrink(){
+      return state.steps.waterHeated && state.steps.lemonAdded && state.steps.gingerGrated;
+    }
+
     function renderDrinkButton(){
       drinkBtn.disabled = !canDrink();
     }
@@ -1382,115 +1565,117 @@
       openTimingPuzzle();
     }
 
-function handleSink(){
-  if(!state.steps.sinkSolved){
-    openPipePuzzle();
-    return;
-  }
+    function handleSink(){
+      if(!state.steps.sinkSolved){
+        openPipePuzzle();
+        return;
+      }
 
-  if(!hasItem("pot") && !hasItem("potFull")){
-    setMessage("L’eau revient, mais il te manque encore une casserole.");
-    return;
-  }
+      if(!hasItem("pot") && !hasItem("potFull")){
+        setMessage("L’eau revient, mais il te manque encore une casserole.");
+        return;
+      }
 
-  if(state.selectedItem === "pot" && hasItem("pot") && !state.steps.potFilled){
-    removeItem("pot");
-    addItem("potFull");
-    state.selectedItem = "potFull";
-    state.steps.potFilled = true;
-    setMessage("Tu remplis la casserole au lavabo. Elle est maintenant pleine.");
-    renderAll();
-    return;
-  }
+      if(state.selectedItem === "pot" && hasItem("pot") && !state.steps.potFilled){
+        removeItem("pot");
+        addItem("potFull");
+        state.selectedItem = "potFull";
+        state.steps.potFilled = true;
+        setMessage("Tu remplis la casserole au lavabo. Elle est maintenant pleine.");
+        renderAll();
+        return;
+      }
 
-  if(hasItem("potFull") || state.steps.potFilled){
-    setMessage("La casserole est déjà remplie.");
-  } else {
-    setMessage("L’eau est revenue. Sélectionne la casserole vide pour la remplir.");
-  }
-}
+      if(hasItem("potFull") || state.steps.potFilled){
+        setMessage("La casserole est déjà remplie.");
+      } else {
+        setMessage("L’eau est revenue. Sélectionne la casserole vide pour la remplir.");
+      }
+    }
 
-  function handleStove(){
-  if(!hasItem("pot") && !hasItem("potFull") && !state.steps.stoveOn){
-    setMessage("Le réchaud est prêt, mais tu n’as pas encore de casserole.");
-    return;
-  }
+    function handleStove(){
+      if(!hasItem("pot") && !hasItem("potFull") && !state.steps.stoveOn){
+        setMessage("Le réchaud est prêt, mais tu n’as pas encore de casserole.");
+        return;
+      }
 
-  if(!hasItem("potFull") && !state.steps.stoveOn){
-    setMessage("Il faudrait d’abord remplir la casserole.");
-    return;
-  }
+      if(!hasItem("potFull") && !state.steps.stoveOn){
+        setMessage("Il faudrait d’abord remplir la casserole.");
+        return;
+      }
 
-  if(state.selectedItem === "potFull" && hasItem("potFull") && !state.steps.stoveOn){
-    removeItem("potFull");
-    state.steps.stoveOn = true;
-    state.steps.waterHeated = true;
-    state.selectedItem = null;
-    setMessage("Tu poses la casserole pleine sur le réchaud. L’eau chauffe.");
-    renderAll();
-    return;
-  }
+      if(state.selectedItem === "potFull" && hasItem("potFull") && !state.steps.stoveOn){
+        removeItem("potFull");
+        state.steps.stoveOn = true;
+        state.steps.waterHeated = true;
+        state.selectedItem = null;
+        setMessage("Tu poses la casserole pleine sur le réchaud. L’eau chauffe.");
+        renderAll();
+        return;
+      }
 
-  if(state.steps.stoveOn && hasItem("lemonPressedItem") && state.selectedItem === "lemonPressedItem" && !state.steps.lemonAdded){
-    removeItem("lemonPressedItem");
-    state.steps.lemonAdded = true;
-    state.selectedItem = null;
-    setMessage("Tu verses le citron pressé dans la casserole chaude.");
-    renderAll();
-    return;
-  }
+      if(state.steps.stoveOn && hasItem("lemonPressedItem") && state.selectedItem === "lemonPressedItem" && !state.steps.lemonAdded){
+        removeItem("lemonPressedItem");
+        state.steps.lemonAdded = true;
+        state.selectedItem = null;
+        setMessage("Tu verses le citron pressé dans la casserole chaude.");
+        renderAll();
+        return;
+      }
 
-  if(state.steps.stoveOn && hasItem("grater") && state.selectedItem === "grater" && !state.steps.graterPlaced){
-    removeItem("grater");
-    state.steps.graterPlaced = true;
-    state.selectedItem = null;
-    setMessage("Tu places la râpe au-dessus de la casserole chaude.");
-    renderAll();
-    return;
-  }
+      if(state.steps.stoveOn && hasItem("grater") && state.selectedItem === "grater" && !state.steps.graterPlaced){
+        removeItem("grater");
+        state.steps.graterPlaced = true;
+        state.selectedItem = null;
+        setMessage("Tu places la râpe au-dessus de la casserole chaude.");
+        renderAll();
+        return;
+      }
 
-  if(state.steps.stoveOn && state.steps.graterPlaced && hasItem("ginger") && state.selectedItem === "ginger" && !state.steps.gingerGrated){
-    removeItem("ginger");
-    state.steps.gingerGrated = true;
-    state.selectedItem = null;
-    setMessage("Tu râpes le gingembre dans la casserole.");
-    renderAll();
-    return;
-  }
+      if(state.steps.stoveOn && state.steps.graterPlaced && hasItem("ginger") && state.selectedItem === "ginger" && !state.steps.gingerGrated){
+        removeItem("ginger");
+        state.steps.gingerGrated = true;
+        state.selectedItem = null;
+        setMessage("Tu râpes le gingembre dans la casserole.");
+        renderAll();
+        return;
+      }
 
-  if(state.steps.stoveOn){
-    setMessage("La casserole chaude est en place. Tu peux encore y ajouter le citron pressé ou râper le gingembre.");
-    return;
-  }
+      if(state.steps.stoveOn){
+        setMessage("La casserole chaude est en place. Tu peux encore y ajouter le citron pressé ou râper le gingembre.");
+        return;
+      }
 
-  setMessage("Sélectionne la casserole pleine puis pose-la sur le réchaud.");
-}
-   function handleWorktop(){
-  if(hasItem("pressTool") && !state.steps.pressPlaced && state.selectedItem === "pressTool"){
-    state.steps.pressPlaced = true;
-    removeItem("pressTool");
-    setMessage("Tu poses le presse-citron sur le plan de travail.");
-    return;
-  }
+      setMessage("Sélectionne la casserole pleine puis pose-la sur le réchaud.");
+    }
 
-  if(state.steps.pressPlaced && hasItem("lemon") && !state.steps.lemonPressed && state.selectedItem === "lemon"){
-    removeItem("lemon");
-    addItem("lemonPressedItem");
-    state.selectedItem = "lemonPressedItem";
-    state.steps.lemonPressed = true;
-    setMessage("Tu presses le citron. Tu récupères maintenant du citron pressé.");
-    renderAll();
-    return;
-  }
+    function handleWorktop(){
+      if(hasItem("pressTool") && !state.steps.pressPlaced && state.selectedItem === "pressTool"){
+        state.steps.pressPlaced = true;
+        removeItem("pressTool");
+        setMessage("Tu poses le presse-citron sur le plan de travail.");
+        return;
+      }
 
-  if(!state.steps.pressPlaced){
-    setMessage("Le plan de travail attend quelque chose.");
-  } else if(!state.steps.lemonPressed){
-    setMessage("Le presse-citron est prêt. Il manque le citron.");
-  } else {
-    setMessage("Le citron est déjà pressé.");
-  }
-}
+      if(state.steps.pressPlaced && hasItem("lemon") && !state.steps.lemonPressed && state.selectedItem === "lemon"){
+        removeItem("lemon");
+        addItem("lemonPressedItem");
+        state.selectedItem = "lemonPressedItem";
+        state.steps.lemonPressed = true;
+        setMessage("Tu presses le citron. Tu récupères maintenant du citron pressé.");
+        renderAll();
+        return;
+      }
+
+      if(!state.steps.pressPlaced){
+        setMessage("Le plan de travail attend quelque chose.");
+      } else if(!state.steps.lemonPressed){
+        setMessage("Le presse-citron est prêt. Il manque le citron.");
+      } else {
+        setMessage("Le citron est déjà pressé.");
+      }
+    }
+
     function handleCooler(){
       if(!state.steps.lemonFound){
         openMoleGame();
@@ -1516,25 +1701,26 @@ function handleSink(){
     }
 
     function handleShelf(){
-  if(!state.steps.stoolFound){
-    setMessage("Tu vois un objet sur l’étagère, mais c’est trop haut.");
-    return;
-  }
+      if(!state.steps.stoolFound){
+        setMessage("Tu vois un objet sur l’étagère, mais c’est trop haut.");
+        return;
+      }
 
-  if(!state.steps.graterFound){
-    if(state.selectedItem !== "stool"){
-      setMessage("Avec le tabouret, tu pourrais atteindre l’étagère.");
-      return;
+      if(!state.steps.graterFound){
+        if(state.selectedItem !== "stool"){
+          setMessage("Avec le tabouret, tu pourrais atteindre l’étagère.");
+          return;
+        }
+        state.steps.graterFound = true;
+        addItem("grater");
+        removeItem("stool");
+        setMessage("Tu attrapes la râpe. Le tabouret ne te sert plus.");
+        return;
+      }
+
+      setMessage("L’étagère ne contient plus rien d’utile.");
     }
-    state.steps.graterFound = true;
-    addItem("grater");
-    removeItem("stool");
-    setMessage("Tu attrapes la râpe. Le tabouret ne te sert plus.");
-    return;
-  }
 
-  setMessage("L’étagère ne contient plus rien d’utile.");
-}
     function openTimingPuzzle(){
       state.timing.successes = 0;
       state.timing.tries = [];
@@ -1649,257 +1835,244 @@ function handleSink(){
     }
 
     function getDirs(type, rotation){
-  const r = ((rotation % 4) + 4) % 4;
+      const r = ((rotation % 4) + 4) % 4;
 
-  if(type === "straight"){
-    return r % 2 === 0 ? ["N","S"] : ["E","W"];
-  }
+      if(type === "straight"){
+        return r % 2 === 0 ? ["N","S"] : ["E","W"];
+      }
 
-  if(type === "corner"){
-    return [
-      ["S","E"], // forme CSS de base : bas + droite
-      ["S","W"], // rotation 90°
-      ["N","W"], // rotation 180°
-      ["N","E"]  // rotation 270°
-    ][r];
-  }
+      if(type === "corner"){
+        return [
+          ["S","E"],
+          ["S","W"],
+          ["N","W"],
+          ["N","E"]
+        ][r];
+      }
 
-  return [];
-}
-
-function indexToCoord(i){
-  return { row: Math.floor(i / 5), col: i % 5 };
-}
-
-function coordToIndex(row, col){
-  return row * 5 + col;
-}
-
-function neighbor(row, col, dir){
-  if(dir === "N") return { row: row - 1, col, opposite: "S" };
-  if(dir === "S") return { row: row + 1, col, opposite: "N" };
-  if(dir === "E") return { row, col: col + 1, opposite: "W" };
-  return { row, col: col - 1, opposite: "E" };
-}
-
-function openPipePuzzle(){
-  showModal(`
-    <div class="modal-box">
-      <h2>Circuit d’eau bricolé</h2>
-      <p>
-        Relie l’entrée <strong>IN</strong> à la sortie <strong>OUT</strong>.
-        Il n’existe que deux types de tuyaux : un trait droit et un coude.
-        Clique sur les cases pour les tourner, puis teste l’eau.
-      </p>
-
-      <div class="pipe-game-wrap">
-        <div class="pipe-grid" id="pipeGrid"></div>
-        <div class="pipe-label in">IN</div>
-        <div class="pipe-label out">OUT</div>
-      </div>
-
-      <div class="flow-status" id="flowStatus">
-        Fais un chemin continu entre l’entrée et la sortie.
-      </div>
-
-      <div class="modal-actions">
-        <button class="btn btn-primary" onclick="testPipeFlow()">Tester l’eau</button>
-        <button class="btn btn-secondary" onclick="closeModal()">Fermer</button>
-      </div>
-    </div>
-  `);
-
-  renderPipeGrid();
-}
-
-function shufflePipePuzzle(){
-  if(state.pipePuzzle.testing) return;
-
-  state.pipePuzzle.rotations = state.pipePuzzle.rotations.map((rot, index) => {
-    if(index === 0 || index === 24) return rot;
-    return Math.floor(Math.random() * 4);
-  });
-
-  const status = document.getElementById("flowStatus");
-  if(status) status.textContent = "Le circuit a été mélangé.";
-  renderPipeGrid();
-}
-
-function renderPipeGrid(flowPath = [], blockedIndex = null){
-  const grid = document.getElementById("pipeGrid");
-  if(!grid) return;
-
-  grid.innerHTML = "";
-
-  state.pipePuzzle.tiles.forEach((type, index) => {
-    const cell = document.createElement("button");
-    const locked = index === 0 || index === 24;
-    const isFlowing = flowPath.includes(index);
-    const isBlocked = blockedIndex === index;
-
-    cell.className =
-      "pipe-cell" +
-      (locked ? " locked" : "") +
-      (isFlowing ? " flowing-cell" : "") +
-      (isBlocked ? " blocked-cell" : "");
-
-    if(!locked){
-      cell.onclick = () => rotatePipe(index);
+      return [];
     }
 
-    const shape = document.createElement("div");
-    shape.className = "pipe-shape type-" + type + (isFlowing ? " flowing" : "");
-    shape.style.transform = `rotate(${state.pipePuzzle.rotations[index] * 90}deg)`;
-
-    if(type === "straight"){
-      shape.innerHTML = `<div class="seg main"></div>`;
-    } else if(type === "corner"){
-      shape.innerHTML = `<div class="seg v"></div><div class="seg h"></div>`;
+    function indexToCoord(i){
+      return { row: Math.floor(i / 5), col: i % 5 };
     }
 
-    cell.appendChild(shape);
-    grid.appendChild(cell);
-  });
-}
-
-function rotatePipe(index){
-  if(state.pipePuzzle.testing) return;
-  if(index === 0 || index === 24) return;
-
-  state.pipePuzzle.rotations[index] = (state.pipePuzzle.rotations[index] + 1) % 4;
-  renderPipeGrid();
-}
-
-function evaluatePipeFlow(){
-  let currentIdx = 0;
-  let incoming = "W";
-  const path = [];
-  const visited = new Set();
-
-  while(true){
-    const key = currentIdx + "|" + incoming;
-    if(visited.has(key)){
-      return {
-        success: false,
-        path,
-        blockedIndex: currentIdx,
-        message: "L’eau tourne en boucle dans le circuit."
-      };
-    }
-    visited.add(key);
-    path.push(currentIdx);
-
-    const { row, col } = indexToCoord(currentIdx);
-    const type = state.pipePuzzle.tiles[currentIdx];
-    const rotation = state.pipePuzzle.rotations[currentIdx];
-    const dirs = getDirs(type, rotation);
-
-    if(!dirs.includes(incoming)){
-      return {
-        success: false,
-        path,
-        blockedIndex: currentIdx,
-        message: "L’eau se bloque : ce tuyau n’est pas orienté correctement."
-      };
+    function coordToIndex(row, col){
+      return row * 5 + col;
     }
 
-    if(currentIdx === 24){
-      return {
-        success: true,
-        path,
-        blockedIndex: null,
-        message: "L’eau atteint la sortie."
-      };
+    function neighbor(row, col, dir){
+      if(dir === "N") return { row: row - 1, col, opposite: "S" };
+      if(dir === "S") return { row: row + 1, col, opposite: "N" };
+      if(dir === "E") return { row, col: col + 1, opposite: "W" };
+      return { row, col: col - 1, opposite: "E" };
     }
 
-    const exits = dirs.filter(dir => dir !== incoming);
+    function openPipePuzzle(){
+      showModal(`
+        <div class="modal-box">
+          <h2>Circuit d’eau bricolé</h2>
+          <p>
+            Relie l’entrée <strong>IN</strong> à la sortie <strong>OUT</strong>.
+            Il n’existe que deux types de tuyaux : un trait droit et un coude.
+            Clique sur les cases pour les tourner, puis teste l’eau.
+          </p>
 
-    if(exits.length !== 1){
-      return {
-        success: false,
-        path,
-        blockedIndex: currentIdx,
-        message: "L’eau ne sait plus où aller."
-      };
+          <div class="pipe-game-wrap">
+            <div class="pipe-grid" id="pipeGrid"></div>
+            <div class="pipe-label in">IN</div>
+            <div class="pipe-label out">OUT</div>
+          </div>
+
+          <div class="flow-status" id="flowStatus">
+            Fais un chemin continu entre l’entrée et la sortie.
+          </div>
+
+          <div class="modal-actions">
+            <button class="btn btn-primary" onclick="testPipeFlow()">Tester l’eau</button>
+            <button class="btn btn-secondary" onclick="closeModal()">Fermer</button>
+          </div>
+        </div>
+      `);
+
+      renderPipeGrid();
     }
 
-    const exitDir = exits[0];
-    const next = neighbor(row, col, exitDir);
+    function renderPipeGrid(flowPath = [], blockedIndex = null){
+      const grid = document.getElementById("pipeGrid");
+      if(!grid) return;
 
-    if(next.row < 0 || next.row > 4 || next.col < 0 || next.col > 4){
-      return {
-        success: false,
-        path,
-        blockedIndex: currentIdx,
-        message: "L’eau part hors du circuit."
-      };
+      grid.innerHTML = "";
+
+      state.pipePuzzle.tiles.forEach((type, index) => {
+        const cell = document.createElement("button");
+        const locked = index === 0 || index === 24;
+        const isFlowing = flowPath.includes(index);
+        const isBlocked = blockedIndex === index;
+
+        cell.className =
+          "pipe-cell" +
+          (locked ? " locked" : "") +
+          (isFlowing ? " flowing-cell" : "") +
+          (isBlocked ? " blocked-cell" : "");
+
+        if(!locked){
+          cell.onclick = () => rotatePipe(index);
+        }
+
+        const shape = document.createElement("div");
+        shape.className = "pipe-shape type-" + type + (isFlowing ? " flowing" : "");
+        shape.style.transform = `rotate(${state.pipePuzzle.rotations[index] * 90}deg)`;
+
+        if(type === "straight"){
+          shape.innerHTML = `<div class="seg main"></div>`;
+        } else if(type === "corner"){
+          shape.innerHTML = `<div class="seg v"></div><div class="seg h"></div>`;
+        }
+
+        cell.appendChild(shape);
+        grid.appendChild(cell);
+      });
     }
 
-    const nextIdx = coordToIndex(next.row, next.col);
-    const nextType = state.pipePuzzle.tiles[nextIdx];
-    const nextRotation = state.pipePuzzle.rotations[nextIdx];
-    const nextDirs = getDirs(nextType, nextRotation);
+    function rotatePipe(index){
+      if(state.pipePuzzle.testing) return;
+      if(index === 0 || index === 24) return;
 
-    if(!nextDirs.includes(next.opposite)){
-      path.push(nextIdx);
-      return {
-        success: false,
-        path,
-        blockedIndex: nextIdx,
-        message: "L’eau se bloque au premier mauvais raccord."
-      };
+      state.pipePuzzle.rotations[index] = (state.pipePuzzle.rotations[index] + 1) % 4;
+      renderPipeGrid();
     }
 
-    currentIdx = nextIdx;
-    incoming = next.opposite;
-  }
-}
+    function evaluatePipeFlow(){
+      let currentIdx = 0;
+      let incoming = "W";
+      const path = [];
+      const visited = new Set();
 
-function animatePipeFlow(result){
-  const flowStatus = document.getElementById("flowStatus");
-  if(flowStatus) flowStatus.textContent = "Injection de l’eau...";
+      while(true){
+        const key = currentIdx + "|" + incoming;
+        if(visited.has(key)){
+          return {
+            success: false,
+            path,
+            blockedIndex: currentIdx,
+            message: "L’eau tourne en boucle dans le circuit."
+          };
+        }
+        visited.add(key);
+        path.push(currentIdx);
 
-  state.pipePuzzle.testing = true;
+        const { row, col } = indexToCoord(currentIdx);
+        const type = state.pipePuzzle.tiles[currentIdx];
+        const rotation = state.pipePuzzle.rotations[currentIdx];
+        const dirs = getDirs(type, rotation);
 
-  let step = 0;
+        if(!dirs.includes(incoming)){
+          return {
+            success: false,
+            path,
+            blockedIndex: currentIdx,
+            message: "L’eau se bloque : ce tuyau n’est pas orienté correctement."
+          };
+        }
 
-  function reveal(){
-    const visiblePath = result.path.slice(0, step + 1);
-    const currentBlocked =
-      !result.success && step >= result.path.length - 1
-        ? result.blockedIndex
-        : null;
+        if(currentIdx === 24){
+          return {
+            success: true,
+            path,
+            blockedIndex: null,
+            message: "L’eau atteint la sortie."
+          };
+        }
 
-    renderPipeGrid(visiblePath, currentBlocked);
-    step++;
+        const exits = dirs.filter(dir => dir !== incoming);
 
-    if(step < result.path.length){
-      setTimeout(reveal, 180);
-      return;
+        if(exits.length !== 1){
+          return {
+            success: false,
+            path,
+            blockedIndex: currentIdx,
+            message: "L’eau ne sait plus où aller."
+          };
+        }
+
+        const exitDir = exits[0];
+        const next = neighbor(row, col, exitDir);
+
+        if(next.row < 0 || next.row > 4 || next.col < 0 || next.col > 4){
+          return {
+            success: false,
+            path,
+            blockedIndex: currentIdx,
+            message: "L’eau part hors du circuit."
+          };
+        }
+
+        const nextIdx = coordToIndex(next.row, next.col);
+        const nextType = state.pipePuzzle.tiles[nextIdx];
+        const nextRotation = state.pipePuzzle.rotations[nextIdx];
+        const nextDirs = getDirs(nextType, nextRotation);
+
+        if(!nextDirs.includes(next.opposite)){
+          path.push(nextIdx);
+          return {
+            success: false,
+            path,
+            blockedIndex: nextIdx,
+            message: "L’eau se bloque au premier mauvais raccord."
+          };
+        }
+
+        currentIdx = nextIdx;
+        incoming = next.opposite;
+      }
     }
 
-    state.pipePuzzle.testing = false;
+    function animatePipeFlow(result){
+      const flowStatus = document.getElementById("flowStatus");
+      if(flowStatus) flowStatus.textContent = "Injection de l’eau...";
 
-    if(flowStatus) flowStatus.textContent = result.message;
+      state.pipePuzzle.testing = true;
+      let step = 0;
 
-    if(result.success){
-      state.steps.sinkSolved = true;
-      state.pipePuzzle.solved = true;
-      setTimeout(() => {
-        closeModal();
-        setMessage("Le circuit d’eau est réparé. Le lavabo remarche enfin.");
-      }, 700);
+      function reveal(){
+        const visiblePath = result.path.slice(0, step + 1);
+        const currentBlocked =
+          !result.success && step >= result.path.length - 1
+            ? result.blockedIndex
+            : null;
+
+        renderPipeGrid(visiblePath, currentBlocked);
+        step++;
+
+        if(step < result.path.length){
+          setTimeout(reveal, 180);
+          return;
+        }
+
+        state.pipePuzzle.testing = false;
+
+        if(flowStatus) flowStatus.textContent = result.message;
+
+        if(result.success){
+          state.steps.sinkSolved = true;
+          state.pipePuzzle.solved = true;
+          setTimeout(() => {
+            closeModal();
+            setMessage("Le circuit d’eau est réparé. Le lavabo remarche enfin.");
+          }, 700);
+        }
+      }
+
+      reveal();
     }
-  }
 
-  reveal();
-}
+    function testPipeFlow(){
+      if(state.pipePuzzle.testing) return;
+      const result = evaluatePipeFlow();
+      animatePipeFlow(result);
+    }
 
-function testPipeFlow(){
-  if(state.pipePuzzle.testing) return;
-  const result = evaluatePipeFlow();
-  animatePipeFlow(result);
-}
     function openMoleGame(){
       showModal(`
         <div class="modal-box">
@@ -2039,256 +2212,256 @@ function testPipeFlow(){
       }
     }
 
-   function openGingerQuiz(){
-  state.quizIndex = 0;
-  state.quizSymbols = [];
-  renderQuizQuestion();
-}
-
-function renderQuizQuestion(){
-  const questions = [
-    {
-      q: "Quel animal détient le record de la plus grande longévité chez les mammifères sauvages ?",
-      choices: [
-        "La tortue des Galápagos",
-        "La baleine boréale",
-        "Le cacatoès à huppe jaune"
-      ],
-      correct: "La baleine boréale",
-      symbol: "🐋"
-    },
-    {
-      q: "Quel est l’animal terrestre le plus rapide sur de courtes distances ?",
-      choices: [
-        "Le guépard",
-        "L’autruche",
-        "Le lièvre"
-      ],
-      correct: "Le guépard",
-      symbol: "🐆"
-    },
-    {
-      q: "Quel animal produit la soie la plus utilisée dans l’industrie textile ?",
-      choices: [
-        "Le ver à soie",
-        "L’araignée",
-        "Le papillon monarque"
-      ],
-      correct: "Le ver à soie",
-      symbol: "🪱"
-    },
-    {
-      q: "Quel mammifère marin est connu pour avoir le plus grand cerveau proportionnellement à sa taille ?",
-      choices: [
-        "L’orque",
-        "Le dauphin",
-        "Le poulpe"
-      ],
-      correct: "Le dauphin",
-      symbol: "🐬"
-    },
-    {
-      q: "Quel animal a inspiré des recherches qui ont conduit à la découverte ou à la compréhension des rayons X ?",
-      choices: [
-        "La crevette mantis",
-        "La méduse fluorescente",
-        "Le poisson-chat électrique"
-      ],
-      correct: "La crevette mantis",
-      symbol: "🦐"
-    }
-  ];
-
-  const current = questions[state.quizIndex];
-
-  showModal(`
-    <div class="modal-box">
-      <h2>Cadenas du gingembre</h2>
-      <p>
-        Réponds correctement aux 5 questions.
-        Si tu fais 5/5, tu devras reconstituer la bonne suite d’animaux de mémoire.
-      </p>
-      <p><strong>Question ${state.quizIndex + 1} / 5 :</strong> ${current.q}</p>
-      <div class="quiz-choices">
-        ${current.choices.map(choice => `
-          <button class="choice" onclick="answerQuiz('${escapeQuotes(choice)}')">${choice}</button>
-        `).join("")}
-      </div>
-      <div class="modal-actions">
-        <button class="btn btn-secondary" onclick="closeModal()">Fermer</button>
-      </div>
-    </div>
-  `);
-}
-
-function answerQuiz(choice){
-  const questions = [
-    {
-      q: "Quel animal détient le record de la plus grande longévité chez les mammifères sauvages ?",
-      choices: [
-        "La tortue des Galápagos",
-        "La baleine boréale",
-        "Le cacatoès à huppe jaune"
-      ],
-      correct: "La baleine boréale",
-      symbol: "🐋"
-    },
-    {
-      q: "Quel est l’animal terrestre le plus rapide sur de courtes distances ?",
-      choices: [
-        "Le guépard",
-        "L’autruche",
-        "Le lièvre"
-      ],
-      correct: "Le guépard",
-      symbol: "🐆"
-    },
-    {
-      q: "Quel animal produit la soie la plus utilisée dans l’industrie textile ?",
-      choices: [
-        "Le ver à soie",
-        "L’araignée",
-        "Le papillon monarque"
-      ],
-      correct: "Le ver à soie",
-      symbol: "🪱"
-    },
-    {
-      q: "Quel mammifère marin est connu pour avoir le plus grand cerveau proportionnellement à sa taille ?",
-      choices: [
-        "L’orque",
-        "Le dauphin",
-        "Le poulpe"
-      ],
-      correct: "Le dauphin",
-      symbol: "🐬"
-    },
-    {
-      q: "Quel animal a inspiré des recherches qui ont conduit à la découverte ou à la compréhension des rayons X ?",
-      choices: [
-        "La crevette mantis",
-        "La méduse fluorescente",
-        "Le poisson-chat électrique"
-      ],
-      correct: "La crevette mantis",
-      symbol: "🦐"
-    }
-  ];
-
-  const current = questions[state.quizIndex];
-
-  if(choice === current.correct){
-    state.quizSymbols.push(current.symbol);
-    state.quizIndex++;
-
-    if(state.quizIndex < questions.length){
+    function openGingerQuiz(){
+      state.quizIndex = 0;
+      state.quizSymbols = [];
       renderQuizQuestion();
-    } else {
-      openMemoryAnimalLock();
     }
-  } else {
-    showModal(`
-      <div class="modal-box">
-        <h2>Raté</h2>
-        <p>Tu as beaucoup trop bédavé hier, il faut recommencer à 0 ce quizz.</p>
-        <div class="modal-actions">
-          <button class="btn btn-primary" onclick="restartQuiz()">Recommencer</button>
+
+    function renderQuizQuestion(){
+      const questions = [
+        {
+          q: "Quel animal détient le record de la plus grande longévité chez les mammifères sauvages ?",
+          choices: [
+            "La tortue des Galápagos",
+            "La baleine boréale",
+            "Le cacatoès à huppe jaune"
+          ],
+          correct: "La baleine boréale",
+          symbol: "🐋"
+        },
+        {
+          q: "Quel est l’animal terrestre le plus rapide sur de courtes distances ?",
+          choices: [
+            "Le guépard",
+            "L’autruche",
+            "Le lièvre"
+          ],
+          correct: "Le guépard",
+          symbol: "🐆"
+        },
+        {
+          q: "Quel animal produit la soie la plus utilisée dans l’industrie textile ?",
+          choices: [
+            "Le ver à soie",
+            "L’araignée",
+            "Le papillon monarque"
+          ],
+          correct: "Le ver à soie",
+          symbol: "🪱"
+        },
+        {
+          q: "Quel mammifère marin est connu pour avoir le plus grand cerveau proportionnellement à sa taille ?",
+          choices: [
+            "L’orque",
+            "Le dauphin",
+            "Le poulpe"
+          ],
+          correct: "Le dauphin",
+          symbol: "🐬"
+        },
+        {
+          q: "Quel animal a inspiré des recherches qui ont conduit à la découverte ou à la compréhension des rayons X ?",
+          choices: [
+            "La crevette mantis",
+            "La méduse fluorescente",
+            "Le poisson-chat électrique"
+          ],
+          correct: "La crevette mantis",
+          symbol: "🦐"
+        }
+      ];
+
+      const current = questions[state.quizIndex];
+
+      showModal(`
+        <div class="modal-box">
+          <h2>Cadenas du gingembre</h2>
+          <p>
+            Réponds correctement aux 5 questions.
+            Si tu fais 5/5, tu devras reconstituer la bonne suite d’animaux de mémoire.
+          </p>
+          <p><strong>Question ${state.quizIndex + 1} / 5 :</strong> ${current.q}</p>
+          <div class="quiz-choices">
+            ${current.choices.map(choice => `
+              <button class="choice" onclick="answerQuiz('${escapeQuotes(choice)}')">${choice}</button>
+            `).join("")}
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal()">Fermer</button>
+          </div>
         </div>
-      </div>
-    `);
-  }
-}
+      `);
+    }
 
-function restartQuiz(){
-  state.quizIndex = 0;
-  state.quizSymbols = [];
-  renderQuizQuestion();
-}
+    function answerQuiz(choice){
+      const questions = [
+        {
+          q: "Quel animal détient le record de la plus grande longévité chez les mammifères sauvages ?",
+          choices: [
+            "La tortue des Galápagos",
+            "La baleine boréale",
+            "Le cacatoès à huppe jaune"
+          ],
+          correct: "La baleine boréale",
+          symbol: "🐋"
+        },
+        {
+          q: "Quel est l’animal terrestre le plus rapide sur de courtes distances ?",
+          choices: [
+            "Le guépard",
+            "L’autruche",
+            "Le lièvre"
+          ],
+          correct: "Le guépard",
+          symbol: "🐆"
+        },
+        {
+          q: "Quel animal produit la soie la plus utilisée dans l’industrie textile ?",
+          choices: [
+            "Le ver à soie",
+            "L’araignée",
+            "Le papillon monarque"
+          ],
+          correct: "Le ver à soie",
+          symbol: "🪱"
+        },
+        {
+          q: "Quel mammifère marin est connu pour avoir le plus grand cerveau proportionnellement à sa taille ?",
+          choices: [
+            "L’orque",
+            "Le dauphin",
+            "Le poulpe"
+          ],
+          correct: "Le dauphin",
+          symbol: "🐬"
+        },
+        {
+          q: "Quel animal a inspiré des recherches qui ont conduit à la découverte ou à la compréhension des rayons X ?",
+          choices: [
+            "La crevette mantis",
+            "La méduse fluorescente",
+            "Le poisson-chat électrique"
+          ],
+          correct: "La crevette mantis",
+          symbol: "🦐"
+        }
+      ];
 
-function openMemoryAnimalLock(){
-  state.enteredSymbols = [];
-  const options = [
-    ["🐢","Tortue"],
-    ["🦉","Hibou"],
-    ["🐋","Baleine"],
-    ["🐆","Guépard"],
-    ["🦊","Renard"],
-    ["🪱","Ver"],
-    ["🐘","Éléphant"],
-    ["🦭","Phoque"],
-    ["🐬","Dauphin"],
-    ["🦐","Crevette mantis"]
-  ];
+      const current = questions[state.quizIndex];
 
-  showModal(`
-    <div class="modal-box">
-      <h2>Suite finale</h2>
-      <p>
-        Tu as répondu correctement aux 5 questions.
-        Reconstitue maintenant les <strong>5 animaux dans l’ordre des questions</strong>.
-      </p>
+      if(choice === current.correct){
+        state.quizSymbols.push(current.symbol);
+        state.quizIndex++;
 
-      <div class="code-slots">
-        <div class="slot" id="slot0">?</div>
-        <div class="slot" id="slot1">?</div>
-        <div class="slot" id="slot2">?</div>
-        <div class="slot" id="slot3">?</div>
-        <div class="slot" id="slot4">?</div>
-      </div>
+        if(state.quizIndex < questions.length){
+          renderQuizQuestion();
+        } else {
+          openMemoryAnimalLock();
+        }
+      } else {
+        showModal(`
+          <div class="modal-box">
+            <h2>Raté</h2>
+            <p>Tu as beaucoup trop bédavé hier, il faut recommencer à 0 ce quizz.</p>
+            <div class="modal-actions">
+              <button class="btn btn-primary" onclick="restartQuiz()">Recommencer</button>
+            </div>
+          </div>
+        `);
+      }
+    }
 
-      <div class="symbol-grid">
-        ${options.map(([emoji,name]) => `
-          <button class="symbol-btn" onclick="pickSymbol('${emoji}')" title="${name}">${emoji}</button>
-        `).join("")}
-      </div>
+    function restartQuiz(){
+      state.quizIndex = 0;
+      state.quizSymbols = [];
+      renderQuizQuestion();
+    }
 
-      <div class="modal-actions">
-        <button class="btn btn-primary" onclick="validateSymbols()">Valider</button>
-        <button class="btn btn-secondary" onclick="resetSymbols()">Réinitialiser</button>
-      </div>
-    </div>
-  `);
-}
+    function openMemoryAnimalLock(){
+      state.enteredSymbols = [];
+      const options = [
+        ["🐢","Tortue"],
+        ["🦉","Hibou"],
+        ["🐋","Baleine"],
+        ["🐆","Guépard"],
+        ["🦊","Renard"],
+        ["🪱","Ver"],
+        ["🐘","Éléphant"],
+        ["🦭","Phoque"],
+        ["🐬","Dauphin"],
+        ["🦐","Crevette mantis"]
+      ];
 
-function updateSlots(){
-  for(let i = 0; i < 5; i++){
-    const slot = document.getElementById("slot" + i);
-    if(slot) slot.textContent = state.enteredSymbols[i] || "?";
-  }
-}
+      showModal(`
+        <div class="modal-box">
+          <h2>Suite finale</h2>
+          <p>
+            Tu as répondu correctement aux 5 questions.
+            Reconstitue maintenant les <strong>5 animaux dans l’ordre des questions</strong>.
+          </p>
 
-function pickSymbol(symbol){
-  if(state.enteredSymbols.length >= 5) return;
-  state.enteredSymbols.push(symbol);
-  updateSlots();
-}
+          <div class="code-slots">
+            <div class="slot" id="slot0">?</div>
+            <div class="slot" id="slot1">?</div>
+            <div class="slot" id="slot2">?</div>
+            <div class="slot" id="slot3">?</div>
+            <div class="slot" id="slot4">?</div>
+          </div>
 
-function resetSymbols(){
-  state.enteredSymbols = [];
-  updateSlots();
-}
+          <div class="symbol-grid">
+            ${options.map(([emoji,name]) => `
+              <button class="symbol-btn" onclick="pickSymbol('${emoji}')" title="${name}">${emoji}</button>
+            `).join("")}
+          </div>
 
-function validateSymbols(){
-  const target = state.quizSymbols.join("");
-  const entered = state.enteredSymbols.join("");
+          <div class="modal-actions">
+            <button class="btn btn-primary" onclick="validateSymbols()">Valider</button>
+            <button class="btn btn-secondary" onclick="resetSymbols()">Réinitialiser</button>
+          </div>
+        </div>
+      `);
+    }
 
-  if(entered === target){
-    state.steps.gingerUnlocked = true;
-    closeModal();
-    setMessage("Le cadenas cède. Tu peux récupérer le gingembre.");
-  } else {
-    setMessage("Ce n’est pas la bonne suite.");
-  }
-}
+    function updateSlots(){
+      for(let i = 0; i < 5; i++){
+        const slot = document.getElementById("slot" + i);
+        if(slot) slot.textContent = state.enteredSymbols[i] || "?";
+      }
+    }
+
+    function pickSymbol(symbol){
+      if(state.enteredSymbols.length >= 5) return;
+      state.enteredSymbols.push(symbol);
+      updateSlots();
+    }
+
+    function resetSymbols(){
+      state.enteredSymbols = [];
+      updateSlots();
+    }
+
+    function validateSymbols(){
+      const target = state.quizSymbols.join("");
+      const entered = state.enteredSymbols.join("");
+
+      if(entered === target){
+        state.steps.gingerUnlocked = true;
+        closeModal();
+        setMessage("Le cadenas cède. Tu peux récupérer le gingembre.");
+      } else {
+        setMessage("Ce n’est pas la bonne suite.");
+      }
+    }
 
     window.closeModal = closeModal;
     window.answerQuiz = answerQuiz;
-    window.continueQuiz = continueQuiz;
     window.pickSymbol = pickSymbol;
     window.resetSymbols = resetSymbols;
     window.validateSymbols = validateSymbols;
     window.startMoleGame = startMoleGame;
     window.testPipeFlow = testPipeFlow;
+    window.restartQuiz = restartQuiz;
 
     renderAll();
   </script>
